@@ -20,7 +20,7 @@
 	/* -- main -- */
 	/* header */
 	header {position:fixed; height:50px; width:100%; background-color:white; top:0;}
-/* 	h1 {position:absolute; font-size:25px; left:55px; line-height:50px;} */
+ 	h1 {display:none;}
  	#search-form {
  		width:30%; min-width:400px; height:34px; padding:4px 0 0 10px; margin-top:8px; 
  		border:1px solid black; border-radius:20px;
@@ -47,16 +47,18 @@
  	#wrap {width:calc(100% - 0px); min-width:320px; margin-left:0px; margin-top:50px;}
  	#contents #main-img {background-color:rgba(255,0,0,.3); height:250px;}
  	#contents section[id*='board'] {background-color:rgba(22,222,222,.3); width:80%; margin:auto; padding:30px;}
- 	#contents section[id*='board'] h3 {padding:5px;}
- 	#contents section[id*='board'] h3 a {border-bottom:3px solid black;}
+ 	#contents section[id*='board'] h3,
+ 	#contents section[id*='board'] a {padding:15px 0;}
+ 	#contents #video-board,
  	#contents #video-board ul {overflow:hidden;}
  	#contents #video-board li {width:23%;height:150px; float:left;}
  	#contents #video-board li:not(:first-child) {margin-left:2.66%;} 
- 	#contents #video-board li div {width:100%; height:150px; background-color:rgba(255,0,0,.2);}
- 	#contents #free-board {border-top:1px dashed black;}
+ 	#contents #video-board li .video-box {width:100%; height:100%; background-color:rgba(255,0,0,.2);}
+ 	#contents #free-board {border-top:1px solid black;}
  	#contents #free-board table {border-collapse:collapse; width:100%;text-align:center;}
+ 	#contents #free-board table thead {background-color:#000; color:#fff;}
  	#contents #free-board table tbody td:nth-child(2) {text-align:left;}
- 	#contents #free-board table td {border: 1px solid black; padding:5px;}
+ 	#contents #free-board table td {border-bottom: 1px solid black; padding:10px;}
  	
  	
  	/* footer */
@@ -93,7 +95,7 @@
 </head>
 <body>
 <header>
-	<h1 class="screen-out">코딩 이야기</h1>
+	<h1>코딩 이야기</h1>
 	<div id="search-form">
 		<form action="#">
 			<fieldset>
@@ -136,19 +138,19 @@
 		<ul>
 			<li>
 				<h4 class="screen-out">제목1</h4>
-				<div>영상이미지</div>
+				<div class="video-box">영상이미지</div>
 			</li>
 			<li>
 				<h4 class="screen-out">제목2</h4>
-				<div>영상이미지</div>
+				<div class="video-box">영상이미지</div>
 			</li>
 			<li>
 				<h4 class="screen-out">제목3</h4>
-				<div>영상이미지</div>
+				<div class="video-box">영상이미지</div>
 			</li>
 			<li>
 				<h4 class="screen-out">제목4</h4>
-				<div>영상이미지</div>
+				<div class="video-box">영상이미지</div>
 			</li>
 		</ul>
 	</section>
@@ -188,11 +190,6 @@
 					<td>375</td>
 				</tr>
 			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="5">글쓰기?바로가기?더보기?</td>
-				</tr>
-			</tfoot>
 		</table>
 	</section>
 </section>
