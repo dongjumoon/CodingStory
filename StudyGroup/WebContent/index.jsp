@@ -44,16 +44,17 @@
  	#user-nav-bar a {padding:calc((50px - 1em) / 2) 10px; line-height:50px;}
  	
  	/* main contents */
- 	#wrap {width:calc(100% - 230px); margin-left:230px; margin-top:50px;}
+ 	#wrap {width:calc(100% - 0px); min-width:320px; margin-left:0px; margin-top:50px;}
  	#contents #main-img {background-color:rgba(255,0,0,.3); height:250px;}
- 	#contents section[id*='board'] {background-color:rgba(22,222,222,.3); width:80%; margin:auto; padding:20px;}
+ 	#contents section[id*='board'] {background-color:rgba(22,222,222,.3); width:80%; margin:auto; padding:30px;}
  	#contents section[id*='board'] h3 {padding:5px;}
  	#contents section[id*='board'] h3 a {border-bottom:3px solid black;}
- 	#contents #video-board ul {box-sizing:content-box; height:200px; width:100%;}
- 	#contents #video-board li {border:1px solid red; width:250px; height:200px; float:left;}
- 	#contents #video-board li div {width:100%; height:150px; border:1px solid green;}
+ 	#contents #video-board ul {overflow:hidden;}
+ 	#contents #video-board li {width:23%;height:150px; float:left;}
+ 	#contents #video-board li:not(:first-child) {margin-left:2.66%;} 
+ 	#contents #video-board li div {width:100%; height:150px; background-color:rgba(255,0,0,.2);}
  	#contents #free-board {border-top:1px dashed black;}
- 	#contents #free-board table {border-collapse:collapse; width:100%; text-align:center;}
+ 	#contents #free-board table {border-collapse:collapse; width:100%;text-align:center;}
  	#contents #free-board table tbody td:nth-child(2) {text-align:left;}
  	#contents #free-board table td {border: 1px solid black; padding:5px;}
  	
@@ -61,6 +62,33 @@
  	/* footer */
  	footer {min-height: 80px; background-color:rgba(0,0,255,.3);}
  	footer address {text-align:center;}
+ 	
+ 	@media (max-width:1260px) {   /* 영상게시판전용 */
+        #contents #video-board ul {width:133.33%;}
+        #contents #video-board li:nth-child(2),
+        #contents #video-board li:nth-child(3) {margin-left:3%;}
+        #contents #video-board li:nth-child(4) {display:none;}
+    }
+ 	
+ 	@media (max-width:1024px) {   /* 테블릿 */
+ 		#wrap {width:100%; margin-left:0;}
+        #contents #main-img {background-color:rgba(0,255,0,.3);}
+        #contents #video-board ul {width:200%;}
+        #contents #video-board li:nth-child(1),
+        #contents #video-board li:nth-child(2) {width:23.5%;}
+        #contents #video-board li:nth-child(3) {display:none;}
+    }
+    
+    @media (max-width:750px) {   /* 영상게시판전용 */
+    	#contents section[id*='board'] {width:100%; margin:0;}
+    }
+    
+    @media (max-width:480px) {   /* 모바일 */
+    	#contents #main-img {background-color:rgba(0,0,255,.3);}
+    	#contents #video-board ul {width:100%;}
+    	#contents #video-board li:nth-child(1) {width:100%;}
+        #contents #video-board li:nth-child(2) {display:none;}
+    }
 </style>
 </head>
 <body>
@@ -107,20 +135,20 @@
 		<h3><a href="#">영상 게시판</a></h3>
 		<ul>
 			<li>
+				<h4 class="screen-out">제목1</h4>
 				<div>영상이미지</div>
-				<p>동영상제목1</p>
 			</li>
 			<li>
+				<h4 class="screen-out">제목2</h4>
 				<div>영상이미지</div>
-				<p>동영상제목2</p>
 			</li>
 			<li>
+				<h4 class="screen-out">제목3</h4>
 				<div>영상이미지</div>
-				<p>동영상제목3</p>
 			</li>
 			<li>
+				<h4 class="screen-out">제목4</h4>
 				<div>영상이미지</div>
-				<p>동영상제목4</p>
 			</li>
 		</ul>
 	</section>
