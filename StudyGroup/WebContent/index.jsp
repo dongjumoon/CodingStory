@@ -15,29 +15,27 @@
 	/* common */
  	.screen-out {display:none;}
  	.ir-box {font-size:0;}
-	body {background-color:#eee; font-family:'굴림', sans-serif;}
+	body {font-family:'굴림', sans-serif;}
 	
-	/* main */
-	
+	/* -- main -- */
 	/* header */
-	header {position:relative; height:50px; background-color:white;}
-	h1 {position:absolute; font-size:25px; left:55px; line-height:50px;}
+	header {position:fixed; height:50px; width:100%; background-color:white; top:0;}
+/* 	h1 {position:absolute; font-size:25px; left:55px; line-height:50px;} */
  	#search-form {
- 		width:30%; min-width:400px; height:34px; padding:5px 0 0 10px; margin-top:8px; 
+ 		width:30%; min-width:400px; height:34px; padding:4px 0 0 10px; margin-top:8px; 
  		border:1px solid black; border-radius:20px;
  		position:absolute; left:50%;
  		transform:translateX(-50%);
  	}
- 	#search-form select {border:none; display:inline-block; background-image: url("");}
+ 	#search-form select {border:none; display:inline-block; height:22px; padding-bottom:4px;}
  	#search-form select option {}
  	#search-form button[type=submit] {display:inline-block;}
- 	#search::before {content:"asx";}
  	#search {border:none; width:calc(100% - 150px); display:inline-block; font-size:17px;}
  	#gnb-switch-label {position:absolute; left:16px; top:12px; width:25px; height:25px; background-color:pink;}
  	#gnb {
- 		position:fixed; top:50px; width:200px; margin-left:-200px;
- 		min-height:calc(100vh - 50px); background-color:rgba(132,423,212,.3);
- 		text-align:center;
+ 		position:fixed; top:50px; width:230px; margin-left:-230px;
+ 		height:calc(100vh - 50px); background-color:rgba(132,423,212,.3);
+ 		text-align:center; overflow:auto;
  	}
  	#gnb-switch:checked + #gnb {margin-left:0;}
  	#gnb a {padding:20px 0; display:block;}
@@ -45,20 +43,29 @@
  	#user-nav-bar li {float:left;}
  	#user-nav-bar a {padding:calc((50px - 1em) / 2) 10px; line-height:50px;}
  	
- 	#wrap {background-color:rgba(22,22,222,.3); width:calc(100% - 200px); margin-left:200px;}
  	/* main contents */
+ 	#wrap {width:calc(100% - 230px); margin-left:230px; margin-top:50px;}
  	#contents #main-img {background-color:rgba(255,0,0,.3); height:250px;}
- 	#contents section[id*='board'] {padding-left:50px;}
- 	#contents section[id*='board'] h3 {padding:20px 0;}
+ 	#contents section[id*='board'] {background-color:rgba(22,222,222,.3); width:80%; margin:auto; padding:20px;}
+ 	#contents section[id*='board'] h3 {padding:5px;}
+ 	#contents section[id*='board'] h3 a {border-bottom:3px solid black;}
+ 	#contents #video-board ul {box-sizing:content-box; height:200px; width:100%;}
+ 	#contents #video-board li {border:1px solid red; width:250px; height:200px; float:left;}
+ 	#contents #video-board li div {width:100%; height:150px; border:1px solid green;}
+ 	#contents #free-board {border-top:1px dashed black;}
+ 	#contents #free-board table {border-collapse:collapse; width:100%; text-align:center;}
+ 	#contents #free-board table tbody td:nth-child(2) {text-align:left;}
+ 	#contents #free-board table td {border: 1px solid black; padding:5px;}
+ 	
  	
  	/* footer */
- 	footer {min-height: 100px; background-color:rgba(0,0,255,.3);}
+ 	footer {min-height: 80px; background-color:rgba(0,0,255,.3);}
  	footer address {text-align:center;}
 </style>
 </head>
 <body>
 <header>
-	<h1>코딩 이야기</h1>
+	<h1 class="screen-out">코딩 이야기</h1>
 	<div id="search-form">
 		<form action="#">
 			<fieldset>
@@ -97,20 +104,68 @@
 		<div id="main-img"><img src="" alt="공지내용 !@@!$@"></div>
 	</article>
 	<section id="video-board">
-		<h3>영상 게시판</h3>
+		<h3><a href="#">영상 게시판</a></h3>
 		<ul>
-			<li>영상1</li>
-			<li>영상2</li>
-			<li>영상3</li>
+			<li>
+				<div>영상이미지</div>
+				<p>동영상제목1</p>
+			</li>
+			<li>
+				<div>영상이미지</div>
+				<p>동영상제목2</p>
+			</li>
+			<li>
+				<div>영상이미지</div>
+				<p>동영상제목3</p>
+			</li>
+			<li>
+				<div>영상이미지</div>
+				<p>동영상제목4</p>
+			</li>
 		</ul>
 	</section>
 	<section id="free-board">
-		<h3>자유 게시판</h3>
-		<ul>
-			<li>게시글1</li>
-			<li>게시글2</li>
-			<li>게시글3</li>
-		</ul>
+		<h3><a href="#">자유 게시판</a></h3>
+		<table>
+			<caption class="screen-out">게시글 목록</caption>
+			<thead>
+				<tr>
+					<td>번호</td>
+					<td>제 목</td>
+					<td>작성자</td>
+					<td>작성일</td>
+					<td>조회수</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>91</td>
+					<td>오늘 수업도 수고하셨습니다.</td>
+					<td>문동주</td>
+					<td>17:20</td>
+					<td>8</td>
+				</tr>
+				<tr>
+					<td>90</td>
+					<td>벌써 가을이다!!!</td>
+					<td>문동주</td>
+					<td>2019.09.02</td>
+					<td>23</td>
+				</tr>
+				<tr>
+					<td>89</td>
+					<td>면접후기...</td>
+					<td>문동주</td>
+					<td>2019.09.01</td>
+					<td>375</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="5">글쓰기?바로가기?더보기?</td>
+				</tr>
+			</tfoot>
+		</table>
 	</section>
 </section>
 <footer>
