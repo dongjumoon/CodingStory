@@ -43,7 +43,7 @@
 /*  		box-shadow:8px 8px 10px -9px rgba(80,80,80,.1); */
  	}
  	#gnb-switch:checked + #gnb {margin-left:0;}
- 	#gnb #virtual-elements {text-align:left;}
+ 	#gnb #virtual-elements {text-align:left; height:50px;}
  	#gnb #virtual-elements::before,
  	#gnb #virtual-elements::after {display:inline-block; height:50px;background-color:white;  vertical-align:top;}
  	#gnb #virtual-elements::before {content:""; width:50px; background-color:pink;}
@@ -96,7 +96,6 @@
         #contents #video-board li:nth-child(2) {width:23.5%;}
         #contents #video-board li:nth-child(3) {display:none;}
         #gnb {transition:all .3s ease;}
-        #gnb #virtual-elements {display:inline;}
         #gnb-switch:checked+#gnb+#blind {display:block;}
     }
     
@@ -222,43 +221,54 @@
 </footer>
 </div>
 <script>
-	$("#gnb-switch-label").click(function(){
-		var isMenuOn = !$("#gnb-switch").get(0).checked;
+	//gnb 화면 요청시
+	$("#gnb-switch-label").click(function(){//스크롤크기차이 구하기, 스크롤부모이벤막기
 		var documentWidth = $(document).width();
 		var isDesktop = documentWidth > 1024;
-		if (isMenuOn && isDesktop) {
+		if (isDesktop) {
 			$("#wrap").css({
 				"width":"calc(100% - 230px)",
 				"margin-left":"230px"
 			});
-			if (documentWidth > 1024 && documentWidth <= 1260) {
+			if (documentWidth <= 1260) {
 				$("#video-board ul").css("width", "200%");
 				$("#video-board li:eq(2)").prevAll().css("width", "23.5%");
 				$("#video-board li:eq(2)").css("display", "none");
-				$("#video-board li:eq(3)").css("display", "none");
 			}
 		}
 	});
+	function gnbSwitchOff() {
+		var documentWidth = $(document).width();
+		if (documentWidth > 1024 && documentWidth <= 1260) {
+			$("#video-board ul").css("width", "");
+			$("#video-board li").css({"width": "","display": ""});
+		}
+		$("#gnb-switch").get(0).checked = false;
+		$("#wrap").css({
+			"width":"100%",
+			"margin-left":"0"
+		});
+	}
 	$("#virtual-elements").click(function(event){
 		var e = event ? event : window.event;
 		if (e.clientX < 50) {
 			//메뉴버튼
-			var documentWidth = $(document).width();
-			if (documentWidth > 1024 && documentWidth <= 1260) {
-				$("#video-board ul").css("width", "");
-				$("#video-board li:eq(2)").prevAll().css("width", "");
-				$("#video-board li:eq(2)").css("display", "");
-				$("#video-board li:eq(3)").css("display", "");
-			}
-			$("#gnb-switch").get(0).checked = false;
-			$("#wrap").css({
-				"width":"100%",
-				"margin-left":"0"
-			});
+			gnbSwitchOff();
 		} else {
 			//홈버튼?
 		}
-		
+	});
+	$("#blind").click(function(){
+		gnbSwitchOff();
+	});
+	$(window).resize(function(){
+		var documentWidth = $(document).width();
+		if (documentWidth > 1260) {
+			$("#video-board ul").css("width", "");
+			$("#video-board li").css("width", "");
+		} else if (documentWidth <= 1024) {
+			gnbSwitchOff();
+		}
 	});
 </script>
 </body>
