@@ -33,23 +33,23 @@
  		transform:translateX(-50%);
  	}
  	#search-form select {border:none; background-color:white; height:22px; padding:0 0 2px 10px; -webkit-appearance: none;}
- 	#search-form select option {}
- 	#search-form button[type=submit] {display:inline-block;}
+ 	#search-form button[type=submit] {float:right; margin-right:8px;}
  	#search {border:none; width:calc(100% - 130px); display:inline-block; font-size:16px;}
  	#search+button .fa {font-size:17px; padding:0 8px;}
- 	#gnb-switch-label {position:absolute; width:50px; height:50px; background-color:pink;}
+ 	#gnb-switch-label {position:absolute; width:50px; height:50px; line-height:54px; text-align:center;}
+ 	#gnb-switch-label .fontAwesome,
+ 	#virtual-elements .fontAwesome {font-size:22px;}
  	#gnb {
- 		position:fixed; width:230px; margin-left:-230px;
- 		height:100vh; background-color:rgba(230,230,230,.9);
+ 		background-color:white;
+ 		position:fixed; width:230px; margin-left:-240px;
+ 		height:100vh;
  		overflow:auto; z-index:120;
-/*  		box-shadow:8px 8px 10px -9px rgba(80,80,80,.1); */
+		box-shadow:8px 32px 15px -20px;
  	}
  	#gnb-switch:checked + #gnb {margin-left:0;}
- 	#gnb #virtual-elements {text-align:left; height:50px;}
- 	#gnb #virtual-elements::before,
- 	#gnb #virtual-elements::after {display:inline-block; height:50px;background-color:white;  vertical-align:top;}
- 	#gnb #virtual-elements::before {content:""; width:50px; background-color:pink;}
- 	#gnb #virtual-elements::after {content:""; width:180px; line-height:50px;}
+ 	#gnb #virtual-elements {display:block; height:50px; width:50px; line-height:54px; background-color:white; text-align:center;}
+ 	#gnb #virtual-elements .fontAwesome {font-size:22px;}
+ 	#gnb #virtual-elements::after {content:"";position:absolute;left:50px; width:180px;height:50px;background-color:white;}
  	#gnb a {padding:28px 0; display:block; text-align:center;}
 /*  	#gnb li:first-child a {box-shadow:inset 0 8px 10px -12px; } */
  	#user-nav-bar {position:absolute; right:5px; top:15px;}
@@ -59,8 +59,9 @@
  	#user-nav-bar .user-nav-bar-font {font-size:22px; vertical-align:middle;}
  	
  	/* main contents */
- 	#wrap {width:calc(100% - 230px); min-width:320px; margin-left:230px; margin-top:50px;}
- 	#contents #main-view {position:relative; background-image:url("images/main_img.jpg"); background-size:cover; height:250px;}
+ 	#wrap {width:calc(100% - 230px); min-width:320px; margin-left:230px;}
+ 	#contents {max-width:1500px; margin:auto;}
+ 	#contents #main-view {width:80%; margin:80px auto 0; position:relative; background-image:url("images/main_img.jpg"); background-size:cover; height:250px;}
  	#contents #main-title {
  		position:absolute; top:50%; left:50%; color:white; font-size:80px; white-space:nowrap;
  		text-shadow:1px 2px 5px #000;
@@ -77,13 +78,13 @@
  	#contents #video-board li .video-box {width:100%; height:100%;}
  	#contents #free-board {border-top:1px solid black;}
  	#contents #free-board table {border-collapse:collapse; width:100%;text-align:center;}
- 	#contents #free-board table thead {background-color:#F0CAA2; color:#777;}
+ 	#contents #free-board table thead {background-color:#FBF5EF; color:#777;}
  	#contents #free-board table tbody td:nth-child(2) {text-align:left;}
  	#contents #free-board table td {border-bottom: 1px solid black; padding:10px;}
  	
  	
  	/* footer */
- 	footer {min-height: 80px; background-color:#FBF8EF;}
+ 	footer {max-width:1500px; min-height:90px; margin:auto; background-color:#FBF8EF; box-shadow:2px 2px 5px -5px; }
  	footer address {text-align:center;}
  	
  	@media (max-width:1260px) {   /* 영상게시판전용 */
@@ -107,6 +108,7 @@
     @media (max-width:750px) {   /* 영상게시판전용 */
     	#contents section[id*='board'] {width:100%; margin:0;}
     	#contents #main-title {font-size:70px;}
+    	#contents #main-view {width:100%; margin-top:50px;}
     }
     
     @media (max-width:480px) {   /* 모바일 */
@@ -136,9 +138,9 @@
 			</fieldset>
 		</form>
 	</div>
-	<label id="gnb-switch-label" for="gnb-switch"></label><input type="checkbox" class="screen-out" id="gnb-switch" checked>
+	<label id="gnb-switch-label" for="gnb-switch"><i class="fa fa-bars fontAwesome" aria-hidden="true"></i></label><input type="checkbox" class="screen-out" id="gnb-switch" checked>
 	<nav id="gnb">
-		<span id="virtual-elements"></span>
+		<span id="virtual-elements"><i class="fa fa-bars fontAwesome" aria-hidden="true"></i></span>
 		<ul>
 			<li><a href="#">영상게시판</a></li>
 			<li><a href="#">자유게시판</a></li>
@@ -148,7 +150,8 @@
 	<div id="blind"></div><!-- 위치 이동 금지(#gnb-switch+#gnb+#blind) 사용중 -->
 	<nav id="user-nav-bar">
 		<ul>
-			<li><a href="#"><i class="fa fa-commenting user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">메세지함</span></a></li>
+			<li><a href="#"><i class="fa fa-question user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">도움말</span></a></li>
+<!-- 			<li><a href="#"><i class="fa fa-commenting user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">메세지함</span></a></li> -->
 			<li><a href="#" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
 		</ul>
 	</nav>
