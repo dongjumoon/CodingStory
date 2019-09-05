@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html  lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -34,7 +34,7 @@
  	}
  	#search-form select {border:none; background-color:white; height:22px; padding:0 0 2px 10px; -webkit-appearance: none;}
  	#search-form button[type=submit] {float:right; margin-right:8px;}
- 	#search {border:none; width:calc(100% - 130px); display:inline-block; font-size:16px;}
+ 	#search {border:none; width:calc(100% - 145px); display:inline-block; font-size:16px;}
  	#search+button .fa {font-size:17px; padding:0 8px;}
  	#gnb-switch-label {position:absolute; width:50px; height:50px; line-height:54px; text-align:center;}
  	#gnb-switch-label .fontAwesome,
@@ -73,9 +73,10 @@
  	#contents section[id*='board'] a {padding:15px 0;}
  	#contents #video-board,
  	#contents #video-board ul {overflow:hidden;}
- 	#contents #video-board li {width:23%;height:150px; float:left;}
- 	#contents #video-board li:not(:first-child) {margin-left:2.66%;} 
- 	#contents #video-board li .video-box {width:100%; height:100%;}
+ 	#contents #video-board li {width:23%; position:relative; float:left;}
+ 	#contents #video-board li:not(:first-child) {margin-left:2.66%;}
+ 	#contents #video-board li .video-box {width:100%; padding-bottom:56.26%}
+ 	#contents #video-board li .video-box iframe {position: absolute; width: 100%; height: 100%; border:none;}
  	#contents #free-board {border-top:1px solid black;}
  	#contents #free-board table {border-collapse:collapse; width:100%;text-align:center;}
  	#contents #free-board table thead {background-color:#FBF5EF; color:#777;}
@@ -87,7 +88,7 @@
  	footer {max-width:1500px; min-height:90px; margin:auto; background-color:#FBF8EF; box-shadow:2px 2px 5px -5px; }
  	footer address {text-align:center;}
  	
- 	@media (max-width:1260px) {   /* 영상게시판전용 */
+ 	@media (max-width:1350px) {   /* 영상게시판전용 */
         #contents #video-board ul {width:133.33%;}
         #contents #video-board li:nth-child(2),
         #contents #video-board li:nth-child(3) {margin-left:3%;}
@@ -168,20 +169,26 @@
 			<li>
 				<h4 class="screen-out">얄팍한 코딩사전 : 객체지향 프로그래밍이란?</h4>
 				<div class="video-box">
-				<iframe width="100%" height="100%" src="https://www.youtube.com/embed/vrhIxBWSJ04" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				<iframe src="https://www.youtube.com/embed/vrhIxBWSJ04" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
 			</li>
 			<li>
 				<h4 class="screen-out">포프TV : 전지적 면접관 시점</h4>
-				<div class="video-box"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/QOqUrMzOTcw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+				<div class="video-box">
+				<iframe src="https://www.youtube.com/embed/QOqUrMzOTcw" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				</div>
 			</li>
 			<li>
 				<h4 class="screen-out">알고리즘 투게더 거니 : 1차 브라우저 전쟁</h4>
-				<div class="video-box"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/aY1TCdRWGfU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+				<div class="video-box">
+				<iframe src="https://www.youtube.com/embed/aY1TCdRWGfU" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				</div>
 			</li>
 			<li>
 				<h4 class="screen-out">테크보이 워니 : 초보 개발자가 하는 실수들</h4>
-				<div class="video-box"><iframe width="100%" height="100%" src="https://www.youtube.com/embed/6qcQd4HPpTU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+				<div class="video-box">
+				<iframe src="https://www.youtube.com/embed/6qcQd4HPpTU" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				</div>
 			</li>
 		</ul>
 	</section>
@@ -238,7 +245,7 @@
 				"width":"calc(100% - 230px)",
 				"margin-left":"230px"
 			});
-			if (documentWidth <= 1260) {
+			if (documentWidth <= 1350) {
 				$("#video-board ul").css("width", "200%");
 				$("#video-board li:eq(2)").prevAll().css("width", "23.5%");
 				$("#video-board li:eq(2)").css("display", "none");
@@ -247,7 +254,7 @@
 	});
 	function gnbSwitchOff() {
 		var documentWidth = $(document).width();
-		if (documentWidth > 1024 && documentWidth <= 1260) {
+		if (documentWidth > 1024 && documentWidth <= 1350) {
 			$("#video-board ul").css("width", "");
 			$("#video-board li").css({"width": "","display": ""});
 		}
@@ -272,7 +279,7 @@
 	});
 	$(window).resize(function(){
 		var documentWidth = $(document).width();
-		if (documentWidth > 1260) {
+		if (documentWidth > 1350) {
 			$("#video-board ul").css("width", "");
 			$("#video-board li").css({"width": "", "display": ""});
 		} else if (documentWidth <= 1024) {
@@ -287,7 +294,7 @@
 				"width":"calc(100% - 230px)",
 				"margin-left":"230px"
 			});
-			if (documentWidth <= 1260) {
+			if (documentWidth <= 1350) {
 				$("#video-board ul").css("width", "200%");
 				$("#video-board li:eq(2)").prevAll().css("width", "23.5%");
 				$("#video-board li:eq(2)").css("display", "none");
