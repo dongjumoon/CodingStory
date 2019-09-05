@@ -138,7 +138,7 @@
 			</fieldset>
 		</form>
 	</div>
-	<label id="gnb-switch-label" for="gnb-switch"><i class="fa fa-bars fontAwesome" aria-hidden="true"></i></label><input type="checkbox" class="screen-out" id="gnb-switch" checked>
+	<label id="gnb-switch-label" for="gnb-switch"><i class="fa fa-bars fontAwesome" aria-hidden="true"></i></label><input type="checkbox" class="screen-out" id="gnb-switch">
 	<nav id="gnb">
 		<span id="virtual-elements"><i class="fa fa-bars fontAwesome" aria-hidden="true"></i></span>
 		<ul>
@@ -274,9 +274,25 @@
 		var documentWidth = $(document).width();
 		if (documentWidth > 1260) {
 			$("#video-board ul").css("width", "");
-			$("#video-board li").css("width", "");
+			$("#video-board li").css({"width": "", "display": ""});
 		} else if (documentWidth <= 1024) {
 			gnbSwitchOff();
+		}
+	});
+	$(document).ready(function(){
+		var documentWidth = $(document).width();
+		var isDesktop = documentWidth > 1024;
+		if (isDesktop) {
+			$("#wrap").css({
+				"width":"calc(100% - 230px)",
+				"margin-left":"230px"
+			});
+			if (documentWidth <= 1260) {
+				$("#video-board ul").css("width", "200%");
+				$("#video-board li:eq(2)").prevAll().css("width", "23.5%");
+				$("#video-board li:eq(2)").css("display", "none");
+			}
+			$("#gnb-switch").get(0).checked = true;
 		}
 	});
 </script>
