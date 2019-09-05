@@ -13,28 +13,30 @@
   	a {color:black;}
 	/* common */
  	.screen-out {display:none;}
+ 	.mousePointer {cursor: pointer;}
  	#blind {position:fixed; display:none; width:100%; top:0; height:100vh; background-color:rgba(0,0,0,.5); z-index:110;}
- 	.ir-box {font-size:0;}
 	body {font-family:'굴림', sans-serif;}
+	button {border:none; outline:none; background-color: transparent;}
 	
 	/* -- main -- */
 	/* header */
 	header {
 		position:fixed; height:50px; width:100%;
 		background-color:white; top:0; z-index:100;
-		box-shadow:0 -3px 7px -2px;
+		box-shadow:0 -2px 10px -2px;
 	}
  	h1 {display:none;}
  	#search-form {
- 		width:30%; min-width:400px; height:34px; padding:4px 0 0 10px; margin-top:8px; 
- 		border:1px solid black; border-radius:20px;
+ 		width:30%; min-width:400px; height:34px; padding:6px 0 0 10px; margin-top:8px; 
+ 		box-shadow:0 0 3px -1px; border-radius:20px;
  		position:absolute; left:50%;
  		transform:translateX(-50%);
  	}
- 	#search-form select {border:none; display:inline-block; height:22px; padding-bottom:4px;}
+ 	#search-form select {border:none; background-color:white; height:22px; padding:0 0 2px 10px; -webkit-appearance: none;}
  	#search-form select option {}
  	#search-form button[type=submit] {display:inline-block;}
- 	#search {border:none; width:calc(100% - 150px); display:inline-block; font-size:17px;}
+ 	#search {border:none; width:calc(100% - 130px); display:inline-block; font-size:16px;}
+ 	#search+button .fa {font-size:17px; padding:0 8px;}
  	#gnb-switch-label {position:absolute; width:50px; height:50px; background-color:pink;}
  	#gnb {
  		position:fixed; width:230px; margin-left:-230px;
@@ -49,10 +51,12 @@
  	#gnb #virtual-elements::before {content:""; width:50px; background-color:pink;}
  	#gnb #virtual-elements::after {content:""; width:180px; line-height:50px;}
  	#gnb a {padding:28px 0; display:block; text-align:center;}
- 	#gnb li:first-child a {box-shadow:inset 0 7px 7px -12px; }
- 	#user-nav-bar {position:absolute; right:0;}
+/*  	#gnb li:first-child a {box-shadow:inset 0 8px 10px -12px; } */
+ 	#user-nav-bar {position:absolute; right:5px; top:15px;}
  	#user-nav-bar li {float:left;}
- 	#user-nav-bar a {padding:calc((50px - 1em) / 2) 10px; line-height:50px;}
+ 	#user-nav-bar a {padding:10px;}
+ 	#user-nav-bar #login-atag {border:2px solid #eee; border-radius:15px; margin-left:10px;}
+ 	#user-nav-bar .user-nav-bar-font {font-size:22px; vertical-align:middle;}
  	
  	/* main contents */
  	#wrap {width:calc(100% - 230px); min-width:320px; margin-left:230px; margin-top:50px;}
@@ -97,6 +101,7 @@
         #contents #video-board li:nth-child(3) {display:none;}
         #gnb {transition:all .3s ease;}
         #gnb-switch:checked+#gnb+#blind {display:block;}
+        #gnb li:first-child a {box-shadow:0 0 0;}
     }
     
     @media (max-width:750px) {   /* 영상게시판전용 */
@@ -110,7 +115,8 @@
         #contents #video-board li:nth-child(2) {display:none;}
         #contents #main-title {font-size:50px;}
     }
-</style>
+</style>    
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
@@ -126,7 +132,7 @@
 					<option value="">게시판검색</option>
 				</select>
 				<span class="screen-out">검색어 :</span><input type="search" name="search" id="search">
-				<button type="submit">전송</button>
+				<button type="submit"><i class="fa fa-search mousePointer" aria-hidden="true"></i><span class="screen-out">검색</span></button>
 			</fieldset>
 		</form>
 	</div>
@@ -142,9 +148,8 @@
 	<div id="blind"></div><!-- 위치 이동 금지(#gnb-switch+#gnb+#blind) 사용중 -->
 	<nav id="user-nav-bar">
 		<ul>
-			<li><a href="#">메세지함</a></li>
-			<li><a href="#">회원가입</a></li>
-			<li><a href="#">로그인</a></li>
+			<li><a href="#"><i class="fa fa-commenting user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">메세지함</span></a></li>
+			<li><a href="#" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
 		</ul>
 	</nav>
 </header>
@@ -249,6 +254,7 @@
 			"margin-left":"0"
 		});
 	}
+	//가상으로 복사한 gnbSwitch영역
 	$("#virtual-elements").click(function(event){
 		var e = event ? event : window.event;
 		if (e.clientX < 50) {
