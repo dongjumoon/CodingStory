@@ -10,6 +10,7 @@
 	/* reset */
   	* {margin:0;padding:0;box-sizing:border-box;list-style:none;text-decoration:none;}
   	fieldset {border:none;}
+  	select::-ms-expand {display:none;}
   	a {color:black;}
 	/* common */
  	.screen-out {display:none;}
@@ -23,35 +24,34 @@
 	header {
 		position:fixed; height:50px; width:100%;
 		background-color:white; top:0; z-index:100;
-		box-shadow:0 -2px 10px -2px;
-	}
+		box-shadow:0 -2px 10px -2px;}
  	h1 {display:none;}
  	#search-form {
  		width:30%; min-width:400px; height:34px; padding:6px 0 0 10px; margin-top:8px; 
- 		box-shadow:0 0 3px -1px; border-radius:20px;
- 		position:absolute; left:50%;
- 		transform:translateX(-50%);
- 	}
- 	#search-form select {border:none; background-color:white; height:22px; padding:0 0 2px 10px; -webkit-appearance: none;}
- 	#search-form button[type=submit] {float:right; margin-right:8px;}
- 	#search {border:none; width:calc(100% - 145px); display:inline-block; font-size:16px;}
- 	#search+button .fa {font-size:17px; padding:0 8px;}
- 	#gnb-switch-label {position:absolute; width:50px; height:50px; line-height:54px; text-align:center;}
+ 		box-shadow:0 0 3px -1px; border-radius:20px; position:relative; left:50%;
+ 		transform:translateX(-50%);}
+ 	#search-form select {
+ 		border:none; background-color:white; height:22px; padding:0 0 2px 10px; 
+ 		-webkit-appearance: none; -moz-appearance:none; -o-appearance:none; appearance:none;}
+ 	#search-form button[type=submit] {position:absolute; right:0; margin:-9px 9px 0 0;}
+ 	#search {border:none; width:calc(100% - 135px); display:inline-block; font-size:16px;}
+ 	#search:focus {border:1px solid green;}
+ 	#search+button .fa {font-size:17px; padding:10px;}
+ 	#gnb-switch-label {position:absolute; width:50px; top:0; height:50px; line-height:54px; text-align:center;}
  	#gnb-switch-label .fontAwesome,
  	#virtual-elements .fontAwesome {font-size:22px;}
  	#gnb {
  		background-color:white;
- 		position:fixed; width:230px; margin-left:-240px;
- 		height:100vh;
- 		overflow:auto; z-index:120;
-		box-shadow:8px 32px 15px -20px;
- 	}
+ 		position:fixed; top:0; width:230px; margin-left:-240px;
+ 		height:100vh; overflow:auto; z-index:120;
+		box-shadow:8px 32px 15px -20px;}
  	#gnb-switch:checked + #gnb {margin-left:0;}
- 	#gnb #virtual-elements {display:block; height:50px; width:50px; line-height:54px; background-color:white; text-align:center;}
+ 	#gnb #virtual-elements {
+ 		display:block; height:50px; width:50px; line-height:54px;
+ 		background-color:white; text-align:center;}
  	#gnb #virtual-elements .fontAwesome {font-size:22px;}
  	#gnb #virtual-elements::after {content:"";position:absolute;left:50px; width:180px;height:50px;background-color:white;}
  	#gnb a {padding:28px 0; display:block; text-align:center;}
-/*  	#gnb li:first-child a {box-shadow:inset 0 8px 10px -12px; } */
  	#user-nav-bar {position:absolute; right:5px; top:15px;}
  	#user-nav-bar li {float:left;}
  	#user-nav-bar a {padding:10px;}
@@ -61,27 +61,26 @@
  	/* main contents */
  	#wrap {width:calc(100% - 230px); min-width:320px; margin-left:230px;}
  	#contents {max-width:1500px; margin:auto;}
- 	#contents #main-view {width:80%; margin:80px auto 0; position:relative; background-image:url("images/main_img.jpg"); background-size:cover; height:250px;}
+ 	#contents #main-view {
+ 		width:80%; margin:80px auto 0; position:relative;
+ 		background-image:url("images/main_img.jpg"); background-size:cover; height:250px;}
  	#contents #main-title {
  		position:absolute; top:50%; left:50%; color:white; font-size:80px; white-space:nowrap;
- 		text-shadow:1px 2px 5px #000;
- 		transform:translate(-50%,-50%);
- 		
- 	}
- 	#contents section[id*='board'] {width:80%; margin:auto; padding:30px;}
- 	#contents section[id*='board'] h3,
- 	#contents section[id*='board'] a {padding:15px 0;}
- 	#contents #video-board,
- 	#contents #video-board ul {overflow:hidden;}
- 	#contents #video-board li {width:23%; position:relative; float:left;}
- 	#contents #video-board li:not(:first-child) {margin-left:2.66%;}
- 	#contents #video-board li .video-box {width:100%; padding-bottom:56.26%}
- 	#contents #video-board li .video-box iframe {position: absolute; width: 100%; height: 100%; border:none;}
- 	#contents #free-board {border-top:1px solid black;}
- 	#contents #free-board table {border-collapse:collapse; width:100%;text-align:center;}
- 	#contents #free-board table thead {background-color:#FBF5EF; color:#777;}
- 	#contents #free-board table tbody td:nth-child(2) {text-align:left;}
- 	#contents #free-board table td {border-bottom: 1px solid black; padding:10px;}
+ 		text-shadow:1px 2px 5px #000; transform:translate(-50%,-50%);}
+ 	#contents section[class*='forum'] {width:80%; margin:auto; padding:30px;}
+ 	#contents section[class*='forum'] h3,
+ 	#contents section[class*='forum'] a {padding:15px 0;}
+ 	#contents .video-forum,
+ 	#contents .video-forum ul {overflow:hidden;}
+ 	#contents .video-forum li {width:23%; position:relative; float:left;}
+ 	#contents .video-forum li:not(:first-child) {margin-left:2.66%;}
+ 	#contents .video-forum li .video-box {width:100%; padding-bottom:56.26%}
+ 	#contents .video-forum li .video-box iframe {position: absolute; width: 100%; height: 100%; border:none;}
+ 	#contents .forum {border-top:1px solid black;}
+ 	#contents .forum table {border-collapse:collapse; width:100%;text-align:center;}
+ 	#contents .forum table thead {background-color:#FBF5EF; color:#777;}
+ 	#contents .forum table tbody td:nth-child(2) {text-align:left;}
+ 	#contents .forum table td {border-bottom: 1px solid black; padding:10px;}
  	
  	
  	/* footer */
@@ -89,33 +88,36 @@
  	footer address {text-align:center;}
  	
  	@media (max-width:1350px) {   /* 영상게시판전용 */
-        #contents #video-board ul {width:133.33%;}
-        #contents #video-board li:nth-child(2),
-        #contents #video-board li:nth-child(3) {margin-left:3%;}
-        #contents #video-board li:nth-child(4) {display:none;}
+        #contents .video-forum ul {width:133.33%;}
+        #contents .video-forum li:nth-child(2),
+        #contents .video-forum li:nth-child(3) {margin-left:3%;}
+        #contents .video-forum li:nth-child(4) {display:none;}
     }
  	
  	@media (max-width:1024px) {   /* 테블릿 */
  		#wrap {width:100%; margin-left:0;}
-        #contents #video-board ul {width:200%;}
-        #contents #video-board li:nth-child(1),
-        #contents #video-board li:nth-child(2) {width:23.5%;}
-        #contents #video-board li:nth-child(3) {display:none;}
+        #contents .video-forum ul {width:200%;}
+        #contents .video-forum li:nth-child(1),
+        #contents .video-forum li:nth-child(2) {width:23.5%;}
+        #contents .video-forum li:nth-child(3) {display:none;}
         #gnb {transition:all .3s ease;}
         #gnb-switch:checked+#gnb+#blind {display:block;}
-        #gnb li:first-child a {box-shadow:0 0 0;}
+        #contents #main-title {font-size:70px;}
+    	#contents #main-view {width:100%; margin-top:50px;}
+    	#search-form {box-shadow:0 0 0 0; width:100%; min-width:320px;}
+	 	#search-form select, 
+	 	#search {display:none;}
+	 	#search-form button[type=submit] {margin:-8px 0 0 0;}
     }
     
     @media (max-width:750px) {   /* 영상게시판전용 */
-    	#contents section[id*='board'] {width:100%; margin:0;}
-    	#contents #main-title {font-size:70px;}
-    	#contents #main-view {width:100%; margin-top:50px;}
+    	#contents section[class*='forum'] {width:100%; margin:0;}
     }
     
     @media (max-width:480px) {   /* 모바일 */
-    	#contents #video-board ul {width:100%;}
-    	#contents #video-board li:nth-child(1) {width:100%;}
-        #contents #video-board li:nth-child(2) {display:none;}
+    	#contents .video-forum ul {width:100%;}
+    	#contents .video-forum li:nth-child(1) {width:100%;}
+        #contents .video-forum li:nth-child(2) {display:none;}
         #contents #main-title {font-size:50px;}
     }
 </style>    
@@ -154,6 +156,7 @@
 			<li><a href="#"><i class="fa fa-question user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">도움말</span></a></li>
 <!-- 			<li><a href="#"><i class="fa fa-commenting user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">메세지함</span></a></li> -->
 			<li><a href="#" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
+			<li><a href="#" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
 		</ul>
 	</nav>
 </header>
@@ -163,7 +166,7 @@
 	<article id="main-view">
 		<h3 id="main-title">Coding Story</h3>
 	</article>
-	<section id="video-board">
+	<section class="video-forum">
 		<h3><a href="#">영상 게시판</a></h3>
 		<ul>
 			<li>
@@ -192,7 +195,7 @@
 			</li>
 		</ul>
 	</section>
-	<section id="free-board">
+	<section class="forum">
 		<h3><a href="#">자유 게시판</a></h3>
 		<table>
 			<caption class="screen-out">게시글 목록</caption>
@@ -236,29 +239,53 @@
 </footer>
 </div>
 <script>
+	function minimumDesktopViewOn() {
+		$("#contents #main-title").css("font-size","70px");
+		$("#contents #main-view").css({"width":"100%", "margin-top":"50px"});
+		$(".video-forum ul").css("width", "200%");
+		$(".video-forum li:eq(2)").prevAll().css("width", "23.5%");
+		$(".video-forum li:eq(2)").css("display", "none");
+	}
+	function minimumDesktopViewOff() {
+		$("#contents #main-title").css("font-size","");
+		$("#contents #main-view").css({"width":"", "margin-top":""});
+		$(".video-forum ul").css("width", "");
+		$(".video-forum li").css({"width": "","display": ""});
+	}
+	function getHtmlWidth() {
+		var htmlWidth = $("html").width();
+		var filter = "win16|win32|win64|mac|macintel";
+		if (navigator.platform) {
+			if (filter.indexOf(navigator.platform.toLowerCase()) >= 0) {
+				//#gnb 는 100vh 이고 이거보다 크다면 스크롤이 있는것으로 판단
+				if ($("#gnb").height() < $("html").height()) {
+					htmlWidth += 17;
+				}
+			} 
+		}
+		return htmlWidth;
+	}
 	//gnb 화면 요청시
 	$("#gnb-switch-label").click(function(){//스크롤크기차이 구하기, 스크롤부모이벤막기
-		var documentWidth = $(document).width();
-		var isDesktop = documentWidth > 1024;
+		var htmlWidth = getHtmlWidth();
+		var isDesktop = htmlWidth > 1024;
 		if (isDesktop) {
 			$("#wrap").css({
 				"width":"calc(100% - 230px)",
 				"margin-left":"230px"
 			});
-			if (documentWidth <= 1350) {
-				$("#video-board ul").css("width", "200%");
-				$("#video-board li:eq(2)").prevAll().css("width", "23.5%");
-				$("#video-board li:eq(2)").css("display", "none");
+			if (htmlWidth <= 1254) {
+				minimumDesktopViewOn();
 			}
 		}
 	});
 	function gnbSwitchOff() {
-		var documentWidth = $(document).width();
-		if (documentWidth > 1024 && documentWidth <= 1350) {
-			$("#video-board ul").css("width", "");
-			$("#video-board li").css({"width": "","display": ""});
+		var htmlWidth = getHtmlWidth();
+		if (htmlWidth > 1024 && htmlWidth <= 1350) {
+			minimumDesktopViewOff();
 		}
 		$("#gnb-switch").get(0).checked = false;
+		$("#blind").css("display","");
 		$("#wrap").css({
 			"width":"100%",
 			"margin-left":"0"
@@ -278,30 +305,69 @@
 		gnbSwitchOff();
 	});
 	$(window).resize(function(){
-		var documentWidth = $(document).width();
-		if (documentWidth > 1350) {
-			$("#video-board ul").css("width", "");
-			$("#video-board li").css({"width": "", "display": ""});
-		} else if (documentWidth <= 1024) {
-			gnbSwitchOff();
-		}
-	});
-	$(document).ready(function(){
-		var documentWidth = $(document).width();
-		var isDesktop = documentWidth > 1024;
-		if (isDesktop) {
-			$("#wrap").css({
-				"width":"calc(100% - 230px)",
-				"margin-left":"230px"
-			});
-			if (documentWidth <= 1350) {
-				$("#video-board ul").css("width", "200%");
-				$("#video-board li:eq(2)").prevAll().css("width", "23.5%");
-				$("#video-board li:eq(2)").css("display", "none");
+		var isGnbSwitchOn = $("#gnb-switch").get(0).checked;
+		var htmlWidth = getHtmlWidth();
+		if (isGnbSwitchOn) {
+			if (htmlWidth > 1254) {
+				minimumDesktopViewOff();
+			} else if (htmlWidth < 1024){
+				gnbSwitchOff();
+			} else {
+				minimumDesktopViewOn();
 			}
-			$("#gnb-switch").get(0).checked = true;
+		} else if (htmlWidth > 1024) {
+			$("#search-form button[type=submit]").css("right", "");
+			searchModeOff();
+			minimumDesktopViewOff();
+			if (isReadyOnMobile) {
+				$("#gnb-switch-label").click();
+				isReadyOnMobile = false;
+			}
+		} else {
+			searchModeOff();
 		}
 	});
+	var isReadyOnMobile;
+	$("html").ready(function(){
+		var htmlWidth = getHtmlWidth();
+		var isDesktop = htmlWidth > 1024;
+		if (isDesktop) {
+			$("#gnb-switch-label").click();
+		} else {
+			var userNavBarWidth = $("#user-nav-bar").width();
+			$("#search-form button[type=submit]").css("right", userNavBarWidth + 10);
+			isReadyOnMobile = true;
+		}
+	});
+	$("#search-form button[type=submit]").click(function(){
+		var htmlWidth = getHtmlWidth();
+		var isMobile = htmlWidth <= 1024;
+		var isSearchModeOff = $("#user-nav-bar").css("display") !== "none";
+		if (isMobile && isSearchModeOff) {
+		 	$("#search-form select").css("display", "inline-block"); 
+		 	$("#search").css("display", "inline-block").focus();
+		 	$("#search-form button[type=submit]").css("right","10px");
+			$("#gnb-switch-label").css("display", "none");
+			$("#user-nav-bar").css("display", "none");
+			return false;
+		}
+	});
+	$("#search-form select").change(function(){$("#search").focus();});
+	function searchModeOff() {
+		var htmlWidth = getHtmlWidth();
+		var isDesktop = htmlWidth > 1024;
+		if (isDesktop) {
+			$("#search-form button[type=submit]").css("right", "");
+		} else {
+			var userNavBarWidth = $("#user-nav-bar").width();
+			$("#search-form button[type=submit]").css("right", userNavBarWidth + 10);
+		}
+		$("#search-form select").css("display", ""); 
+		$("#search").css("display", "");
+		$("#gnb-switch-label").css("display", "");
+		$("#user-nav-bar").css("display", "");
+	};
+	$("#wrap").click(searchModeOff);
 </script>
 </body>
 </html>
