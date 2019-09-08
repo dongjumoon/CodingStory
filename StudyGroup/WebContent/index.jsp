@@ -34,7 +34,7 @@
  		border:none; background-color:white; height:22px; padding:0 0 2px 10px; 
  		-webkit-appearance: none; -moz-appearance:none; -o-appearance:none; appearance:none;}
  	#search-form button[type=submit] {position:absolute; right:0; margin:-9px 9px 0 0;}
- 	#search {border:none; width:calc(100% - 135px); display:inline-block; font-size:16px;}
+ 	#search {border:none; outline:none; width:calc(100% - 135px); display:inline-block; font-size:16px;}
  	#search:focus {border:1px solid green;}
  	#search+button .fa {font-size:17px; padding:10px;}
  	#gnb-switch-label {position:absolute; width:50px; top:0; height:50px; line-height:54px; text-align:center;}
@@ -328,10 +328,6 @@
 				searchModeOff();
 			}
 		}
-	});
-	$("#user-nav-bar").resize(function(){
-		var userNavBarWidth = $("#user-nav-bar").width();
-		$("#search-form button[type=submit]").css("right", userNavBarWidth + 10);
 	});
 	var isReadyOnMobile;
 	$("html").ready(function(){
