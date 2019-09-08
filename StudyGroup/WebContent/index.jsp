@@ -120,7 +120,8 @@
         #contents .video-forum li:nth-child(2) {display:none;}
         #contents #main-title {font-size:50px;}
     }
-</style>    
+</style>
+<link rel="shortcut icon" type="image⁄x-icon" href="https://cdn.pixabay.com/photo/2017/06/10/07/18/list-2389219_960_720.png"><!-- title 아이콘 -->
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
@@ -155,7 +156,6 @@
 		<ul>
 			<li><a href="#"><i class="fa fa-question user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">도움말</span></a></li>
 <!-- 			<li><a href="#"><i class="fa fa-commenting user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">메세지함</span></a></li> -->
-			<li><a href="#" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
 			<li><a href="#" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
 		</ul>
 	</nav>
@@ -266,7 +266,7 @@
 		return htmlWidth;
 	}
 	//gnb 화면 요청시
-	$("#gnb-switch-label").click(function(){//스크롤크기차이 구하기, 스크롤부모이벤막기
+	$("#gnb-switch-label").click(function(){// 스크롤부모이벤막기
 		var htmlWidth = getHtmlWidth();
 		var isDesktop = htmlWidth > 1024;
 		if (isDesktop) {
@@ -324,8 +324,14 @@
 				isReadyOnMobile = false;
 			}
 		} else {
-			searchModeOff();
+			if (beforeWidth !== htmlWidth) {
+				searchModeOff();
+			}
 		}
+	});
+	$("#user-nav-bar").resize(function(){
+		var userNavBarWidth = $("#user-nav-bar").width();
+		$("#search-form button[type=submit]").css("right", userNavBarWidth + 10);
 	});
 	var isReadyOnMobile;
 	$("html").ready(function(){
@@ -336,11 +342,20 @@
 		} else {
 			var userNavBarWidth = $("#user-nav-bar").width();
 			$("#search-form button[type=submit]").css("right", userNavBarWidth + 10);
+			$(window).load(function(){// 해결방법을 찾자
+				var userNavBarWidth2 = $("#user-nav-bar").width();
+				var isSearchModeOff = $("#user-nav-bar").css("display") !== "none";
+				if (userNavBarWidth !== userNavBarWidth2 && isSearchModeOff) {
+					$("#search-form button[type=submit]").css("right", userNavBarWidth2 + 10);
+				}
+			});
 			isReadyOnMobile = true;
 		}
 	});
+	var beforeWidth = getHtmlWidth();
 	$("#search-form button[type=submit]").click(function(){
 		var htmlWidth = getHtmlWidth();
+		beforeWidth = htmlWidth;
 		var isMobile = htmlWidth <= 1024;
 		var isSearchModeOff = $("#user-nav-bar").css("display") !== "none";
 		if (isMobile && isSearchModeOff) {
