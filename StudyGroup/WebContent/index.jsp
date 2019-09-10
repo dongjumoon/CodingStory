@@ -69,7 +69,7 @@
  		text-shadow:1px 2px 5px #000; transform:translate(-50%,-50%);}
  	#contents section[class*='forum'] {width:80%; margin:auto; padding:30px;}
  	#contents section[class*='forum'] h3,
- 	#contents section[class*='forum'] a {padding:15px 0;}
+ 	#contents section[class*='forum'] h3 a {padding:15px 0;}
  	#contents .video-forum,
  	#contents .video-forum ul {overflow:hidden;}
  	#contents .video-forum li {width:23%; position:relative; float:left;}
@@ -79,6 +79,11 @@
  	#contents .forum {border-top:1px solid black;}
  	#contents .forum table {border-collapse:collapse; width:100%;text-align:center;}
  	#contents .forum table thead {background-color:#FBF5EF; color:#777;}
+ 	#contents .forum td:nth-child(1) {width:8%;}
+ 	#contents .forum td:nth-child(2) {width:60%;}
+ 	#contents .forum td:nth-child(3) {width:14%;}
+ 	#contents .forum td:nth-child(4) {width:10%;}
+ 	#contents .forum td:nth-child(5) {width:8%;}
  	#contents .forum table tbody td:nth-child(2) {text-align:left;}
  	#contents .forum table td {border-bottom: 1px solid black; padding:10px;}
  	
@@ -108,6 +113,18 @@
 	 	#search-form select, 
 	 	#search {display:none;}
 	 	#search-form button[type=submit] {margin:-8px 0 0 0;}
+	 	#contents .forum table {box-shadow:0 0 10px #eee;}
+	 	#contents .forum table tr {box-shadow:inset 0 5px 5px -3px #eee; border-left:2px solid green;text-align:left;}
+	 	#contents .forum table td {float:left; border:0; padding:0 0 13px 13px; color:#6E6E6E; font-size:13px;}
+	 	#contents .forum table thead,
+	 	#contents .forum table td:nth-child(1) {display:none;}
+	 	#contents .forum table td:nth-child(2) {display:block;width:100%; padding:13px 0; font-weight:bold; font-size:16px;}
+	 	#contents .forum table td:nth-child(3) {width:170px;}
+	 	#contents .forum table td:nth-child(4) {min-width:95px; padding:0 15px 13px 0; text-align:center;}
+	 	#contents .forum table td:nth-child(5) {min-width:55px; text-align:center; position:relative;}
+	 	#contents .forum table td:nth-child(5)::before {content: "뭥"; position:absolute; left:0;}
+	 	#contents .forum table td span {}
+	 	#contents .forum table td a {padding:13px;}
     }
     
     @media (max-width:750px) {   /* 영상게시판전용 */
@@ -211,24 +228,24 @@
 			<tbody>
 				<tr>
 					<td>91</td>
-					<td>오늘 수업도 수고하셨습니다.</td>
-					<td>문동주</td>
+					<td><a href="#" title="내용보기">오늘 수업도 수고하셨습니다.</a></td>
+					<td><span>asdfqwertghy</span></td>
 					<td>17:20</td>
 					<td>8</td>
 				</tr>
 				<tr>
 					<td>90</td>
-					<td>벌써 가을이다!!!</td>
-					<td>문동주</td>
+					<td><a href="#" title="내용보기">벌써 가을이다!!!</a></td>
+					<td><span>문동주</span></td>
 					<td>2019.09.02</td>
-					<td>23</td>
+					<td>1</td>
 				</tr>
 				<tr>
 					<td>89</td>
-					<td>면접후기...</td>
-					<td>문동주</td>
+					<td><a href="#" title="내용보기">면접후기...</a></td>
+					<td><span>MMMMMMMMMMMM</span></td>
 					<td>2019.09.01</td>
-					<td>375</td>
+					<td>3752</td>
 				</tr>
 			</tbody>
 		</table>
