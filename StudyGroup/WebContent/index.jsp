@@ -113,18 +113,19 @@
 	 	#search-form select, 
 	 	#search {display:none;}
 	 	#search-form button[type=submit] {margin:-8px 0 0 0;}
+	 	
 	 	#contents .forum table {box-shadow:0 0 10px #eee;}
 	 	#contents .forum table tr {box-shadow:inset 0 5px 5px -3px #eee; border-left:2px solid green;text-align:left;}
-	 	#contents .forum table td {float:left; border:0; padding:0 0 13px 13px; color:#6E6E6E; font-size:13px;}
+	 	#contents .forum table td {display:inline; vertical-align:top; border:0; padding:0 0 0 8px; color:#6E6E6E; font-size:12px;}
 	 	#contents .forum table thead,
 	 	#contents .forum table td:nth-child(1) {display:none;}
-	 	#contents .forum table td:nth-child(2) {display:block;width:100%; padding:13px 0; font-weight:bold; font-size:16px;}
-	 	#contents .forum table td:nth-child(3) {width:170px;}
-	 	#contents .forum table td:nth-child(4) {min-width:95px; padding:0 15px 13px 0; text-align:center;}
-	 	#contents .forum table td:nth-child(5) {min-width:55px; text-align:center; position:relative;}
-	 	#contents .forum table td:nth-child(5)::before {content: "뭥"; position:absolute; left:0;}
+	 	#contents .forum table td:nth-child(2) {display:block;width:100%; padding:15px 0 8px; font-weight:bold; font-size:16px;}
+	 	#contents .forum table td:nth-child(3) {padding-left:15px;} 
+	 	#contents .forum table td:nth-child(4) {}
+	 	#contents .forum table td:nth-child(5) {}
+	 	#contents .forum table td:nth-child(5)::before {content: "읽"; display:inline-block; margin-bottom:15px; padding-right:3px; width:12px; height:12px;}
 	 	#contents .forum table td span {}
-	 	#contents .forum table td a {padding:13px;}
+	 	#contents .forum table td a {padding:15px;}
     }
     
     @media (max-width:750px) {   /* 영상게시판전용 */
