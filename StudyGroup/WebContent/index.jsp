@@ -37,7 +37,8 @@
  	#search {border:none; outline:none; width:calc(100% - 135px); display:inline-block; font-size:16px;}
  	#search:focus {border:1px solid green;}
  	#search+button .fa {font-size:17px; padding:10px;}
- 	#gnb-switch-label {position:absolute; width:50px; top:0; height:50px; line-height:54px; text-align:center;}
+ 	#gnb-switch-label {position:absolute; width:50px; top:0; height:50px; line-height:54px; text-align:center; transition:all .3s ease;}
+ 	#gnb-switch-label:hover {border-radius:50%; background-color:#eee;}
  	#gnb-switch-label .fontAwesome,
  	#virtual-elements .fontAwesome {font-size:22px;}
  	#gnb {
@@ -48,13 +49,16 @@
  	#gnb-switch:checked + #gnb {margin-left:0;}
  	#gnb #virtual-elements {
  		display:block; height:50px; width:50px; line-height:54px;
- 		background-color:white; text-align:center;}
+ 		background-color:white; text-align:center; transition:all .3s ease;}
+ 	#gnb #virtual-elements:hover {border-radius:50%; background-color:#eee;}
  	#gnb #virtual-elements .fontAwesome {font-size:22px;}
  	#gnb #virtual-elements::after {content:"";position:absolute;left:50px; width:180px;height:50px;background-color:white;}
- 	#gnb a {padding:28px 0; display:block; text-align:center;}
+ 	#gnb a {padding:28px 0; display:block; text-align:center; transition:all .3s ease;}
+ 	#gnb a:hover {background-color:#eee;}
  	#user-nav-bar {position:absolute; right:5px; top:15px;}
  	#user-nav-bar li {float:left;}
- 	#user-nav-bar a {padding:10px;}
+ 	#user-nav-bar a {padding:10px; transition:all .3s ease;}
+ 	#user-nav-bar a:hover {border-radius:50%; background-color:#eee;}
  	#user-nav-bar #login-atag {border:2px solid #eee; border-radius:15px; margin-left:10px;}
  	#user-nav-bar .user-nav-bar-font {font-size:22px; vertical-align:middle;}
  	
@@ -78,14 +82,16 @@
  	#contents .video-forum li .video-box iframe {position: absolute; width: 100%; height: 100%; border:none;}
  	#contents .forum {border-top:1px solid black;}
  	#contents .forum table {border-collapse:collapse; width:100%;text-align:center;}
- 	#contents .forum table thead {background-color:#FBF5EF; color:#777;}
- 	#contents .forum td:nth-child(1) {width:8%;}
- 	#contents .forum td:nth-child(2) {width:60%;}
- 	#contents .forum td:nth-child(3) {width:14%;}
- 	#contents .forum td:nth-child(4) {width:10%;}
- 	#contents .forum td:nth-child(5) {width:8%;}
- 	#contents .forum table tbody td:nth-child(2) {text-align:left;}
- 	#contents .forum table td {border-bottom: 1px solid black; padding:10px;}
+ 	#contents .forum table thead {border-top:2px solid black;}
+ 	#contents .forum table thead td {padding:13px 10px;} 
+ 	#contents .forum td:nth-child(1) {width:1px; white-space: nowrap;}
+ 	#contents .forum td:nth-child(2) {}
+ 	#contents .forum td:nth-child(3) {width:1px;}
+ 	#contents .forum td:nth-child(4) {width:1px;}
+ 	#contents .forum td:nth-child(5) {width:1px; white-space: nowrap;}
+ 	#contents .forum table tbody td:nth-child(2) {text-align:left; padding:10px;}
+ 	#contents .forum table tbody td:nth-child(2) a:hover {text-decoration:underline;}
+ 	#contents .forum table td {border-bottom: 1px solid #bbb; padding:10px;}
  	
  	
  	/* footer */
@@ -110,22 +116,22 @@
         #contents #main-title {font-size:70px;}
     	#contents #main-view {width:100%; margin-top:50px;}
     	#search-form {box-shadow:0 0 0 0; width:100%; min-width:320px;}
-	 	#search-form select, 
+	 	#search-form select,
 	 	#search {display:none;}
-	 	#search-form button[type=submit] {margin:-8px 0 0 0;}
-	 	
+	 	#search-form button[type=submit] {margin:-8px 0 0 0; transition:background-color,border-radius .3s ease;}
+	 	#search-form button[type=submit]:hover {border-radius:50%; background-color:#eee;}
 	 	#contents .forum table {box-shadow:0 0 10px #eee;}
 	 	#contents .forum table tr {box-shadow:inset 0 5px 5px -3px #eee; border-left:2px solid green;text-align:left;}
-	 	#contents .forum table td {display:inline; vertical-align:top; border:0; padding:0 0 0 8px; color:#6E6E6E; font-size:12px;}
+	 	#contents .forum table td {display:inline; vertical-align:top; border:0; padding:0; color:#6E6E6E; font-size:12px;}
 	 	#contents .forum table thead,
 	 	#contents .forum table td:nth-child(1) {display:none;}
-	 	#contents .forum table td:nth-child(2) {display:block;width:100%; padding:15px 0 8px; font-weight:bold; font-size:16px;}
+	 	#contents .forum table tbody td:nth-child(2) {display:block; width:100%; font-weight:bold; font-size:16px; padding:0;}
 	 	#contents .forum table td:nth-child(3) {padding-left:15px;} 
-	 	#contents .forum table td:nth-child(4) {}
-	 	#contents .forum table td:nth-child(5) {}
+	 	#contents .forum table td:nth-child(4) {padding-left:8px;}
+	 	#contents .forum table td:nth-child(5) {padding-left:8px;}
 	 	#contents .forum table td:nth-child(5)::before {content: "읽"; display:inline-block; margin-bottom:15px; padding-right:3px; width:12px; height:12px;}
-	 	#contents .forum table td span {}
-	 	#contents .forum table td a {padding:15px;}
+	 	#contents .forum table td span {} /* 작성자 클릭시 */
+	 	#contents .forum table td a {padding:15px 15px 8px; display:block;}
     }
     
     @media (max-width:750px) {   /* 영상게시판전용 */
@@ -139,7 +145,7 @@
         #contents #main-title {font-size:50px;}
     }
 </style>
-<link rel="shortcut icon" type="image⁄x-icon" href="https://cdn.pixabay.com/photo/2017/06/10/07/18/list-2389219_960_720.png"><!-- title 아이콘 -->
+<link href="https://cdn.pixabay.com/photo/2017/06/10/07/18/list-2389219_960_720.png" rel="shortcut icon" type="image/x-icon" ><!-- title 아이콘 -->
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
@@ -230,7 +236,7 @@
 				<tr>
 					<td>91</td>
 					<td><a href="#" title="내용보기">오늘 수업도 수고하셨습니다.</a></td>
-					<td><span>asdfqwertghy</span></td>
+					<td><span>문동주</span></td>
 					<td>17:20</td>
 					<td>8</td>
 				</tr>
@@ -244,7 +250,56 @@
 				<tr>
 					<td>89</td>
 					<td><a href="#" title="내용보기">면접후기...</a></td>
-					<td><span>MMMMMMMMMMMM</span></td>
+					<td><span>문동주</span></td>
+					<td>2019.09.01</td>
+					<td>3752</td>
+				</tr>
+				<tr>
+					<td>91</td>
+					<td><a href="#" title="내용보기">오늘 수업도 수고하셨습니다.</a></td>
+					<td><span>문동주</span></td>
+					<td>17:20</td>
+					<td>8</td>
+				</tr>
+				<tr>
+					<td>90</td>
+					<td><a href="#" title="내용보기">벌써 가을이다!!!</a></td>
+					<td><span>문동주</span></td>
+					<td>2019.09.02</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>89</td>
+					<td><a href="#" title="내용보기">면접후기...</a></td>
+					<td><span>문동주</span></td>
+					<td>2019.09.01</td>
+					<td>3752</td>
+				</tr>
+				<tr>
+					<td>91</td>
+					<td><a href="#" title="내용보기">오늘 수업도 수고하셨습니다.</a></td>
+					<td><span>문동주</span></td>
+					<td>17:20</td>
+					<td>8</td>
+				</tr>
+				<tr>
+					<td>90</td>
+					<td><a href="#" title="내용보기">벌써 가을이다!!!</a></td>
+					<td><span>문동주</span></td>
+					<td>2019.09.02</td>
+					<td>1</td>
+				</tr>
+				<tr>
+					<td>89</td>
+					<td><a href="#" title="내용보기">면접후기...</a></td>
+					<td><span>문동주</span></td>
+					<td>2019.09.01</td>
+					<td>3752</td>
+				</tr>
+				<tr>
+					<td>89</td>
+					<td><a href="#" title="내용보기">면접후기...</a></td>
+					<td><span>문동주</span></td>
 					<td>2019.09.01</td>
 					<td>3752</td>
 				</tr>
