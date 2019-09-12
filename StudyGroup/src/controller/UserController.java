@@ -10,24 +10,22 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ServletControll
  */
-@WebServlet("/ServletControll")
-public class ServletControll extends HttpServlet {
+@WebServlet("/user/*")
+public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletControll() {
-        super();
-        // TODO Auto-generated constructor stubcs
-    }
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String[] tokens = request.getRequestURI().split("/");
+		String cmd = tokens[tokens.length - 1];
+
+		if (cmd.equals("login")) {
+			request.setAttribute("title", "로그인 페이지");
+			request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
+		} else if (cmd.equals("signUp")) {
+			request.getRequestDispatcher("/WEB-INF/views/user/signUp.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/WEB-INF/views/error/error404.jsp").forward(request, response);
+		}
 	}
 
 	/**

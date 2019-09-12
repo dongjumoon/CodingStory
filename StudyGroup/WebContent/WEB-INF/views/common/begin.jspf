@@ -1,12 +1,58 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html  lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${title == null ? '코딩 이야기' : title}</title>
+<link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/css/main_media.css" rel="stylesheet" type="text/css">
+<link href="https://cdn.pixabay.com/photo/2017/06/10/07/18/list-2389219_960_720.png" rel="shortcut icon" type="image/x-icon" ><!-- title 아이콘 -->
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 </head>
 <body>
-
-</body>
-</html>
+<header>
+	<h1>코딩 이야기</h1>
+	<div id="search-form">
+		<form action="#">
+			<fieldset>
+				<legend class="screen-out">메인 검색창</legend>
+				<select name="searchSelet">
+					<option value="">전체검색</option>
+					<option value="">영상검색</option>
+					<option value="">게시판검색</option>
+				</select>
+				<span class="screen-out">검색어 :</span><input type="search" name="search" id="search">
+				<button type="submit"><i class="fa fa-search mousePointer" aria-hidden="true"></i><span class="screen-out">검색</span></button>
+			</fieldset>
+		</form>
+	</div>
+	<label id="gnb-switch-label" for="gnb-switch"><i class="fa fa-bars fontAwesome" aria-hidden="true"></i></label><input type="checkbox" class="screen-out" id="gnb-switch">
+	<nav id="gnb">
+		<span id="virtual-elements"><i class="fa fa-bars fontAwesome" aria-hidden="true"></i></span>
+		<ul>
+			<li><a href="#">영상게시판</a></li>
+			<li><a href="#">자유게시판</a></li>
+			<li><a href="#">제작자소개</a></li>
+		</ul>
+	</nav>
+	<div id="blind"></div><!-- 위치 이동 금지(#gnb-switch+#gnb+#blind) 사용중 -->
+	<nav id="user-nav-bar">
+		<ul>
+			<c:choose>
+				<c:when test="${user != null}">
+					<li><a href="#"><i class="fa fa-commenting user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">메세지함</span></a></li>	
+				</c:when>
+				<c:otherwise>
+					<li><a href="#"><i class="fa fa-question user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">도움말</span></a></li>
+					<li><a href="${pageContext.request.contextPath}/user/login" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
+				</c:otherwise>
+			</c:choose>
+		</ul>
+	</nav>
+</header>
+<div id="wrap">
+<section id="contents">
