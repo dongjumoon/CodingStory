@@ -19,9 +19,10 @@ public class UserController extends HttpServlet {
 		String cmd = tokens[tokens.length - 1];
 
 		if (cmd.equals("login")) {
-			request.setAttribute("title", "로그인 페이지");
+			request.setAttribute("title", "로그인");
 			request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
 		} else if (cmd.equals("signUp")) {
+			request.setAttribute("title", "회원가입");
 			request.getRequestDispatcher("/WEB-INF/views/user/signUp.jsp").forward(request, response);
 		} else {
 			request.getRequestDispatcher("/WEB-INF/views/error/error404.jsp").forward(request, response);
@@ -32,8 +33,22 @@ public class UserController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String[] tokens = request.getRequestURI().split("/");
+		String cmd = tokens[tokens.length - 1];
+
+		if (cmd.equals("signUp")) {
+			// db 입력 
+			if (cmd == "") {
+				
+			} else {
+				//실패시
+				//메세지는 세션으로 해야겠다.
+			}
+			request.setAttribute("title", "가입 결과");
+			request.getRequestDispatcher("/WEB-INF/views/user/signUp.jsp").forward(request, response);
+		} else {
+			request.getRequestDispatcher("/WEB-INF/views/error/error404.jsp").forward(request, response);
+		}
 	}
 
 }

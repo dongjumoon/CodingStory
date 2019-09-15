@@ -15,7 +15,7 @@
 </head>
 <body>
 <header>
-	<h1>코딩 이야기</h1>
+	<h1>${title == null ? '코딩 이야기' : title}</h1>
 	<div id="search-form">
 		<form action="#">
 			<fieldset>
