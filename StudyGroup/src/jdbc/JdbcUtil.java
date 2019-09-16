@@ -6,12 +6,24 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JdbcUtil {
+	
+	public static void close(ResultSet rs, Statement stmt, Connection conn) {
+		if (rs != null) try {rs.close();} catch (SQLException ex) {}
+		if (stmt != null) try {stmt.close();} catch (SQLException ex) {}
+		if (conn != null) try {conn.close();} catch (SQLException ex) {}
+	}
+	
+	public static void close(Statement stmt, Connection conn) {
+		if (stmt != null) try {stmt.close();} catch (SQLException ex) {}
+		if (conn != null) try {conn.close();} catch (SQLException ex) {}
+	}
 
 	public static void close(ResultSet rs) {
 		if (rs != null) {
 			try {
 				rs.close();
 			} catch (SQLException ex) {
+				
 			}
 		}
 	}
@@ -42,4 +54,5 @@ public class JdbcUtil {
 			}
 		}
 	}
+	
 }

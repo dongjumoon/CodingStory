@@ -1,15 +1,15 @@
 function minimumDesktopViewOn() {
 	$("#contents #main-title").css("font-size","70px");
 	$("#contents #main-view").css({"width":"100%", "margin-top":"0"});
-	$(".video-forum ul").css("width", "200%");
-	$(".video-forum li:eq(2)").prevAll().css("width", "23.5%");
-	$(".video-forum li:eq(2)").css("display", "none");
+	$(".video-board ul").css("width", "200%");
+	$(".video-board li:eq(2)").prevAll().css("width", "23.5%");
+	$(".video-board li:eq(2)").css("display", "none");
 }
 function minimumDesktopViewOff() {
 	$("#contents #main-title").css("font-size","");
 	$("#contents #main-view").css({"width":"", "margin-top":""});
-	$(".video-forum ul").css("width", "");
-	$(".video-forum li").css({"width": "","display": ""});
+	$(".video-board ul").css("width", "");
+	$(".video-board li").css({"width": "","display": ""});
 }
 function getHtmlWidth() {
 	var htmlWidth = $("html").width();

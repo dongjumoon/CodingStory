@@ -63,17 +63,17 @@ h1 {display:none;}
 #contents>section h3,
 #contents>section h3 a {padding:15px 0;}
 #contents>section:not(:last-child) {border-bottom:1px solid black;}
-#contents .forum table {border-collapse:collapse; width:100%;text-align:center;}
-#contents .forum table thead {border-top:2px solid black;}
-#contents .forum table thead td {padding:13px 10px;} 
-#contents .forum td:nth-child(1) {width:1px; white-space: nowrap;}
-#contents .forum td:nth-child(2) {}
-#contents .forum td:nth-child(3) {width:1px; white-space: nowrap;}
-#contents .forum td:nth-child(4) {width:1px;}
-#contents .forum td:nth-child(5) {width:1px; white-space: nowrap;}
-#contents .forum table tbody td:nth-child(2) {text-align:left; padding:10px;}
-#contents .forum table tbody td:nth-child(2) a:hover {text-decoration:underline;}
-#contents .forum table td {border-bottom: 1px solid #bbb; padding:10px;}
+#contents .board table {border-collapse:collapse; width:100%;text-align:center;}
+#contents .board table thead {border-top:2px solid black;}
+#contents .board table thead td {padding:13px 10px;} 
+#contents .board td:nth-child(1) {width:1px; white-space: nowrap;}
+#contents .board td:nth-child(2) {}
+#contents .board td:nth-child(3) {width:1px; white-space: nowrap;}
+#contents .board td:nth-child(4) {width:1px; white-space: nowrap;}
+#contents .board td:nth-child(5) {width:1px; white-space: nowrap;}
+#contents .board table tbody td:nth-child(2) {text-align:left; padding:10px;}
+#contents .board table tbody td:nth-child(2) a:hover {text-decoration:underline;}
+#contents .board table td {border-bottom: 1px solid #bbb; padding:10px;}
 
 /* footer */
 footer {max-width:1500px; min-height:90px; margin:auto; background-color:#FBF8EF; box-shadow:2px 2px 5px -5px; }

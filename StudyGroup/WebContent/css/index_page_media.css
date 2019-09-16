@@ -1,24 +1,24 @@
 @charset "UTF-8";
 
 @media (max-width:1350px) {   /* 영상게시판전용 */
-    #contents .video-forum ul {width:133.33%;}
-    #contents .video-forum li:nth-child(2),
-    #contents .video-forum li:nth-child(3) {margin-left:3%;}
-    #contents .video-forum li:nth-child(4) {display:none;}
+    #contents .video-board ul {width:133.33%;}
+    #contents .video-board li:nth-child(2),
+    #contents .video-board li:nth-child(3) {margin-left:3%;}
+    #contents .video-board li:nth-child(4) {display:none;}
 }
 
 @media (max-width:1024px) {   /* 테블릿 */
-	#contents .video-forum ul {width:200%;}
-    #contents .video-forum li:nth-child(1),
-    #contents .video-forum li:nth-child(2) {width:23.5%;}
-    #contents .video-forum li:nth-child(3) {display:none;}
+	#contents .video-board ul {width:200%;}
+    #contents .video-board li:nth-child(1),
+    #contents .video-board li:nth-child(2) {width:23.5%;}
+    #contents .video-board li:nth-child(3) {display:none;}
     #contents #main-title {font-size:70px;}
   	#contents #main-view {width:100%; margin-top:0;}
 }
 
 @media (max-width:480px) {   /* 모바일 */
-	#contents .video-forum ul {width:100%;}
-	#contents .video-forum li:nth-child(1) {width:100%;}
-    #contents .video-forum li:nth-child(2) {display:none;}
+	#contents .video-board ul {width:100%;}
+	#contents .video-board li:nth-child(1) {width:100%;}
+    #contents .video-board li:nth-child(2) {display:none;}
     #contents #main-title {font-size:50px;}
 }

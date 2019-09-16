@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <h2 class="screen-out">로그인</h2>
 <div>
-	<form action="" method="post">
+	<form action="${contextPath}/user/login" method="post">
 		<fieldset>
 			<legend>Coding Story</legend>
 				<p><span class="screen-out">아이디 :</span><input type="text" name="id" placeholder="아이디" required></p>
@@ -12,6 +12,6 @@
 	</form>
 	<section>
 		<h3 class="screen-out">회원가입</h3>
-		<p><a href="${pageContext.request.contextPath}/user/signUp">회원가입</a></p>
+		<p><a href="${contextPath}/user/signUp">회원가입</a></p>
 	</section>
 </div>

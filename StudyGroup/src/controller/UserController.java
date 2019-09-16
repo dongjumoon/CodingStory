@@ -6,6 +6,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import dao.UserDAO;
+import model.UserDTO;
 
 /**
  * Servlet implementation class ServletControll
@@ -15,17 +19,22 @@ public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String[] tokens = request.getRequestURI().split("/");
-		String cmd = tokens[tokens.length - 1];
+		String[] uriTokens = request.getRequestURI().split("/");
+		String action = uriTokens[uriTokens.length - 1];
 
-		if (cmd.equals("login")) {
+		if (action.equals("login")) {
+			request.getSession().removeAttribute("resultURI");
 			request.setAttribute("title", "로그인");
 			request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
-		} else if (cmd.equals("signUp")) {
+		} else if (action.equals("signUp")) {
 			request.setAttribute("title", "회원가입");
 			request.getRequestDispatcher("/WEB-INF/views/user/signUp.jsp").forward(request, response);
+		} else if(action.equals("logout")) {
+			request.getSession().invalidate();
+			response.sendRedirect(request.getContextPath());
+			return;
 		} else {
-			request.getRequestDispatcher("/WEB-INF/views/error/error404.jsp").forward(request, response);
+			request.getRequestDispatcher("/error404").forward(request, response);
 		}
 	}
 
@@ -33,21 +42,54 @@ public class UserController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String[] tokens = request.getRequestURI().split("/");
-		String cmd = tokens[tokens.length - 1];
+		String[] uriTokens = request.getRequestURI().split("/");
+		String action = uriTokens[uriTokens.length - 1];
 
-		if (cmd.equals("signUp")) {
-			// db 입력 
-			if (cmd == "") {
-				
-			} else {
-				//실패시
-				//메세지는 세션으로 해야겠다.
-			}
+		if (action.equals("signUp")) {
+			UserDTO user = new UserDTO();
+			user.setUserId(request.getParameter("id"));
+			user.setUserPw(request.getParameter("pw"));
+			user.setUserName(request.getParameter("name"));
+			user.setUserGender(request.getParameter("gender"));
+			user.setUserPhone(request.getParameter("phone"));
+			user.setUserEmail(request.getParameter("email"));
+			user.setUserAddress(request.getParameter("address"));
+			int result = new UserDAO().insertUser(user);
 			request.setAttribute("title", "가입 결과");
+			if (result == 1) {
+				request.getSession().setAttribute("message", "가입이 완료되었습니다.");
+				response.sendRedirect("/user/login");
+				return;
+			} else if (result == 0) {
+				request.getSession().setAttribute("message", "이미 존재하는 회원입니다.");
+			} else {
+				request.getSession().setAttribute("message", "데이터베이스 오류로 가입에 실패하였습니다.");
+			}
 			request.getRequestDispatcher("/WEB-INF/views/user/signUp.jsp").forward(request, response);
+		} else if (action.equals("login")) {
+			String id = request.getParameter("id");
+			String pw = request.getParameter("pw");
+			int result = new UserDAO().login(id, pw);
+			if (result == 1) {
+				HttpSession session = request.getSession();
+				session.setAttribute("user", id);
+				// 로그인화면 오기 전 페이지로
+				String resultURI = (String)session.getAttribute("resultURI");
+				if (resultURI != null) {
+					session.removeAttribute("resultURI");
+					response.sendRedirect(resultURI);
+					return;
+				}
+				response.sendRedirect(request.getContextPath());
+				return;
+			} else if (result == 0) {
+				request.getSession().setAttribute("message", "회원정보 불일치. 아이디와 비밀번호를 확인해주세요.");
+			} else {
+				request.getSession().setAttribute("message", "데이터베이스 오류로 로그인에 실패하였습니다.");
+			}
+			response.sendRedirect(request.getContextPath() + "/user/login");
 		} else {
-			request.getRequestDispatcher("/WEB-INF/views/error/error404.jsp").forward(request, response);
+			request.getRequestDispatcher("/error404").forward(request, response);
 		}
 	}
 

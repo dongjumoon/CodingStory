@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/begin.jspf" %>
-<link href="${pageContext.request.contextPath}/css/index_page.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/index_page_media.css" rel="stylesheet" type="text/css">
+<link href="${contextPath}/css/index_page.css" rel="stylesheet" type="text/css">
+<link href="${contextPath}/css/index_page_media.css" rel="stylesheet" type="text/css">
 <h2 class="screen-out">게시판 종합</h2>
 	<article id="main-view">
 		<h3 id="main-title">Coding Story</h3>
 	</article>
-	<section class="video-forum">
-		<h3><a href="#">영상 게시판</a></h3>
+	<section class="video-board">
+		<h3><a href="${contextPath}/board/video">영상 게시판</a></h3>
 		<ul>
 			<li>
 				<h4 class="screen-out">얄팍한 코딩사전 : 객체지향 프로그래밍이란?</h4>
@@ -36,8 +36,8 @@
 			</li>
 		</ul>
 	</section>
-	<section class="forum">
-		<h3><a href="#">자유 게시판</a></h3>
+	<section class="board">
+		<h3><a href="${contextPath}/board/free">자유 게시판</a></h3>
 		<table>
 			<caption class="screen-out">게시글 목록</caption>
 			<thead>

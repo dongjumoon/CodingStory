@@ -5,6 +5,6 @@
 	<address>address....?</address>
 </footer>
 </div>
-<script src="${pageContext.request.contextPath}/js/main.js"></script>
+<script src="${contextPath}/js/main.js"></script>
 </body>
 </html>

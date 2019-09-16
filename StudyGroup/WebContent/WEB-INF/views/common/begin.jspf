@@ -7,11 +7,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${title == null ? '코딩 이야기' : title}</title>
-<link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath}/css/main_media.css" rel="stylesheet" type="text/css">
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<link href="${contextPath}/css/main.css" rel="stylesheet" type="text/css">
+<link href="${contextPath}/css/main_media.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.pixabay.com/photo/2017/06/10/07/18/list-2389219_960_720.png" rel="shortcut icon" type="image/x-icon" ><!-- title 아이콘 -->
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<c:if test="${message != null}">
+	<script>
+		alert('${message}');
+	</script>
+	<% session.removeAttribute("message"); %>
+</c:if>
 </head>
 <body>
 <header>
@@ -34,8 +41,8 @@
 	<nav id="gnb">
 		<span id="virtual-elements"><i class="fa fa-bars fontAwesome" aria-hidden="true"></i></span>
 		<ul>
-			<li><a href="#">영상게시판</a></li>
-			<li><a href="#">자유게시판</a></li>
+			<li><a href="${contextPath}/board/video">영상게시판</a></li>
+			<li><a href="${contextPath}/board/free">자유게시판</a></li>
 			<li><a href="#">제작자소개</a></li>
 		</ul>
 	</nav>
@@ -45,10 +52,11 @@
 			<c:choose>
 				<c:when test="${user != null}">
 					<li><a href="#"><i class="fa fa-commenting user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">메세지함</span></a></li>	
+					<li><a href="${contextPath}/user/logout"><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">로그아웃</span></a></li>
 				</c:when>
 				<c:otherwise>
 					<li><a href="#"><i class="fa fa-question user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">도움말</span></a></li>
-					<li><a href="${pageContext.request.contextPath}/user/login" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
+					<li><a href="${contextPath}/user/login" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
 				</c:otherwise>
 			</c:choose>
 		</ul>
