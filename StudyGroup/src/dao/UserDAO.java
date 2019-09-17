@@ -1,12 +1,12 @@
 package dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
-import jdbc.ConnectionProvider;
-import jdbc.JdbcUtil;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.*;
+
 import model.UserDTO;
 
 public class UserDAO {
@@ -14,8 +14,11 @@ public class UserDAO {
 	
 	public UserDAO() {
 		try {
-			conn = ConnectionProvider.getConnection();
-		} catch (SQLException e) {
+			InitialContext initCtx = new InitialContext();
+			Context envContext = (Context)initCtx.lookup("java:/comp/env");
+			DataSource ds = (DataSource)envContext.lookup("jdbc/StudyGroup");
+			conn = ds.getConnection();
+		} catch (SQLException | NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

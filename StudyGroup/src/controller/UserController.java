@@ -58,7 +58,7 @@ public class UserController extends HttpServlet {
 			request.setAttribute("title", "가입 결과");
 			if (result == 1) {
 				request.getSession().setAttribute("message", "가입이 완료되었습니다.");
-				response.sendRedirect("/user/login");
+				response.sendRedirect(request.getContextPath()+"/user/login");
 				return;
 			} else if (result == 0) {
 				request.getSession().setAttribute("message", "이미 존재하는 회원입니다.");

@@ -9,11 +9,6 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <servlet-name>DBCP</servlet-name>
-    <servlet-class>jdbc.DBCPInit</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
   
   <filter>
   	<filter-name>LoginCheck</filter-name>
