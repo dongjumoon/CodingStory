@@ -36,6 +36,8 @@ public class BoardController extends HttpServlet {
 			} else if (boardType.equals("video")) {
 				request.setAttribute("title", "영상게시판");
 				request.getRequestDispatcher("/WEB-INF/views/board/video_board_write.jsp").forward(request, response);
+			} else {
+				request.getRequestDispatcher("/error404").forward(request, response);
 			}
 		} else {
 			request.getRequestDispatcher("/error404").forward(request, response);
