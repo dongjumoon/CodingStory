@@ -27,6 +27,16 @@
 		</tbody>
 	</table>
 	<p><a href="${contextPath}/board/free/write.user">글쓰기</a></p>
+	<nav>
+		<h4 class="screen-out">페이지 네비게이션</h4>
+		<a href="?page=1"><<</a>
+		<a href="?page=1">1</a>
+		<a href="?page=2">2</a>
+		<a href="?page=3">3</a>
+		<a href="?page=4">4</a>
+		<a href="?page=5">5</a>
+		<a href="?page=6">>></a>
+	</nav>
 </section>
 
 <!-- 페이징 , 글쓰기=로그인여부. -->
