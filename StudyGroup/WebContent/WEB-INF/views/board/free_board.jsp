@@ -26,7 +26,16 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<p><a href="${contextPath}/board/free/write.user">글쓰기</a></p>
+	<style>
+		#dv {overflow:hidden; margin-top:10px; text-align:center;}
+    	#dv>a {display:bloak; float:right; padding:7px; border:1px solid black; border-radius:10px;}
+    	#dv+nav {text-align:center; margin-top:10px;}
+    	#dv+nav a {padding:5px;}
+    </style>
+    
+	<div id="dv">
+		<a href="${contextPath}/board/free/write.user">글쓰기</a>
+	</div>
 	<nav>
 		<h4 class="screen-out">페이지 네비게이션</h4>
 		<a href="?page=1"><<</a>
