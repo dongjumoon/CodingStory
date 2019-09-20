@@ -25,7 +25,7 @@ public class UserDAO {
 	}
 	
 	public int insertUser(UserDTO user) {
-		String sql = "insert into USER_TB (userid, userpw, username, usergender, userphone, useremail, useraddress) "
+		String sql = "insert into USER_TB (userId, userPw, userName, userGender, userPhone, userEmail, userAddress) "
 				+ "values(?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement pstmt = null;
 		try {
@@ -48,7 +48,7 @@ public class UserDAO {
 	}
 	
 	public int login(String id, String pw) {
-		String sql = "select userpw from USER_TB where userid = ?";
+		String sql = "select userPw from USER_TB where userId = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -56,7 +56,7 @@ public class UserDAO {
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if (rs.getString("userpw").equals(pw)) {
+				if (rs.getString("userPw").equals(pw)) {
 					return 1;
 				}
 			}
