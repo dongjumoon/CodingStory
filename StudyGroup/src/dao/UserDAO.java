@@ -16,7 +16,7 @@ public class UserDAO {
 		try {
 			InitialContext initCtx = new InitialContext();
 			Context envContext = (Context)initCtx.lookup("java:/comp/env");
-			DataSource ds = (DataSource)envContext.lookup("jdbc/StudyGroup");
+			DataSource ds = (DataSource)envContext.lookup("jdbc/mdj44518");
 			conn = ds.getConnection();
 		} catch (SQLException | NamingException e) {
 			// TODO Auto-generated catch block
@@ -25,7 +25,7 @@ public class UserDAO {
 	}
 	
 	public int insertUser(UserDTO user) {
-		String sql = "insert into user (userid, userpw, username, usergender, userphone, useremail, useraddress) "
+		String sql = "insert into USER_TB (userid, userpw, username, usergender, userphone, useremail, useraddress) "
 				+ "values(?, ?, ?, ?, ?, ?, ?)";
 		PreparedStatement pstmt = null;
 		try {
@@ -48,7 +48,7 @@ public class UserDAO {
 	}
 	
 	public int login(String id, String pw) {
-		String sql = "select userpw from user where userid = ?";
+		String sql = "select userpw from USER_TB where userid = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {

@@ -44,6 +44,7 @@
 			<li><a href="${contextPath}/board/video">영상게시판</a></li>
 			<li><a href="${contextPath}/board/free">자유게시판</a></li>
 			<li><a href="#">제작자소개</a></li>
+			<li><a href="/fitness">(테스트)다른프로젝트</a></li>
 		</ul>
 	</nav>
 	<div id="blind"></div><!-- 위치 이동 금지(#gnb-switch+#gnb+#blind) 사용중 -->
