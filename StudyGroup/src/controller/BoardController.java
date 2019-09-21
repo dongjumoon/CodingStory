@@ -48,8 +48,15 @@ public class BoardController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		String[] uriTokens = request.getRequestURI().split("/");
+		String action = uriTokens[uriTokens.length - 1];
+		
+		if (action.equals("free")) {
+		} else if (action.equals("video")) {
+		} else if (action.equals("write.user")) {
+		} else {
+			request.getRequestDispatcher("/error404").forward(request, response);
+		}
 	}
 
 }
