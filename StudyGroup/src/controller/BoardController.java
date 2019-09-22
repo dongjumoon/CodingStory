@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.FreeBoardDAO;
+import model.FreeBoardDTO;
+
 /**
  * Servlet implementation class BoardController
  */
@@ -52,6 +55,21 @@ public class BoardController extends HttpServlet {
 		String action = uriTokens[uriTokens.length - 1];
 		
 		if (action.equals("free")) {
+			String title = request.getParameter("boardTitle");
+			String content = request.getParameter("boardContent");
+			String user = (String)request.getSession().getAttribute("user");
+			FreeBoardDTO freeBoard = new FreeBoardDTO();
+			freeBoard.setBoardTitle(title);
+			freeBoard.setBoardContent(content);
+			freeBoard.setUserId(user);
+			int result = new FreeBoardDAO().insert(freeBoard);
+			if (result == 1) {
+				//성공
+			} else if (result == 0) {
+				//입력오류
+			} else {
+				//db오류
+			}
 		} else if (action.equals("video")) {
 		} else if (action.equals("write.user")) {
 		} else {
