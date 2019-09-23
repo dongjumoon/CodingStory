@@ -15,17 +15,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach begin="0" end="3">
+			<c:forEach var="article" items="${freeArticleList}">
 			<tr>
-				<td>91</td>
-				<td><a href="#" title="내용보기">백엔드 미구현...</a></td>
-				<td><span>문동주</span></td>
-				<td>17:20</td>
-				<td>8</td>
+				<td>${article.boardId}</td>
+				<td><a href="free/view?boardId=${article.boardId}" title="내용보기">${article.boardTitle}</a></td>
+				<td><span>${article.userId}</span></td>
+				<td>${article.boardDate}</td>
+				<td>${article.boardHit}</td>
 			</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	<!-- 임시 스타일 -->
 	<style>
 		#dv {overflow:hidden; margin-top:10px; text-align:center;}
     	#dv>a {display:bloak; float:right; padding:7px; border:1px solid black; border-radius:10px;}
@@ -47,5 +48,3 @@
 		<a href="?page=6">>></a>
 	</nav>
 </section>
-
-<!-- 페이징 , 글쓰기=로그인여부. -->

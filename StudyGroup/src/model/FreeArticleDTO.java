@@ -2,7 +2,7 @@ package model;
 
 import java.sql.Date;
 
-public class FreeBoardDTO {
+public class FreeArticleDTO {
 	private int boardId;
 	private String userId;
 	private String boardTitle;
