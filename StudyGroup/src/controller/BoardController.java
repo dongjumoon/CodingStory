@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.FreeBoardDAO;
-import model.FreeArticleDTO;
+import model.FreePostDTO;
 
 /**
  * Servlet implementation class BoardController
@@ -33,14 +33,16 @@ public class BoardController extends HttpServlet {
 				boardId = Integer.parseInt(request.getParameter("boardId"));
 			} catch (Exception e) {
 				request.getSession().setAttribute("message", "잘못된 요청입니다.");
+				request.setAttribute("title", "페이지 요청 오류");
 				request.getRequestDispatcher("/error404").forward(request, response);
 				return;
 			}
 			String nextPage = "";
 			if (board.equals("free") && boardId > 0) {
-				FreeArticleDTO freeArticle = new FreeBoardDAO().getArticle(boardId);
-				request.setAttribute("article", freeArticle);
-				nextPage = "/WEB-INF/views/board/free_article_view.jsp";
+				FreePostDTO freePost = new FreeBoardDAO().getPost(boardId);
+				request.setAttribute("post", freePost);
+				request.setAttribute("title", freePost.getBoardTitle());
+				nextPage = "/WEB-INF/views/board/free_post_view.jsp";
 			} else if (board.equals("video") && boardId > 0) {
 				
 			} else {
@@ -58,9 +60,11 @@ public class BoardController extends HttpServlet {
 				request.setAttribute("title", "영상게시판");
 				request.getRequestDispatcher("/WEB-INF/views/board/video_board_write.jsp").forward(request, response);
 			} else {
+				request.setAttribute("title", "페이지 요청 오류");
 				request.getRequestDispatcher("/error404").forward(request, response);
 			}
 		} else {
+			request.setAttribute("title", "페이지 요청 오류");
 			request.getRequestDispatcher("/error404").forward(request, response);
 		}
 	}
@@ -76,11 +80,11 @@ public class BoardController extends HttpServlet {
 			String title = request.getParameter("boardTitle");
 			String content = request.getParameter("boardContent");
 			String user = (String)request.getSession().getAttribute("user");
-			FreeArticleDTO freeArticle = new FreeArticleDTO();
-			freeArticle.setBoardTitle(title);
-			freeArticle.setBoardContent(content);
-			freeArticle.setUserId(user);
-			int result = new FreeBoardDAO().insert(freeArticle);
+			FreePostDTO freePost = new FreePostDTO();
+			freePost.setBoardTitle(title);
+			freePost.setBoardContent(content);
+			freePost.setUserId(user);
+			int result = new FreeBoardDAO().insert(freePost);
 			HttpSession session = request.getSession();
 			if (result > 0) {
 				session.setAttribute("message", "글 작성이 완료되었습니다.");
@@ -91,6 +95,7 @@ public class BoardController extends HttpServlet {
 		} else if (action.equals("video")) {
 		} else if (action.equals("write.user")) {
 		} else {
+			request.setAttribute("title", "페이지 요청 오류");
 			request.getRequestDispatcher("/error404").forward(request, response);
 		}
 	}
@@ -105,16 +110,27 @@ public class BoardController extends HttpServlet {
 			pageInt = Integer.parseInt(page);
 		} catch (Exception e) {
 			request.getSession().setAttribute("message", "잘못된 페이지 번호입니다.");
+			request.setAttribute("title", "페이지 요청 오류");
 			request.getRequestDispatcher("/error404").forward(request, response);
 			return;
 		}
-		FreeBoardDAO freeBoardDAO = new FreeBoardDAO();
-		List<FreeArticleDTO> freeArticleList = freeBoardDAO.getBoardList(pageInt);
-		if (freeArticleList != null) {
-			request.setAttribute("freeArticleList", freeArticleList);
+		List<FreePostDTO> freePostList = new FreeBoardDAO().getBoardList(pageInt);
+		if (freePostList != null) {
+			request.setAttribute("freePostList", freePostList);
 		} else {
 			request.getSession().setAttribute("message", "데이터 조회에 실패하였습니다.");
 		}
+		int pageCount = new FreeBoardDAO().getPageCount(pageInt);
+		int pageAreaNum = (pageInt - 1) / 5 * 5;
+		int nextPageAreaNum;
+		if (pageCount == 5) {
+			nextPageAreaNum = pageAreaNum + 1 + 5;
+		} else {
+			nextPageAreaNum = pageAreaNum + pageCount;
+		}
+		request.setAttribute("pageCount", pageCount);
+		request.setAttribute("pageAreaNum", pageAreaNum);
+		request.setAttribute("nextPageAreaNum", nextPageAreaNum);
 		request.setAttribute("title", "자유게시판");
 		request.getRequestDispatcher("/WEB-INF/views/board/free_board.jsp").forward(request, response);
 	}

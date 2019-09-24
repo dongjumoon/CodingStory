@@ -138,3 +138,35 @@ function searchModeOff() {
 	$("#user-nav-bar").css("display", "");
 };
 $("#wrap").click(searchModeOff);
+
+//<section id="message-box">
+//<h3 class="screen-out">채팅창</h3>
+//<ul id="chat-box">
+//	<li>
+//		<p>문동주<p>
+//		<p>15:30</p>
+//		<p>대화 내요입니다.22</p>
+//	</li>
+//</ul>
+//</section>
+
+//메세지함이 있을때만?
+if($("#message-box").get(0) !== undefined) {
+	$.ajax({
+		url: "/StudyGroup/chat",
+		type: "post",
+		dataType: "json",
+		success : function(data){
+			var li = $("<li/>");
+			li.append(
+				$("<p/>").text(data.user),
+				$("<p/>").text(data.chatTime),
+				$("<p/>").text(data.chatContent)
+			);
+			$("#chat-box").append(li);
+		},
+		error : function(){
+			alert("채팅목록 불러오기 실패");
+		}
+	});
+}

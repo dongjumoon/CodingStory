@@ -54,6 +54,11 @@ h1 {display:none;}
 #user-nav-bar a:hover {border-radius:50%; background-color:#eee;}
 #user-nav-bar #login-atag {border:2px solid #eee; border-radius:15px; margin-left:10px;}
 #user-nav-bar .user-nav-bar-font {font-size:22px; vertical-align:middle;}
+
+#message-box-switch + #message-box {display:none; position:absolute; width:300px; background-color:red; right:0;}
+#message-box-switch:checked + #message-box {display:block;}
+#message-box-switch + #message-box ul {height:600px; max-height:90vh; overflow:auto; overflow-x:hidden;}
+#message-box-switch + #message-box li {float:none;}
 	
 /* main contents */
 #wrap {width:calc(100% - 230px); min-width:320px; margin-left:230px; margin-top:50px;}

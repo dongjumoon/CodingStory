@@ -2,13 +2,13 @@ package model;
 
 import java.sql.Date;
 
-public class FreeArticleDTO {
+public class FreePostDTO {
 	private int boardId;
 	private String userId;
 	private String boardTitle;
 	private String boardContent;
 	private Date boardDate;
-	private int boardHit;
+	private int boardViews;
 	
 	public int getBoardId() {
 		return boardId;
@@ -40,11 +40,11 @@ public class FreeArticleDTO {
 	public void setBoardDate(Date boardDate) {
 		this.boardDate = boardDate;
 	}
-	public int getBoardHit() {
-		return boardHit;
+	public int getBoardViews() {
+		return boardViews;
 	}
-	public void setBoardHit(int boardHit) {
-		this.boardHit = boardHit;
+	public void setBoardViews(int boardHit) {
+		this.boardViews = boardHit;
 	}
 	
 }

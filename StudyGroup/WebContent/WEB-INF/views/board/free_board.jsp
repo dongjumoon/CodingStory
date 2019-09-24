@@ -15,13 +15,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="article" items="${freeArticleList}">
+			<c:forEach var="post" items="${freePostList}">
 			<tr>
-				<td>${article.boardId}</td>
-				<td><a href="free/view?boardId=${article.boardId}" title="내용보기">${article.boardTitle}</a></td>
-				<td><span>${article.userId}</span></td>
-				<td>${article.boardDate}</td>
-				<td>${article.boardHit}</td>
+				<td>${post.boardId}</td>
+				<td><a href="free/view?boardId=${post.boardId}" title="내용보기">${post.boardTitle}</a></td>
+				<td><span>${post.userId}</span></td>
+				<td>${post.boardDate}</td>
+				<td>${post.boardViews}</td>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -32,6 +32,7 @@
     	#dv>a {display:bloak; float:right; padding:7px; border:1px solid black; border-radius:10px;}
     	#dv+nav {text-align:center; margin-top:10px;}
     	#dv+nav a {padding:5px;}
+    	.pick {font-weight:bold;}
     </style>
     
 	<div id="dv">
@@ -39,12 +40,20 @@
 	</div>
 	<nav>
 		<h4 class="screen-out">페이지 네비게이션</h4>
-		<a href="?page=1"><<</a>
-		<a href="?page=1">1</a>
-		<a href="?page=2">2</a>
-		<a href="?page=3">3</a>
-		<a href="?page=4">4</a>
-		<a href="?page=5">5</a>
-		<a href="?page=6">>></a>
+		<a href="?page=${pageAreaNum == 0 ? 1 : pageAreaNum}"><<</a>
+		<c:forEach var="i" begin="1" end="${pageCount}">
+			<a href="?page=${pageAreaNum + i}">${pageAreaNum + i}</a>
+		</c:forEach>
+		<a href="?page=${nextPageAreaNum}">>></a>
 	</nav>
 </section>
+<script>
+	var page = '${param.page}';
+	if (page == '') page = '1';
+	
+	$('#dv+nav a').each(function (index, item) {
+		if ($(this).text() === page) {
+			$(this).css({"font-weight": "bold", "font-size": "20px"});
+		}
+	});
+</script>

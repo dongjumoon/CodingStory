@@ -1,6 +1,13 @@
+<%@page import="model.FreePostDTO"%>
+<%@page import="java.util.List"%>
+<%@page import="dao.FreeBoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/begin.jspf" %>
+<%
+	List<FreePostDTO> freePostList = new FreeBoardDAO().getBoardList(1);
+	pageContext.setAttribute("freePostList", freePostList);
+%>
 <link href="${contextPath}/css/index_page.css" rel="stylesheet" type="text/css">
 <link href="${contextPath}/css/index_page_media.css" rel="stylesheet" type="text/css">
 <h2 class="screen-out">게시판 종합</h2>
@@ -50,76 +57,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>91</td>
-					<td><a href="#" title="내용보기">백엔드 미구현...</a></td>
-					<td><span>문동주</span></td>
-					<td>17:20</td>
-					<td>8</td>
-				</tr>
-				<tr>
-					<td>90</td>
-					<td><a href="#" title="내용보기">즐거운 추석 보내세요~</a></td>
-					<td><span>문동주</span></td>
-					<td>2019.09.11</td>
-					<td>1</td>
-				</tr>
-				<tr>
-					<td>89</td>
-					<td><a href="#" title="내용보기">영어 공부...</a></td>
-					<td><span>문동주</span></td>
-					<td>2019.09.10</td>
-					<td>3752</td>
-				</tr>
-				<tr>
-					<td>91</td>
-					<td><a href="#" title="내용보기">스파르타아</a></td>
-					<td><span>문동주</span></td>
-					<td>2019.09.10</td>
-					<td>8</td>
-				</tr>
-				<tr>
-					<td>90</td>
-					<td><a href="#" title="내용보기">벌써 가을이다!!!</a></td>
-					<td><span>문동주</span></td>
-					<td>2019.09.10</td>
-					<td>1</td>
-				</tr>
-				<tr>
-					<td>89</td>
-					<td><a href="#" title="내용보기">면접후기...</a></td>
-					<td><span>문동주</span></td>
-					<td>2019.09.10</td>
-					<td>3752</td>
-				</tr>
-				<tr>
-					<td>91</td>
-					<td><a href="#" title="내용보기">즐거운 봄여름가을겨울.</a></td>
-					<td><span>문동주</span></td>
-					<td>2019.09.10</td>
-					<td>8</td>
-				</tr>
-				<tr>
-					<td>90</td>
-					<td><a href="#" title="내용보기">벌써 가을이다!!!</a></td>
-					<td><span>문동주</span></td>
-					<td>2019.09.10</td>
-					<td>1</td>
-				</tr>
-				<tr>
-					<td>89</td>
-					<td><a href="#" title="내용보기">건강을 잘 챙기자...</a></td>
-					<td><span>문동주</span></td>
-					<td>2019.09.10</td>
-					<td>3752</td>
-				</tr>
-				<tr>
-					<td>89</td>
-					<td><a href="#" title="내용보기">벌써 끝나가는 국비수업...</a></td>
-					<td><span>문동주</span></td>
-					<td>2019.09.10</td>
-					<td>3752</td>
-				</tr>
+				<c:forEach var="post" items="${freePostList}">
+					<tr>
+						<td>${post.boardId}</td>
+						<td><a href="${contextPath}/board/free/view?boardId=${post.boardId}" title="내용보기">${post.boardTitle}</a></td>
+						<td><span>${post.userId}</span></td>
+						<td>${post.boardDate}</td>
+						<td>${post.boardViews}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</section>

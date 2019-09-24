@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<h2>${article.boardTitle}</h2>
+<h2>${post.boardTitle}</h2>
 <div>
-	<p>${article.boardHit}</p>
-	<p>${article.userId}</p>
-	<p>${article.boardDate}</p>
-	<p>${article.boardContent}</p>
+	<p>${post.boardViews}</p>
+	<p>${post.userId}</p>
+	<p>${post.boardDate}</p>
+	<p>${post.boardContent}</p>
 </div>
 <div>
 	<c:forEach begin="0" end="4">

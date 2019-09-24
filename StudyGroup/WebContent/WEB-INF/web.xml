@@ -9,16 +9,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
   <filter>
-  	<filter-name>LoginCheck</filter-name>
-  	<filter-class>filter.LoginCheckFilter</filter-class>
+    <filter-name>LoginCheck</filter-name>
+    <filter-class>filter.LoginCheckFilter</filter-class>
   </filter>
   <filter-mapping>
-  	<filter-name>LoginCheck</filter-name>
-  	<url-pattern>*.user</url-pattern>
+    <filter-name>LoginCheck</filter-name>
+    <url-pattern>*.user</url-pattern>
   </filter-mapping>
-  
   <jsp-config>
     <jsp-property-group>
       <url-pattern>/WEB-INF/views/*</url-pattern>

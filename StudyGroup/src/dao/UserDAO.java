@@ -8,6 +8,7 @@ import javax.naming.NamingException;
 import javax.sql.*;
 
 import model.UserDTO;
+import security.HashPassword;
 
 public class UserDAO {
 	private Connection conn;
@@ -31,7 +32,7 @@ public class UserDAO {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUserId());
-			pstmt.setString(2, user.getUserPw());
+			pstmt.setString(2, HashPassword.getHashPw(user.getUserPw()));
 			pstmt.setString(3, user.getUserName());
 			pstmt.setString(4, user.getUserGender());
 			pstmt.setString(5, user.getUserPhone());
@@ -56,7 +57,8 @@ public class UserDAO {
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if (rs.getString("userPw").equals(pw)) {
+				String inputPassword = HashPassword.getHashPw(pw);
+				if (rs.getString("userPw").equals(inputPassword)) {
 					return 1;
 				}
 			}

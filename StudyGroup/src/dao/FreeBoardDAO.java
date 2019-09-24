@@ -13,7 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import model.FreeArticleDTO;
+import model.FreePostDTO;
 
 public class FreeBoardDAO {
 	
@@ -31,7 +31,7 @@ public class FreeBoardDAO {
 		}
 	}
 	
-	public int insert(FreeArticleDTO board) {
+	public int insert(FreePostDTO board) {
 		String sql = "insert into FREE_BOARD_TB (userId, boardTitle, boardContent) values(?, ?, ?)";
 		
 		PreparedStatement pstmt = null;
@@ -50,8 +50,8 @@ public class FreeBoardDAO {
 		return -1;
 	}
 
-	public List<FreeArticleDTO> getBoardList(int pageNum) {
-		String sql = "select boardId, boardTitle, userId, boardDate, boardHit "
+	public List<FreePostDTO> getBoardList(int pageNum) {
+		String sql = "select boardId, boardTitle, userId, boardDate, boardViews "
 				   + "from FREE_BOARD_TB "
 				   + "order by boardId desc "
 				   + "limit ?, ?";
@@ -62,17 +62,17 @@ public class FreeBoardDAO {
 			pstmt.setInt(1, (pageNum - 1) * 10);
 			pstmt.setInt(2, 10);
 			rs = pstmt.executeQuery();
-			List<FreeArticleDTO> freeArticleList = new ArrayList<>();
+			List<FreePostDTO> freePostList = new ArrayList<>();
 			while (rs.next()) {
-				FreeArticleDTO row = new FreeArticleDTO();
+				FreePostDTO row = new FreePostDTO();
 				row.setBoardId(rs.getInt("boardId"));
 				row.setBoardTitle(rs.getString("boardTitle"));
 				row.setUserId(rs.getString("userId"));
 				row.setBoardDate(rs.getDate("boardDate"));
-				row.setBoardHit(rs.getInt("boardHit"));
-				freeArticleList.add(row);
+				row.setBoardViews(rs.getInt("boardViews"));
+				freePostList.add(row);
 			}
-			return freeArticleList;
+			return freePostList;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -83,8 +83,32 @@ public class FreeBoardDAO {
 		
 	}
 	
-	public FreeArticleDTO getArticle(int boardId) {
-		String sql = "select boardId, userId, boardTitle, boardContent, boardDate, boardHit "
+	// 해당 페이지에서 보여줄 페이징 표시 갯수 구하기
+	public int getPageCount(int pageNum) {
+		String sql = "select ceil(COUNT(boardId) / 10) boardCount " + 
+					 "from (select boardId from FREE_BOARD_TB limit ?, 9999999) t1";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int pageAreaNum = (pageNum - 1) / 5 * 5;
+			pstmt.setInt(1, pageAreaNum * 10);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				int pageCount = rs.getInt(1);
+				return pageCount > 5 ? 5 : pageCount;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt, conn);
+		}
+		return -1;
+	}
+	
+	public FreePostDTO getPost(int boardId) {
+		String sql = "select boardId, userId, boardTitle, boardContent, boardDate, boardViews "
 				   + "from FREE_BOARD_TB "
 				   + "where boardId=" + boardId;
 		Statement stmt = null;
@@ -93,14 +117,15 @@ public class FreeBoardDAO {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			if (rs.next()) {
-				FreeArticleDTO article = new FreeArticleDTO();
-				article.setBoardId(rs.getInt("boardId"));
-				article.setUserId(rs.getString("userId"));
-				article.setBoardTitle(rs.getString("boardTitle"));
-				article.setBoardContent(rs.getString("boardContent"));
-				article.setBoardDate(rs.getDate("boardDate"));
-				article.setBoardHit(rs.getInt("boardHit"));
-				return article;
+				FreePostDTO post = new FreePostDTO();
+				post.setBoardId(rs.getInt("boardId"));
+				post.setUserId(rs.getString("userId"));
+				post.setBoardTitle(rs.getString("boardTitle"));
+				post.setBoardContent(rs.getString("boardContent"));
+				post.setBoardDate(rs.getDate("boardDate"));
+				post.setBoardViews(rs.getInt("boardViews"));
+				IncreseViews(boardId, conn);//조회수 증가
+				return post;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -109,5 +134,19 @@ public class FreeBoardDAO {
 			JdbcUtil.close(rs, stmt, conn);
 		}
 		return null;
+	}
+	
+	private static void IncreseViews(int boardId, Connection conn) {
+		String sql = "update FREE_BOARD_TB set boardViews = boardViews + 1 WHERE boardId =" + boardId;
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(stmt);
+		}
 	}
 }
