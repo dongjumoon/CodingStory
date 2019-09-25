@@ -18,6 +18,8 @@ import model.FreePostDTO;
 public class FreeBoardDAO {
 	
 	private Connection conn;
+	public static final int MAX_PAGE_COUNT = 5; // 페이지 이동 태그 갯수 5 = << ? ? ? ? ? >>
+	public static final int PRINT_COUNT = 10; // 한 페이지에 나타낼 게시물의 수
 	
 	public FreeBoardDAO() {
 		try {
@@ -59,8 +61,8 @@ public class FreeBoardDAO {
 		ResultSet rs = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, (pageNum - 1) * 10);
-			pstmt.setInt(2, 10);
+			pstmt.setInt(1, (pageNum - 1) * PRINT_COUNT);
+			pstmt.setInt(2, PRINT_COUNT);
 			rs = pstmt.executeQuery();
 			List<FreePostDTO> freePostList = new ArrayList<>();
 			while (rs.next()) {
@@ -85,18 +87,19 @@ public class FreeBoardDAO {
 	
 	// 해당 페이지에서 보여줄 페이징 표시 갯수 구하기
 	public int getPageCount(int pageNum) {
-		String sql = "select ceil(COUNT(boardId) / 10) boardCount " + 
-					 "from (select boardId from FREE_BOARD_TB limit ?, 9999999) t1";
+		String sql = "select ceil(COUNT(boardId) / ?) boardCount " + 
+					 "from (select boardId from FREE_BOARD_TB limit ?, ?) t1";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			int pageAreaNum = (pageNum - 1) / 5 * 5;
-			pstmt.setInt(1, pageAreaNum * 10);
+			int pageAreaNum = (pageNum - 1) / MAX_PAGE_COUNT * MAX_PAGE_COUNT;
+			pstmt.setInt(1, PRINT_COUNT);
+			pstmt.setInt(2, pageAreaNum * PRINT_COUNT);
+			pstmt.setInt(3, MAX_PAGE_COUNT * PRINT_COUNT);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				int pageCount = rs.getInt(1);
-				return pageCount > 5 ? 5 : pageCount;
+				return rs.getInt(1);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

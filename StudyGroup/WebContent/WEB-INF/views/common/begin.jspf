@@ -52,7 +52,7 @@
 	<div id="blind"></div><!-- 위치 이동 금지(#gnb-switch+#gnb+#blind) 사용중 -->
 	<nav id="user-nav-bar">
 		<ul>
-					<li><a href="${contextPath}"><i class="fa fa-home user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">임시 홈버튼</span></a></li>
+					<li><a href="${contextPath == '' ? '/' : contextPath}"><i class="fa fa-home user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">임시 홈버튼</span></a></li>
 			<c:choose>
 				<c:when test="${user != null}">
 					<li>

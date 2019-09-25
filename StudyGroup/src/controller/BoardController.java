@@ -115,16 +115,20 @@ public class BoardController extends HttpServlet {
 			return;
 		}
 		List<FreePostDTO> freePostList = new FreeBoardDAO().getBoardList(pageInt);
-		if (freePostList != null) {
+		int pageCount = new FreeBoardDAO().getPageCount(pageInt);
+		if (freePostList != null || pageCount != -1) {
 			request.setAttribute("freePostList", freePostList);
 		} else {
 			request.getSession().setAttribute("message", "데이터 조회에 실패하였습니다.");
+			String contextPath = request.getContextPath();
+			response.sendRedirect(contextPath.length() == 0 ? "/" : contextPath);
+			return;
 		}
-		int pageCount = new FreeBoardDAO().getPageCount(pageInt);
-		int pageAreaNum = (pageInt - 1) / 5 * 5;
+		int maxPageCount = FreeBoardDAO.MAX_PAGE_COUNT;
+		int pageAreaNum = (pageInt - 1) / maxPageCount * maxPageCount;
 		int nextPageAreaNum;
-		if (pageCount == 5) {
-			nextPageAreaNum = pageAreaNum + 1 + 5;
+		if (pageCount == maxPageCount) {
+			nextPageAreaNum = pageAreaNum + maxPageCount + 1;
 		} else {
 			nextPageAreaNum = pageAreaNum + pageCount;
 		}
