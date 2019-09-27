@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.sign-up-form h3 {text-align:center; padding:30px; font-size:35px;}
+.sign-up-form fieldset {margin-top:20px;}
+.sign-up-form legend {text-indent:10px; font-size:23px;}
+.sign-up-form input:not([type=radio]) {width:100%; padding:10px; margin:10px 0;}
+.sign-up-form + section {max-width:600px; margin:auto;}
+.sign-up-form + section a {float:right; padding:7px; margin-top:15px; border:1px solid black;}
+.sign-up-form + section a:hover {background-color:#eee;}

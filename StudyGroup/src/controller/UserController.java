@@ -28,7 +28,7 @@ public class UserController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
 		} else if (action.equals("signUp")) {
 			request.setAttribute("title", "회원가입");
-			request.getRequestDispatcher("/WEB-INF/views/user/signUp.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/user/sign_up.jsp").forward(request, response);
 		} else if(action.equals("logout")) {
 			request.getSession().invalidate();
 			String contextPath = request.getContextPath();
@@ -68,7 +68,7 @@ public class UserController extends HttpServlet {
 				request.getSession().setAttribute("message", "데이터베이스 오류로 가입에 실패하였습니다.");
 			}
 			request.setAttribute("title", "회원가입");
-			request.getRequestDispatcher("/WEB-INF/views/user/signUp.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/user/sign_up.jsp").forward(request, response);
 		} else if (action.equals("login")) {
 			String id = request.getParameter("id");
 			String pw = request.getParameter("pw");

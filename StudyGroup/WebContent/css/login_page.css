@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+.login-form legend {text-align:center; padding:30px; font-size:35px;}
+.login-form input {width:100%; padding:10px;}
+.login-form input[type=password] {margin:10px 0 20px;}
+.login-form + section {max-width:600px; margin:auto;}
+.login-form + section a {float:right; padding:7px; margin-top:15px; border:1px solid black;}
+.login-form + section a:hover {background-color:#eee;}

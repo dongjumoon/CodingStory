@@ -33,7 +33,7 @@
 					<option value="">게시판검색</option>
 				</select>
 				<span class="screen-out">검색어 :</span><input type="search" name="search" id="search">
-				<button type="submit"><i class="fa fa-search mousePointer" aria-hidden="true"></i><span class="screen-out">검색</span></button>
+				<button type="submit"><i class="fa fa-search mouse-cursor" aria-hidden="true"></i><span class="screen-out">검색</span></button>
 			</fieldset>
 		</form>
 	</div>
