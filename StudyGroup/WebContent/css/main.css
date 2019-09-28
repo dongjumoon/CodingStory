@@ -12,6 +12,7 @@ a {color:black;}
 #blind {position:fixed; display:none; width:100%; top:0; height:100vh; background-color:rgba(0,0,0,.5); z-index:110;}
 body {font-family:'굴림', sans-serif;}
 button {border:none; outline:none; background-color: transparent;}
+address {font-style:normal;}
 
 /* -- main -- */
 /* header */

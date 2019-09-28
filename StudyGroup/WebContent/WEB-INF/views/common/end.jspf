@@ -1,8 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 </section>
+<style>
+	address p {padding:5px 0;}
+	address p span {font-size:20px;}
+	address span {font-size:15px;}
+	address a {font-size:18px; padding:0 5px;}
+</style>
 <footer>
-	<address>address....?</address>
+	<address>
+		<p>
+			<span>CodingStory _DongJu.Moon</span>
+		</p>
+		<p>
+			<a href="https://github.com/mdj44518" target="_blenk"><i class="fa fa-github" aria-hidden="true"></i> 깃허브</a>
+			<a href="https://blog.naver.com/esj44518" target="_blenk"><i class="fa fa-address-card-o" aria-hidden="true"></i> 블로그</a>
+		</p>
+	</address>
 </footer>
 </div>
 <script src="${contextPath}/js/main.js"></script>
