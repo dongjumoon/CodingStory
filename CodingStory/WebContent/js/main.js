@@ -159,7 +159,7 @@ function updateChatList() {
 				);
 				chatBox.append(li);
 			}
-			if (maxScroll) chatBox.scrollTop(2000);
+			if (maxScroll) chatBox.scrollTop(chatBox[0].scrollHeight);
 		}
 	});
 }

@@ -7,11 +7,11 @@
 	<p>${post.boardDate}</p>
 	<p>${post.boardContent}</p>
 </div>
-<div>
-	<c:forEach begin="0" end="4">
-		<p>댓글댓글</p>
-	</c:forEach>
-	<!-- 댓글페이징? -->
-	<textarea rows="3" cols="30"></textarea>
-	<button>댓글작성</button>
-</div>
+<!-- <div> -->
+<%-- 	<c:forEach begin="0" end="4"> --%>
+<!-- 		<p>댓글댓글</p> -->
+<%-- 	</c:forEach> --%>
+<!-- 	<!-- 댓글페이징? --> -->
+<!-- 	<textarea rows="3" cols="30"></textarea> -->
+<!-- 	<button>댓글작성</button> -->
+<!-- </div> -->

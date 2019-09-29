@@ -24,7 +24,7 @@
 <header>
 	<h1>${title == null ? '코딩 이야기' : title}</h1>
 	<div id="search-form">
-		<form action="${contextPath}/search">
+		<form action="${contextPath}/board/search">
 			<fieldset>
 				<legend class="screen-out">메인 검색창</legend>
 				<select name="searchArea">

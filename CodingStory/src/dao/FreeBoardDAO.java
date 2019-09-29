@@ -88,6 +88,41 @@ public class FreeBoardDAO {
 		
 	}
 	
+	public List<FreePostDTO> getBoardList(String search) {
+		String sql = "select boardId, boardTitle, userId, boardViews, " + 
+					 "	     if(date(now()) = date(boardDate), " + 
+					 "		 date_format(boardDate,'%H:%i'), " + 
+					 "		 date(boardDate)) boardDate " + 
+					 "from FREE_BOARD_TB " + 
+					 "where boardTitle like concat('%"+search+"%')" + 
+					 "order by boardId desc " + 
+					 "limit 0, 20";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			List<FreePostDTO> freePostList = new ArrayList<>();
+			while (rs.next()) {
+				FreePostDTO row = new FreePostDTO();
+				row.setBoardId(rs.getInt("boardId"));
+				row.setBoardTitle(rs.getString("boardTitle"));
+				row.setUserId(rs.getString("userId"));
+				row.setBoardDate(rs.getString("boardDate"));
+				row.setBoardViews(rs.getInt("boardViews"));
+				freePostList.add(row);
+			}
+			return freePostList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt, conn);
+		}
+		return null;
+		
+	}
+	
 	// 해당 페이지에서 보여줄 페이징 표시 갯수 구하기
 	public int getPageCount(int pageNum) {
 		String sql = "select ceil(COUNT(boardId) / ?) boardCount " + 

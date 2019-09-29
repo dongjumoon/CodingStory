@@ -63,6 +63,32 @@ public class BoardController extends HttpServlet {
 				request.setAttribute("title", "페이지 요청 오류");
 				request.getRequestDispatcher("/error404").forward(request, response);
 			}
+		} else if (action.equals("search")) {
+			String searchArea = request.getParameter("searchArea");
+			String search = request.getParameter("search");
+			if (searchArea == null || search == null) {
+				request.getSession().setAttribute("message", "잘못된 접근입니다.");
+				response.sendRedirect(request.getContextPath().equals("") ? "/" : request.getContextPath());
+			}
+			
+			if (searchArea.equals("all")) {
+				//추후 영상게시판도..!
+				
+				//자유게시판
+				List<FreePostDTO> freePostList = new FreeBoardDAO().getBoardList(search);
+				if (freePostList != null) request.setAttribute("freePostList", freePostList);
+				request.setAttribute("title", "종합 검색 결과");
+				request.getRequestDispatcher("/WEB-INF/views/board/search_result_page.jsp").forward(request, response);
+			} else if (searchArea.equals("free")) {
+				List<FreePostDTO> freePostList = new FreeBoardDAO().getBoardList(search);
+				if (freePostList != null) request.setAttribute("freePostList", freePostList);
+				request.setAttribute("title", "자유게시판 검색");
+				request.getRequestDispatcher("/WEB-INF/views/board/free_board.jsp").forward(request, response);
+			} else if (searchArea.equals("video")) {
+				response.sendRedirect(request.getContextPath() + "/board/video");
+			} else {
+				response.sendRedirect("/error404");
+			}
 		} else {
 			request.setAttribute("title", "페이지 요청 오류");
 			request.getRequestDispatcher("/error404").forward(request, response);
