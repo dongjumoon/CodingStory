@@ -151,22 +151,44 @@ $("#wrap").click(searchModeOff);
 //</section>
 
 //메세지함이 있을때만?
-if($("#message-box").get(0) !== undefined) {
+var contextPath = location.href.match("localhost") == null ? "" : "/CodingStory";
+function updateChatList() {
 	$.ajax({
-		url: "/StudyGroup/chat",
+		url: contextPath + "/chat",
 		type: "post",
 		dataType: "json",
 		success : function(data){
-			var li = $("<li/>");
-			li.append(
-				$("<p/>").text(data.user),
-				$("<p/>").text(data.chatTime),
-				$("<p/>").text(data.chatContent)
-			);
-			$("#chat-box").append(li);
-		},
-		error : function(){
-			alert("채팅목록 불러오기 실패");
+			var chatBox = $("#chat-box");
+			chatBox.empty();
+			for (var i = 0; i < data.length; i++) {
+				var li = $("<li/>");
+				li.append(
+					$("<p/>").text(data[i].fromUserId),
+					$("<p/>").text(data[i].chatDate),
+					$("<p/>").text(data[i].chatContent)
+				);
+				chatBox.append(li);
+			}
+			chatBox.scrollTop(chatBox[0].scrollHeight);
 		}
 	});
 }
+if($("#message-box")[0] !== undefined) {
+	updateChatList();
+	$('#chat-content').keydown(function(event){
+		var e = event ? event : window.event;
+		if (e.keyCode == 13) {
+			$.ajax({
+				url: contextPath + "/addChat",
+				type: "post",
+				data: {chatContent:$(this).val()},
+				dataType: "json"
+			});
+			$(this).val("");
+			updateChatList();
+			return false;
+		}
+	});
+	setInterval(updateChatList, 3000);
+}
+
