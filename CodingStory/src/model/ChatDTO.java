@@ -1,11 +1,9 @@
 package model;
 
-import java.sql.Date;
-
 public class ChatDTO {
 	private int chatId;
 	private String fromUserId;
-	private Date chatDate;
+	private String chatDate;
 	private String chatContent;
 	
 	public int getChatId() {
@@ -20,10 +18,10 @@ public class ChatDTO {
 	public void setFromUserId(String fromUserId) {
 		this.fromUserId = fromUserId;
 	}
-	public Date getChatDate() {
+	public String getChatDate() {
 		return chatDate;
 	}
-	public void setChatDate(Date chatDate) {
+	public void setChatDate(String chatDate) {
 		this.chatDate = chatDate;
 	}
 	public String getChatContent() {

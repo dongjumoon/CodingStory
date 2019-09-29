@@ -139,19 +139,7 @@ function searchModeOff() {
 };
 $("#wrap").click(searchModeOff);
 
-//<section id="message-box">
-//<h3 class="screen-out">채팅창</h3>
-//<ul id="chat-box">
-//	<li>
-//		<p>문동주<p>
-//		<p>15:30</p>
-//		<p>대화 내요입니다.22</p>
-//	</li>
-//</ul>
-//</section>
-
-//메세지함이 있을때만?
-var contextPath = location.href.match("localhost") == null ? "" : "/CodingStory";
+var contextPath = location.href.match("localhost") == null ? "" : "/CodingStory";//로컬에서 테스트할때마다 바꿔주지 않기위해
 function updateChatList() {
 	$.ajax({
 		url: contextPath + "/chat",
@@ -159,6 +147,8 @@ function updateChatList() {
 		dataType: "json",
 		success : function(data){
 			var chatBox = $("#chat-box");
+			//현재 스크롤을 끝까지 내린 상태인지.
+			var maxScroll = chatBox.scrollTop() === chatBox[0].scrollHeight - chatBox.height();
 			chatBox.empty();
 			for (var i = 0; i < data.length; i++) {
 				var li = $("<li/>");
@@ -169,10 +159,11 @@ function updateChatList() {
 				);
 				chatBox.append(li);
 			}
-			chatBox.scrollTop(chatBox[0].scrollHeight);
+			if (maxScroll) chatBox.scrollTop(2000);
 		}
 	});
 }
+//로그인 한 회원이라면 message-box 가 존재함.
 if($("#message-box")[0] !== undefined) {
 	updateChatList();
 	$('#chat-content').keydown(function(event){
@@ -192,3 +183,7 @@ if($("#message-box")[0] !== undefined) {
 	setInterval(updateChatList, 3000);
 }
 
+$("#help-switch").click(function(){
+    $(".help-message").toggleClass("screen-out");
+    return false;
+});

@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import model.ChatDTO;
 
 public class ChatDAO {
+	private static final int RETURN_CHAT_COUNT = 20;
 	private Connection conn;
 	
 	public ChatDAO() {
@@ -52,15 +53,22 @@ public class ChatDAO {
 	}
 	
 	public List<ChatDTO> getChatList() {
-		String sql = "select chatId, fromUserId, chatDate, chatContent from CHAT_TB order by chatDate limit ?, ?";
+		String sql = "SELECT chatId, fromUserId, chatContent, chatTime " + 
+					 "FROM (SELECT chatId, fromUserId, chatContent, chatDate, " + 
+					 "		       if(DATE(NOW()) = DATE(chatDate), " + 
+					 "		       DATE_FORMAT(chatDate,'%H:%i'), " + 
+					 "		       DATE_FORMAT(chatDate,'%c월%e일')) chatTime " + 
+					 "      FROM CHAT_TB " + 
+					 "      ORDER BY chatDate desc " + 
+					 "      LIMIT ?) t1 " + 
+					 "ORDER BY chatDate";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		
 		try {
 			pstmt= conn.prepareStatement(sql);
-			pstmt.setInt(1, 0);
-			pstmt.setInt(2, 200);
+			pstmt.setInt(1, RETURN_CHAT_COUNT);
 			
 			rs = pstmt.executeQuery();
 			List<ChatDTO> chatList = new ArrayList<>();
@@ -68,7 +76,7 @@ public class ChatDAO {
 				ChatDTO row = new ChatDTO();
 				row.setChatId(rs.getInt("chatId"));
 				row.setFromUserId(rs.getString("fromUserId"));
-				row.setChatDate(rs.getDate("chatDate"));
+				row.setChatDate(rs.getString("chatTime"));
 				row.setChatContent(rs.getString("chatContent"));
 				chatList.add(row);
 			}

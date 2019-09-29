@@ -24,13 +24,13 @@
 <header>
 	<h1>${title == null ? '코딩 이야기' : title}</h1>
 	<div id="search-form">
-		<form action="#">
+		<form action="${contextPath}/search">
 			<fieldset>
 				<legend class="screen-out">메인 검색창</legend>
-				<select name="searchSelet">
-					<option value="">전체검색</option>
-					<option value="">영상검색</option>
-					<option value="">게시판검색</option>
+				<select name="searchArea">
+					<option value="all">전체검색</option>
+					<option value="video">영상검색</option>
+					<option value="free">게시판검색</option>
 				</select>
 				<span class="screen-out">검색어 :</span><input type="search" name="search" id="search">
 				<button type="submit"><i class="fa fa-search mouse-cursor" aria-hidden="true"></i><span class="screen-out">검색</span></button>
@@ -46,7 +46,6 @@
 		<ul>
 			<li><a href="${contextPath}/board/video">(x)영상게시판</a></li>
 			<li><a href="${contextPath}/board/free">자유게시판</a></li>
-			<li><a href="/fitness">(테스트)다른프로젝트</a></li>
 		</ul>
 	</nav>
 	<div id="blind"></div><!-- 위치 이동 금지(#gnb-switch+#gnb+#blind) 사용중 -->
@@ -69,10 +68,28 @@
 							<textarea id="chat-content" rows="3" cols="35"></textarea>
 						</section>
 					</li>	
-					<li><a href="${contextPath}/user/logout"><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">로그아웃</span></a></li>
+					<li><a href="${contextPath}/user/logout"><i class="fa fa-sign-out user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">로그아웃</span></a></li>
 				</c:when>
 				<c:otherwise>
-					<li><a href="#"><i class="fa fa-question user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">도움말</span></a></li>
+					<li>
+						<a href="#" id="help-switch">
+							<i class="fa fa-question user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">도움말</span>
+						</a>
+						<div class="help-message screen-out"><p>
+							안녕하세요~!<br>
+							코딩이야기에 오신걸 환영합니다<br>
+							잠시 홈페이지를 둘러 보실 분은<br>
+							테스트 아이디로 접속하여 이용 가능합니다</p>
+							<form action="${contextPath}/user/login" method="post">
+								<fieldset>
+									<legend class="screen-out">테스트아이디 로그인</legend>
+										<input type="hidden" name="id" value="tester">
+										<input type="hidden" name="pw" value="1234">
+										<input type="submit" value="바로 접속하기" class="mouse-cursor">
+								</fieldset>
+							</form>
+						</div>
+					</li>
 					<li><a href="${contextPath}/user/login" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
 				</c:otherwise>
 			</c:choose>

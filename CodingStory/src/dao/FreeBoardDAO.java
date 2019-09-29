@@ -53,10 +53,13 @@ public class FreeBoardDAO {
 	}
 
 	public List<FreePostDTO> getBoardList(int pageNum) {
-		String sql = "select boardId, boardTitle, userId, boardDate, boardViews "
-				   + "from FREE_BOARD_TB "
-				   + "order by boardId desc "
-				   + "limit ?, ?";
+		String sql = "select boardId, boardTitle, userId, boardViews, " + 
+					 "	     if(date(now()) = date(boardDate), " + 
+					 "		 date_format(boardDate,'%H:%i'), " + 
+					 "		 date(boardDate)) boardDate " + 
+					 "from FREE_BOARD_TB " + 
+					 "order by boardId desc " + 
+					 "limit ?, ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
@@ -70,7 +73,7 @@ public class FreeBoardDAO {
 				row.setBoardId(rs.getInt("boardId"));
 				row.setBoardTitle(rs.getString("boardTitle"));
 				row.setUserId(rs.getString("userId"));
-				row.setBoardDate(rs.getDate("boardDate"));
+				row.setBoardDate(rs.getString("boardDate"));
 				row.setBoardViews(rs.getInt("boardViews"));
 				freePostList.add(row);
 			}
@@ -111,9 +114,12 @@ public class FreeBoardDAO {
 	}
 	
 	public FreePostDTO getPost(int boardId) {
-		String sql = "select boardId, userId, boardTitle, boardContent, boardDate, boardViews "
-				   + "from FREE_BOARD_TB "
-				   + "where boardId=" + boardId;
+		String sql = "select boardId, userId, boardTitle, boardContent, boardViews, " +
+  				     "	     if(date(now()) = date(boardDate), " +
+  				     "		 date_format(boardDate,'%H:%i'), " +
+  				     "		 date(boardDate)) boardDate " +
+				     "from FREE_BOARD_TB " +
+				     "where boardId=" + boardId;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -125,7 +131,7 @@ public class FreeBoardDAO {
 				post.setUserId(rs.getString("userId"));
 				post.setBoardTitle(rs.getString("boardTitle"));
 				post.setBoardContent(rs.getString("boardContent"));
-				post.setBoardDate(rs.getDate("boardDate"));
+				post.setBoardDate(rs.getString("boardDate"));
 				post.setBoardViews(rs.getInt("boardViews"));
 				IncreseViews(boardId, conn);//조회수 증가
 				return post;
