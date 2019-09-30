@@ -34,16 +34,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<!-- 임시 스타일 -->
-	<style>
-		#dv {overflow:hidden; margin-top:10px; text-align:center;}
-    	#dv>a {display:bloak; float:right; padding:7px; border:1px solid black; border-radius:10px;}
-    	#dv+nav {text-align:center; margin-top:10px;}
-    	#dv+nav a {padding:5px;}
-    	.pick {font-weight:bold;}
-    </style>
-    
-	<div id="dv">
+	<div class="board-btn-box">
 		<a href="${contextPath}/board/free/write.user">글쓰기</a>
 	</div>
 	<c:if test="${param.search == null}">
@@ -59,7 +50,7 @@
 			var page = '${param.page}';
 			if (page == '') page = '1';
 			
-			$('#dv+nav a').each(function (index, item) {
+			$('.board-btn-box+nav a').each(function (index, item) {
 				if ($(this).text() === page) {
 					$(this).css({"font-weight": "bold", "font-size": "20px"});
 				}

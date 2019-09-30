@@ -24,9 +24,9 @@
 				</div>
 			</li>
 			<li>
-				<h4 class="screen-out">포프TV : 전지적 면접관 시점</h4>
+				<h4 class="screen-out">포프TV : 올바른 변수 이름 짓는법</h4>
 				<div class="video-box">
-				<iframe src="https://www.youtube.com/embed/QOqUrMzOTcw" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+				<iframe src="https://www.youtube.com/embed/ZtkIwGZZAq8" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></iframe>
 				</div>
 			</li>
 			<li>

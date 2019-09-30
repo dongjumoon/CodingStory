@@ -66,8 +66,8 @@ h1 {display:none;}
 	display:none; position:absolute; width:300px; padding:10px;
 	background-color:white; box-shadow:0 0 12px; right:0;}
 #message-box-switch:checked + #message-box {display:block;}
-#message-box-switch + #message-box {max-height:90vh;}
-#message-box-switch + #message-box ul {height:600px; max-height:70vh; overflow:auto; overflow-x:hidden;}
+#message-box-switch + #message-box {height:70vh;}
+#message-box-switch + #message-box ul {height:calc(100% - 45px); overflow:auto; overflow-x:hidden;}
 #message-box-switch + #message-box li {float:none; margin-bottom:10px;}
 #chat-box p:nth-child(1) {font-size:15px;}
 #chat-box p:nth-child(2) {font-size:12px; color:#999;}
@@ -93,7 +93,25 @@ h1 {display:none;}
 #contents .board table tbody td:nth-child(2) a:hover {text-decoration:underline;}
 #contents .board table td {border-bottom: 1px solid #bbb; padding:10px;}
 
+.write-form legend {text-align:center;}
+.write-form {max-width:600px;margin:auto;}
+.write-form input {width:100%;margin:20px 0 10px; padding:7px;}
+.write-form textarea {width:100%; padding:7px;}
+
+.board-btn-box {overflow:hidden; margin-top:10px; text-align:center;}
+.board-btn-box>a {display:bloak; float:right; padding:7px; border:1px solid black; border-radius:10px; margin-left:5px;}
+.board-btn-box+nav {text-align:center; margin-top:10px;}
+.board-btn-box+nav a {padding:5px;}
+.post-viewer {text-align:center;}
+.post-viewer h4 {font-size:35px;padding:30px 0 2px;}
+.post-viewer p:nth-child(5) {margin-top:40px; min-height:200px; text-align-last:left; line-height:30px;}
+
+
 /* footer */
 footer {max-width:1500px; min-height:90px; margin:auto; background-color:#FBF8EF; box-shadow:2px 2px 5px -5px; }
-footer address {text-align:center;}
+footer address {text-align:center; color:#777;}
+footer address a {font-size:18px; padding:0 5px; color:#777;}
 footer address a:hover {text-decoration:underline;}
+footer address p {padding:5px 0;}
+footer address p span {font-size:20px;}
+footer address span {font-size:15px;}

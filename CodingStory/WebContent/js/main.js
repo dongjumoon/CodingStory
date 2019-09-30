@@ -148,7 +148,7 @@ function updateChatList() {
 		success : function(data){
 			var chatBox = $("#chat-box");
 			//현재 스크롤을 끝까지 내린 상태인지.
-			var maxScroll = chatBox.scrollTop() === chatBox[0].scrollHeight - chatBox.height();
+			var isMaxScroll = chatBox.scrollTop() === chatBox[0].scrollHeight - chatBox.height();
 			chatBox.empty();
 			for (var i = 0; i < data.length; i++) {
 				var li = $("<li/>");
@@ -159,7 +159,7 @@ function updateChatList() {
 				);
 				chatBox.append(li);
 			}
-			if (maxScroll) chatBox.scrollTop(chatBox[0].scrollHeight);
+			if (isMaxScroll) chatBox.scrollTop(chatBox[0].scrollHeight);
 		}
 	});
 }
@@ -168,7 +168,7 @@ if($("#message-box")[0] !== undefined) {
 	updateChatList();
 	$('#chat-content').keydown(function(event){
 		var e = event ? event : window.event;
-		if (e.keyCode == 13) {
+		if (e.keyCode == 13) {//엔터키라면.
 			$.ajax({
 				url: contextPath + "/addChat",
 				type: "post",
@@ -182,8 +182,22 @@ if($("#message-box")[0] !== undefined) {
 	});
 	setInterval(updateChatList, 3000);
 }
+//메세지창 스크롤 가장 아래로
+function lastChatView(){
+	var isChecked = $(this).is(":checked");
+	if (isChecked) {
+		var box = $("#chat-box");
+		box.scrollTop(box[0].scrollHeight);
+	}
+}
+$("#message-box-switch").click(lastChatView);
+$("#message-box").resize(lastChatView);
 
 $("#help-switch").click(function(){
     $(".help-message").toggleClass("screen-out");
     return false;
+});
+
+$(".delete-btn").click(function(){
+	return confirm("정말 삭제하시겠습니까?");
 });

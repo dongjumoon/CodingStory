@@ -1,17 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<h2>${post.boardTitle}</h2>
-<div>
-	<p>${post.boardViews}</p>
-	<p>${post.userId}</p>
+<h2 class="screen-out">글 내용</h2>
+<section class="post-viewer">
+	<h4>${post.boardTitle}</h4>
 	<p>${post.boardDate}</p>
+	<p>조회수 ${post.boardViews}</p>
+	<p>${post.userId}</p>
 	<p>${post.boardContent}</p>
-</div>
-<!-- <div> -->
-<%-- 	<c:forEach begin="0" end="4"> --%>
-<!-- 		<p>댓글댓글</p> -->
-<%-- 	</c:forEach> --%>
-<!-- 	<!-- 댓글페이징? --> -->
-<!-- 	<textarea rows="3" cols="30"></textarea> -->
-<!-- 	<button>댓글작성</button> -->
-<!-- </div> -->
+<c:if test="${user == post.userId}">
+	<div class="board-btn-box">
+		<a href="delete?boardId=${post.boardId}" class="delete-btn">삭제</a>
+		<a href="update?boardId=${post.boardId}">수정</a>
+	</div>
+</c:if>
+</section>

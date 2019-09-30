@@ -16,11 +16,14 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td colspan="5">영상게시판은 준비중입니다..</td>
+				<td></td>
+				<td colspan="4">영상게시판은 준비중입니다..</td>
 			</tr>
 		</tbody>
 	</table>
-	<p><a href="${contextPath}/board/video/write.user">글쓰기</a></p>
+	<div class="board-btn-box">
+		<a href="${contextPath}/board/video/write.user">글쓰기</a>
+	</div>
 </section>
 <section class="board">
 	<h3><a href="${contextPath}/board/free">자유 게시판 '${param.search}' 검색결과</a></h3>
@@ -38,7 +41,8 @@
 		<tbody>
 			<c:if test="${freePostList.size() == 0}">
 				<tr>
-					<td colspan="5">검색 결과가 없습니다.</td>
+					<td></td>
+					<td colspan="4">검색결과가 없습니다.</td>
 				</tr>
 			</c:if>
 			<c:forEach var="post" items="${freePostList}">
@@ -52,13 +56,7 @@
 			</c:forEach>
 		</tbody>
 	</table>
-	<!-- 임시 스타일 -->
-	<style>
-		#dv {overflow:hidden; margin-top:10px; text-align:center;}
-    	#dv>a {display:bloak; float:right; padding:7px; border:1px solid black; border-radius:10px;}
-    </style>
-    
-	<div id="dv">
+	<div class="board-btn-box">
 		<a href="${contextPath}/board/free/write.user">글쓰기</a>
 	</div>
 </section>

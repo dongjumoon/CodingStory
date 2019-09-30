@@ -24,5 +24,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<p><a href="${contextPath}/board/video/write.user">글쓰기</a></p>
+	<div class="board-btn-box">
+		<a href="${contextPath}/board/video/write.user">글쓰기</a>
+	</div>
 </section>

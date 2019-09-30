@@ -1,20 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 </section>
-<style>
-	address p {padding:5px 0;}
-	address p span {font-size:20px;}
-	address span {font-size:15px;}
-	address a {font-size:18px; padding:0 5px;}
-</style>
 <footer>
 	<address>
 		<p>
 			<span>CodingStory _DongJu.Moon</span>
 		</p>
 		<p>
-			<a href="https://github.com/mdj44518" target="_blenk"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>
-			<a href="https://blog.naver.com/esj44518" target="_blenk"><i class="fa fa-address-card-o" aria-hidden="true"></i> Blog</a>
+			<a href="https://github.com/mdj44518" target="_blank" title="깃허브 새창열기"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>
+			<a href="https://blog.naver.com/esj44518" target="_blank" title="블로그 새창열기"><i class="fa fa-address-card-o" aria-hidden="true"></i> Blog</a>
 		</p>
 	</address>
 </footer>

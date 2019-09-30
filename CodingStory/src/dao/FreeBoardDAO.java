@@ -51,6 +51,42 @@ public class FreeBoardDAO {
 		}
 		return -1;
 	}
+	
+	public int update(int boardId, String title, String content) {
+		String sql = "update FREE_BOARD_TB set boardTitle = ?, boardContent = ? where boardId = ?";
+		
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setInt(3, boardId);
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt, conn);
+		}
+		return -1;
+	}
+	
+	public int delete(int boardId) {
+		String sql = "delete from FREE_BOARD_TB where boardId = " + boardId;
+		
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			return stmt.executeUpdate(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(stmt, conn);
+		}
+		return -1;
+	}
 
 	public List<FreePostDTO> getBoardList(int pageNum) {
 		String sql = "select boardId, boardTitle, userId, boardViews, " + 
@@ -168,7 +204,6 @@ public class FreeBoardDAO {
 				post.setBoardContent(rs.getString("boardContent"));
 				post.setBoardDate(rs.getString("boardDate"));
 				post.setBoardViews(rs.getInt("boardViews"));
-				IncreseViews(boardId, conn);//조회수 증가
 				return post;
 			}
 		} catch (SQLException e) {
@@ -180,7 +215,7 @@ public class FreeBoardDAO {
 		return null;
 	}
 	
-	private static void IncreseViews(int boardId, Connection conn) {
+	public void increseViews(int boardId) {
 		String sql = "update FREE_BOARD_TB set boardViews = boardViews + 1 WHERE boardId =" + boardId;
 		Statement stmt = null;
 		try {
@@ -190,7 +225,8 @@ public class FreeBoardDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			JdbcUtil.close(stmt);
+			JdbcUtil.close(stmt, conn);
 		}
 	}
+	
 }
