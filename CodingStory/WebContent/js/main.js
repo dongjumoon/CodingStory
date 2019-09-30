@@ -63,7 +63,19 @@ $("#virtual-elements").click(function(event){
 $("#blind").click(function(){
 	gnbSwitchOff();
 });
+
+//메세지창 스크롤 가장 아래로
+function lastChatView(){
+	var isChecked = $("#message-box-switch").is(":checked");
+	if (isChecked) {
+		var box = $("#chat-box");
+		box.scrollTop(box[0].scrollHeight);
+	}
+}
+$("#message-box-switch").click(lastChatView);
+
 $(window).resize(function(){
+	lastChatView();//채팅창 열려있으면 가장 아래로 스크롤
 	var isGnbSwitchOn = $("#gnb-switch").get(0).checked;
 	var htmlWidth = getHtmlWidth();
 	if (isGnbSwitchOn) {
@@ -94,6 +106,7 @@ $(window).ready(function(){
 	var isDesktop = htmlWidth > 1024;
 	if (isDesktop) {
 		$("#gnb-switch-label").click();
+		$("#gnb-switch")[0].checked = true;
 	} else {
 		var userNavBarWidth = $("#user-nav-bar").width();
 		$("#search-form button[type=submit]").css("right", userNavBarWidth + 10);
@@ -157,6 +170,10 @@ function updateChatList() {
 					$("<p/>").text(data[i].chatDate),
 					$("<p/>").text(data[i].chatContent)
 				);
+				console.log()
+				if (data[i].fromUserId === userId) {
+					li.addClass("my-msg");
+				}
 				chatBox.append(li);
 			}
 			if (isMaxScroll) chatBox.scrollTop(chatBox[0].scrollHeight);
@@ -182,16 +199,7 @@ if($("#message-box")[0] !== undefined) {
 	});
 	setInterval(updateChatList, 3000);
 }
-//메세지창 스크롤 가장 아래로
-function lastChatView(){
-	var isChecked = $(this).is(":checked");
-	if (isChecked) {
-		var box = $("#chat-box");
-		box.scrollTop(box[0].scrollHeight);
-	}
-}
-$("#message-box-switch").click(lastChatView);
-$("#message-box").resize(lastChatView);
+
 
 $("#help-switch").click(function(){
     $(".help-message").toggleClass("screen-out");

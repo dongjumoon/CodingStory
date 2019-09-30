@@ -19,6 +19,7 @@
 	</script>
 	<% session.removeAttribute("message"); %>
 </c:if>
+<script>const userId = '${user}';</script>
 </head>
 <body>
 <header>
