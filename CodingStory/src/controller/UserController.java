@@ -76,6 +76,7 @@ public class UserController extends HttpServlet {
 			if (result == 1) {
 				HttpSession session = request.getSession();
 				session.setAttribute("user", id);
+				if (id.equals("tester")) session.removeAttribute("resultURI");//테스터는 무조건 홈으로
 				// 로그인화면 오기 전 페이지로
 				String resultURI = (String)session.getAttribute("resultURI");
 				if (resultURI != null) {

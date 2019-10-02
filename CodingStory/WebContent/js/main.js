@@ -72,7 +72,10 @@ function lastChatView(){
 		box.scrollTop(box[0].scrollHeight);
 	}
 }
-$("#message-box-switch").click(lastChatView);
+$("#message-box-switch-label").click(function(){
+	$("#message-box-switch").click();
+	lastChatView();
+});
 
 $(window).resize(function(){
 	lastChatView();//채팅창 열려있으면 가장 아래로 스크롤
@@ -170,7 +173,6 @@ function updateChatList() {
 					$("<p/>").text(data[i].chatDate),
 					$("<p/>").text(data[i].chatContent)
 				);
-				console.log()
 				if (data[i].fromUserId === userId) {
 					li.addClass("my-msg");
 				}

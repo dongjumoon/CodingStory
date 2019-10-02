@@ -56,8 +56,8 @@
 			<c:choose>
 				<c:when test="${user != null}">
 					<li>
-						<label for="message-box-switch">
-							<a><i class="fa fa-commenting user-nav-bar-font" aria-hidden="true"></i>
+						<label id="message-box-switch-label">
+							<a class="mouse-cursor"><i class="fa fa-commenting user-nav-bar-font" aria-hidden="true"></i>
 							<span class="screen-out">메세지함</span></a>
 						</label>
 						<input type="checkbox" id="message-box-switch" class="screen-out">
@@ -66,7 +66,7 @@
 							<ul id="chat-box">
 							
 							</ul>
-							<textarea id="chat-content" rows="3" cols="35"></textarea>
+							<textarea id="chat-content" rows="3"></textarea>
 						</section>
 					</li>	
 					<li><a href="${contextPath}/user/logout"><i class="fa fa-sign-out user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">로그아웃</span></a></li>
@@ -80,15 +80,17 @@
 							안녕하세요~!<br>
 							코딩이야기에 오신걸 환영합니다<br>
 							잠시 홈페이지를 둘러 보실 분은<br>
-							테스트 아이디로 접속하여 이용 가능합니다</p>
+							테스트 아이디로 접속하여<br>
+							이용 가능합니다</p>
 							<form action="${contextPath}/user/login" method="post">
 								<fieldset>
 									<legend class="screen-out">테스트아이디 로그인</legend>
 										<input type="hidden" name="id" value="tester">
 										<input type="hidden" name="pw" value="1234">
-										<input type="submit" value="바로 접속하기" class="mouse-cursor">
+										<input type="submit" value="바로 접속하기" class="mouse-cursor help-btn">
 								</fieldset>
 							</form>
+							<a href="https://blog.naver.com/esj44518/221664572422" target="_blank" title="블로그 바로가기" class="help-btn help-atag">빠른 사용 영상보기</a>
 						</div>
 					</li>
 					<li><a href="${contextPath}/user/login" id="login-atag"><span><i class="fa fa-user-circle user-nav-bar-font" aria-hidden="true"></i> 로그인</span></a></li>
