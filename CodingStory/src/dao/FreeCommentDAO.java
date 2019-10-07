@@ -52,7 +52,7 @@ public class FreeCommentDAO {
 	}
 	
 	public List<FreeCommentDTO> getCommentList(int boardId) {
-		String sql = "select cmtUser, cmtContent, cmtDate from FREE_COMMENT_TB where parentId = ? order dy cmtId desc";
+		String sql = "select cmtUser, cmtContent, cmtDate from FREE_COMMENT_TB where parentId = ? order by cmtId";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

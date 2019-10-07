@@ -21,27 +21,13 @@
 	.comment-list .comment-write button {width:50px; height:47px; background-color:#da6;}
 	.comment-list li {padding:20px 0;}
 	.comment-list li p:not(:last-child) {display:inline-block;}
-	.comment-list li p:nth-child(2) {font-size:12px; color:#aaa}
+	.comment-list li p:nth-child(2) {font-size:12px; color:#aaa; padding-left:5px;}
 	.comment-list li p:last-child {padding-top:10px;}
 </style>
 <section class="comment-list">
 	<h4 class="screen-out">댓글란</h4>
 	<ul>
-		<li>
-			<p>mdj44518</p>
-			<p>15:20</p>
-			<p>멋진 생각이네요 !</p>
-		</li>
-		<li>
-			<p>mdj44518</p>
-			<p>15:20</p>
-			<p>멋진 생각이네요 !</p>
-		</li>
-		<li>
-			<p>mdj44518</p>
-			<p>15:20</p>
-			<p>멋진 생각이네요 !</p>
-		</li>
+		<!-- 댓글 목록 -->
 	</ul>
 	<div class="comment-write">
 		<textarea></textarea>
@@ -49,22 +35,47 @@
 	</div>
 </section>
 <script>
-// 	var boardId = ${post.boardId};
-// 	$.ajax({
-// 		url: "${contextPath}" + "/comment",
-// 		type:"post",
-// 		data:boardId,
-// 		dataType:"json",
-// 		success:function(data){
-			
-// 		}
-// 	});
+
+// <li>
+//    <p>mdj44518</p>
+//    <p>15:20</p>
+//    <p>멋진 생각이네요 !</p>
+// </li>
+	var boardId = ${post.boardId};
+	$.ajax({
+		url: "${contextPath}" + "/comment",
+		type: "post",
+		data: {boardId: boardId},
+		dataType: "json",
+		success: function(data){
+			var cmtList = $(".comment-list>ul");
+			data.forEach(function(i){
+				var li = $("<li/>");
+				li.append(
+					$("<p/>").text(i.cmtUser),
+					$("<p/>").text(i.cmtDate),
+					$("<p/>").text(i.cmtContent)
+				);
+				cmtList.append(li);
+			});
+		}
+	});
 
 
 	$(".comment-write button").click(function(){
 		var cmtContent = $(".comment-write textarea");
 		if (cmtContent.val().length > 0) {
-			//ajax insert
+			var parentId = ${post.boardId};
+			var content = cmtContent.val();
+			$.ajax({
+				url: "${contextPath}" + "/addComment",
+				type: "post",
+				data: {parentId: parentId, cmtContent: content},
+				dataType: "json",
+				success: function(){
+					alert("성공");
+				}
+			});
 		} else {
 			alert("댓글 내용을 입력해주세요.");
 			cmtContent.focus();

@@ -3,6 +3,11 @@
 <%@page import="dao.FreeBoardDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script>
+	if (location.protocol == "http:") {
+ 		location.href = location.href.replace("http:", "https:");
+ 	}
+</script>
 <%@ include file="/WEB-INF/views/common/begin.jspf" %>
 <%
 	List<FreePostDTO> freePostList = new FreeBoardDAO().getBoardList(1);
