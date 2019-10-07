@@ -201,7 +201,7 @@ public class FreeBoardDAO {
 				post.setBoardId(rs.getInt("boardId"));
 				post.setUserId(rs.getString("userId"));
 				post.setBoardTitle(rs.getString("boardTitle"));
-				post.setBoardContent(rs.getString("boardContent"));
+				post.setBoardContent(rs.getString("boardContent").replaceAll("\n", "<br>"));
 				post.setBoardDate(rs.getString("boardDate"));
 				post.setBoardViews(rs.getInt("boardViews"));
 				return post;

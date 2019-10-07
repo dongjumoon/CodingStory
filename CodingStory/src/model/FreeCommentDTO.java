@@ -1,17 +1,18 @@
 package model;
 
 public class FreeCommentDTO {
-	private int parentId;
+	private int boardId;
 	private int cmtId;
 	private String cmtContent;
 	private String cmtUser;
 	private String cmtDate;
 	
-	public int getParentId() {
-		return parentId;
+	
+	public int getBoardId() {
+		return boardId;
 	}
-	public void setParentId(int parentId) {
-		this.parentId = parentId;
+	public void setBoardId(int boardId) {
+		this.boardId = boardId;
 	}
 	public int getCmtId() {
 		return cmtId;

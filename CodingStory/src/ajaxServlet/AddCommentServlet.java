@@ -19,14 +19,12 @@ public class AddCommentServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		FreeCommentDTO cmt = new FreeCommentDTO();
-		int parentId = Integer.parseInt(request.getParameter("parentId"));
+		int boardId = Integer.parseInt(request.getParameter("boardId"));
 		String cmtContent = request.getParameter("cmtContent");
 		cmt.setCmtContent(cmtContent);
 		cmt.setCmtUser((String)request.getSession().getAttribute("user"));
-		cmt.setParentId(parentId);
-		new FreeCommentDAO().insert(cmt);
-		
-		//응답 결정
+		cmt.setBoardId(boardId);
+		response.getWriter().append("" + new FreeCommentDAO().insert(cmt));
 	}
 
 }

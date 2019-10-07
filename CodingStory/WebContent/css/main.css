@@ -35,7 +35,7 @@ h1 {display:none;}
 #search+button .fa {font-size:17px; padding:10px;}
 #gnb-switch-label {position:absolute; width:50px; top:0; height:50px; line-height:54px; text-align:center; transition:all .3s ease;}
 #gnb-switch-label:hover {border-radius:50%; background-color:#eee;}
-#gnb-switch-label .fontAwesome {font-size:22px;}
+#gnb-switch-label .fontAwesome {font-size:22px; padding:0 15px;line-height:50px;}
 #gnb {
 	background-color:white;
 	position:fixed; top:0; width:230px; margin-left:-240px;
@@ -109,6 +109,15 @@ h1 {display:none;}
 .post-viewer {text-align:center;}
 .post-viewer h4 {font-size:35px;padding:30px 0 2px;}
 .post-viewer p:nth-child(5) {margin-top:40px; min-height:200px; text-align-last:left; line-height:30px;}
+
+.comment-list .comment-write > * {vertical-align:top;}
+.comment-list .comment-write {font-size:0;}
+.comment-list .comment-write textarea {width:calc(100% - 50px); height:47px;}
+.comment-list .comment-write button {width:50px; height:47px; background-color:#da6;}
+.comment-list li {padding:20px 0;}
+.comment-list li p:not(:last-child) {display:inline-block;}
+.comment-list li p:nth-child(2) {font-size:12px; color:#aaa; padding-left:5px;}
+.comment-list li p:last-child {padding-top:10px;}
 
 
 /* footer */

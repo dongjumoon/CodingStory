@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script>
+	var boardId = ${post.boardId};
+</script>
 <h2 class="screen-out">글 내용</h2>
 <section class="post-viewer">
 	<h4>${post.boardTitle}</h4>
@@ -14,72 +17,16 @@
 	</div>
 </c:if>
 </section>
-<style>
-	.comment-list .comment-write > * {vertical-align:top;}
-	.comment-list .comment-write {font-size:0;}
-	.comment-list .comment-write textarea {width:calc(100% - 50px); height:47px;}
-	.comment-list .comment-write button {width:50px; height:47px; background-color:#da6;}
-	.comment-list li {padding:20px 0;}
-	.comment-list li p:not(:last-child) {display:inline-block;}
-	.comment-list li p:nth-child(2) {font-size:12px; color:#aaa; padding-left:5px;}
-	.comment-list li p:last-child {padding-top:10px;}
-</style>
 <section class="comment-list">
 	<h4 class="screen-out">댓글란</h4>
 	<ul>
 		<!-- 댓글 목록 -->
 	</ul>
-	<div class="comment-write">
-		<textarea></textarea>
-		<button>댓글<br>작성</button>
-	</div>
+	<c:if test="${user != null}">
+		<div class="comment-write">
+			<textarea></textarea>
+			<button>댓글<br>작성</button>
+		</div>
+	</c:if>
+	<script src="${contextPath}/js/comment.js"></script>
 </section>
-<script>
-
-// <li>
-//    <p>mdj44518</p>
-//    <p>15:20</p>
-//    <p>멋진 생각이네요 !</p>
-// </li>
-	var boardId = ${post.boardId};
-	$.ajax({
-		url: "${contextPath}" + "/comment",
-		type: "post",
-		data: {boardId: boardId},
-		dataType: "json",
-		success: function(data){
-			var cmtList = $(".comment-list>ul");
-			data.forEach(function(i){
-				var li = $("<li/>");
-				li.append(
-					$("<p/>").text(i.cmtUser),
-					$("<p/>").text(i.cmtDate),
-					$("<p/>").text(i.cmtContent)
-				);
-				cmtList.append(li);
-			});
-		}
-	});
-
-
-	$(".comment-write button").click(function(){
-		var cmtContent = $(".comment-write textarea");
-		if (cmtContent.val().length > 0) {
-			var parentId = ${post.boardId};
-			var content = cmtContent.val();
-			$.ajax({
-				url: "${contextPath}" + "/addComment",
-				type: "post",
-				data: {parentId: parentId, cmtContent: content},
-				dataType: "json",
-				success: function(){
-					alert("성공");
-				}
-			});
-		} else {
-			alert("댓글 내용을 입력해주세요.");
-			cmtContent.focus();
-		}
-		cmtContent.val("");
-	});
-</script>

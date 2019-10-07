@@ -32,12 +32,12 @@ public class FreeCommentDAO {
 	}
 	
 	public int insert(FreeCommentDTO comment) {
-		String sql = "insert into FREE_COMMENT_TB (parentId, cmtContent, cmtUser) values(?, ?, ?)";
+		String sql = "insert into FREE_COMMENT_TB (boardId, cmtContent, cmtUser) values(?, ?, ?)";
 		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, comment.getParentId());
+			pstmt.setInt(1, comment.getBoardId());
 			pstmt.setString(2, comment.getCmtContent());
 			pstmt.setString(3, comment.getCmtUser());
 			return pstmt.executeUpdate();
@@ -52,7 +52,11 @@ public class FreeCommentDAO {
 	}
 	
 	public List<FreeCommentDTO> getCommentList(int boardId) {
-		String sql = "select cmtUser, cmtContent, cmtDate from FREE_COMMENT_TB where parentId = ? order by cmtId";
+		String sql =  "select cmtUser, cmtContent,"
+							+ "if(date(now()) = date(cmtDate), date_format(cmtDate,'%H:%i'), date(cmtDate)) cmtDate "
+					+ "from FREE_COMMENT_TB "
+					+ "where boardId = ? "
+					+ "order by cmtId";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -65,7 +69,7 @@ public class FreeCommentDAO {
 			while (rs.next()) {
 				FreeCommentDTO cmt = new FreeCommentDTO();
 				cmt.setCmtUser(rs.getString("cmtUser"));
-				cmt.setCmtContent(rs.getString("cmtContent"));
+				cmt.setCmtContent(rs.getString("cmtContent").replaceAll("\n", "<br>"));
 				cmt.setCmtDate(rs.getString("cmtDate"));
 				cmtList.add(cmt);
 			}
