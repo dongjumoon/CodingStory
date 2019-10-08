@@ -19,16 +19,18 @@ function loadCommentList(pageNum){
 			});
 			var pageNav =  $(".comment-list>nav>div");
 			pageNav.empty();
-			pageNav.append($("<button/>").text(data.pageAreaNum == 0 ? 1 : data.pageAreaNum));
-			for (var i = 1; i <= data.pageCount; i++) {
-				var pNum = Number(data.pageAreaNum) + i;
-				var btn = $("<button/>").text(pNum);
-				if (pNum === Number(pageNum)) {
-					btn.css({"font-size":"22px","font-weight":"bold"});
+			if (data.pageCount > 0) {
+				pageNav.append($("<button/>").text(data.pageAreaNum == 0 ? 1 : data.pageAreaNum));
+				for (var i = 1; i <= data.pageCount; i++) {
+					var pNum = Number(data.pageAreaNum) + i;
+					var btn = $("<button/>").text(pNum);
+					if (pNum === Number(pageNum)) {
+						btn.css({"font-size":"22px","font-weight":"bold"});
+					}
+					pageNav.append(btn);
 				}
-				pageNav.append(btn);
+				pageNav.append($("<button/>").text(data.nextPageAreaNum));
 			}
-			pageNav.append($("<button/>").text(data.nextPageAreaNum));
 		}
 	});
 }
@@ -42,9 +44,7 @@ $(".comment-write button").click(function(){
 			type: "post",
 			data: {boardId: boardId, cmtContent: content},
 			success: function(data){
-				if (data == '1') {
-					loadCommentList(1);
-				}
+				loadCommentList(data);
 			}
 		});
 	} else {
@@ -56,4 +56,11 @@ $(".comment-write button").click(function(){
 
 $(".cmt-page-nav").on("click", "button", function(){
 	loadCommentList($(this).text());
+});
+$(".cmt-page-nav").on("mouseover, focus", "button", function(){
+	$(this).css({"cursor": "pointer",
+				 "color": "#3da"});
+});
+$(".cmt-page-nav").on("mouseout, blur", "button", function(){
+	$(this).css("color", "");
 });

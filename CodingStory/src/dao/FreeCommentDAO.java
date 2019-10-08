@@ -109,4 +109,25 @@ public class FreeCommentDAO {
 		}
 		return -1;
 	}
+	
+	public int getLastCommentPage(int boardId) {
+		String sql = "select ceil(count(cmtId) / ?) from FREE_COMMENT_TB where boardId = ?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, PRINT_COUNT);
+			pstmt.setInt(2, boardId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return -1;
+	}
 }

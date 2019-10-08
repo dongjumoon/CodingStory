@@ -69,8 +69,20 @@ public class JUnitTest {
 			result = rs.getInt(1);
 		}
 		assertEquals(result, 5);
+	}
+	
+	@Test
+	public void commentInsertTest() throws Exception {
+		int boardId = 344; 
+		String sql = "select ceil(count(cmtId) / 5) from FREE_COMMENT_TB where boardId = " + boardId;
+		pstmt = conn.prepareStatement(sql);
+		rs = pstmt.executeQuery();
+		int result = 0;		
+		if (rs.next()) {	
+			result = rs.getInt(1);
+		}
 		
-		
+		assertEquals(result, 4);
 	}
 
 }

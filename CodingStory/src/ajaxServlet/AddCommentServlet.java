@@ -1,6 +1,8 @@
 package ajaxServlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,7 +26,14 @@ public class AddCommentServlet extends HttpServlet {
 		cmt.setCmtContent(cmtContent);
 		cmt.setCmtUser((String)request.getSession().getAttribute("user"));
 		cmt.setBoardId(boardId);
-		response.getWriter().append("" + new FreeCommentDAO().insert(cmt));
+		int result = new FreeCommentDAO().insert(cmt);
+		PrintWriter out = response.getWriter();
+		if (result != 1) {
+			out.append("" + result);
+		} else {
+			int lastPage = new FreeCommentDAO().getLastCommentPage(boardId);
+			out.append("" + lastPage);
+		}
 	}
 
 }
