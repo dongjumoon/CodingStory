@@ -119,6 +119,11 @@ h1 {display:none;}
 .comment-list li p:nth-child(2) {font-size:12px; color:#aaa; padding-left:5px;}
 .comment-list li p:last-child {padding-top:10px;}
 
+.cmt-page-nav {text-align:center; margin:20px auto;}
+.cmt-page-nav button {padding:0 10px; position:relative; font-size:15px;}
+.cmt-page-nav button:first-child::before {content:'<<'; position:absolute; right:0; background-color:white;}
+.cmt-page-nav button:last-child::before {content:'>>'; position:absolute; left:0; background-color:white;}
+
 
 /* footer */
 footer {max-width:1500px; min-height:90px; margin:auto; background-color:#FBF8EF; box-shadow:2px 2px 5px -5px; }

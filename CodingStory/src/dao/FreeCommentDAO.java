@@ -17,7 +17,7 @@ import model.FreeCommentDTO;
 public class FreeCommentDAO {
 	private Connection conn;
 	public static final int MAX_PAGE_COUNT = 5; // 페이지 이동 태그 갯수 5 = << ? ? ? ? ? >>
-	public static final int PRINT_COUNT = 10; // 한 페이지에 나타낼 댓글 수
+	public static final int PRINT_COUNT = 5; // 한 페이지에 나타낼 댓글 수
 	
 	public FreeCommentDAO() {
 		try {
@@ -47,16 +47,16 @@ public class FreeCommentDAO {
 		} finally {
 			JdbcUtil.close(pstmt, conn);
 		}
-		
 		return -1;
 	}
 	
-	public List<FreeCommentDTO> getCommentList(int boardId) {
+	public List<FreeCommentDTO> getCommentList(int boardId, int pageNum) {
 		String sql =  "select cmtUser, cmtContent,"
 							+ "if(date(now()) = date(cmtDate), date_format(cmtDate,'%H:%i'), date(cmtDate)) cmtDate "
 					+ "from FREE_COMMENT_TB "
 					+ "where boardId = ? "
-					+ "order by cmtId";
+					+ "order by cmtId "
+					+ "limit ?, ?";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -64,6 +64,8 @@ public class FreeCommentDAO {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, boardId);
+			pstmt.setInt(2, (pageNum - 1) * PRINT_COUNT);
+			pstmt.setInt(3, PRINT_COUNT);
 			rs = pstmt.executeQuery();
 			List<FreeCommentDTO> cmtList = new ArrayList<>();
 			while (rs.next()) {
@@ -81,5 +83,30 @@ public class FreeCommentDAO {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
 		return null;
+	}
+	
+	public int getPageCount(int boardId, int pageNum) {		
+		String sql = "SELECT ceil(COUNT(cmtId) / ?) " + 
+				     "FROM (SELECT cmtId from FREE_COMMENT_TB where boardId = ? order by cmtId LIMIT ?, ?) t1";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			int pageAreaNum = (pageNum - 1) / MAX_PAGE_COUNT * MAX_PAGE_COUNT;
+			pstmt.setInt(1, PRINT_COUNT);
+			pstmt.setInt(2, boardId);
+			pstmt.setInt(3, pageAreaNum * PRINT_COUNT);
+			pstmt.setInt(4, MAX_PAGE_COUNT * PRINT_COUNT);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt, conn);
+		}
+		return -1;
 	}
 }

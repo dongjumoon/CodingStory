@@ -23,20 +23,39 @@ public class CommentServlert extends HttpServlet {
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int boardId = Integer.parseInt(request.getParameter("boardId"));
-		List<FreeCommentDTO> cmtList = new FreeCommentDAO().getCommentList(boardId);
+		int pageNum = 1;
+		try {
+			pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		} catch(Exception e) {};
+		List<FreeCommentDTO> cmtList = new FreeCommentDAO().getCommentList(boardId, pageNum);
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
-		out.append("[");
-		String cmt = "{\"cmtUser\" : \"{0}\","
+		out.append("{\"cmts\": [");
+		String cmt = "\"cmtUser\" : \"{0}\","
 				    + "\"cmtDate\" : \"{1}\","
 				    + "\"cmtContent\" : \"{2}\"}";
 		for (int i = 0; i < cmtList.size(); i++) {
+			out.append("{");
 			out.append(MessageFormat.format(cmt, cmtList.get(i).getCmtUser(),
 												 cmtList.get(i).getCmtDate(),
 												 cmtList.get(i).getCmtContent()));
 			if (cmtList.size() != i+1) out.append(",");
 		}
-		out.append("]");
+		out.append("],");
+		String format = "\"pageCount\" : \"{0}\","
+					  + "\"pageAreaNum\" : \"{1}\","
+					  + "\"nextPageAreaNum\" : \"{2}\"}";
+		int pageCount = new FreeCommentDAO().getPageCount(boardId, pageNum);
+		int maxPageCount = FreeCommentDAO.MAX_PAGE_COUNT;
+		int pageAreaNum = (pageNum - 1) / maxPageCount * FreeCommentDAO.MAX_PAGE_COUNT;
+		int nextPageAreaNum = 0;
+		if (pageCount == maxPageCount) {
+			nextPageAreaNum = pageAreaNum + maxPageCount + 1;
+		} else {
+			nextPageAreaNum = pageAreaNum + pageCount;
+		}
+		out.append(MessageFormat.format(format, pageCount, pageAreaNum, nextPageAreaNum));
+		
 	}
 
 }

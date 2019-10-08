@@ -22,6 +22,12 @@
 	<ul>
 		<!-- 댓글 목록 -->
 	</ul>
+	<nav>
+		<h4 class="screen-out">페이지 네비게이션</h4>
+		<div class="cmt-page-nav">
+			<!-- 댓글 페이징 -->
+		</div>
+	</nav>
 	<c:if test="${user != null}">
 		<div class="comment-write">
 			<textarea></textarea>

@@ -1,14 +1,14 @@
 var contextPath = location.href.match("localhost") == null ? "" : "/CodingStory";//로컬에서 테스트할때마다 바꿔주지 않기위해
-function loadCommentList(){
+function loadCommentList(pageNum){
 	$.ajax({
 		url: contextPath + "/comment",
 		type: "post",
-		data: {boardId: boardId},
+		data: {boardId: boardId, pageNum: pageNum},
 		dataType: "json",
 		success: function(data){
 			var cmtList = $(".comment-list>ul");
 			cmtList.empty();
-			data.forEach(function(i){
+			data.cmts.forEach(function(i){
 				var li = $("<li/>");
 				li.append(
 					$("<p/>").html(i.cmtUser),
@@ -17,10 +17,22 @@ function loadCommentList(){
 				);
 				cmtList.append(li);
 			});
+			var pageNav =  $(".comment-list>nav>div");
+			pageNav.empty();
+			pageNav.append($("<button/>").text(data.pageAreaNum == 0 ? 1 : data.pageAreaNum));
+			for (var i = 1; i <= data.pageCount; i++) {
+				var pNum = Number(data.pageAreaNum) + i;
+				var btn = $("<button/>").text(pNum);
+				if (pNum === Number(pageNum)) {
+					btn.css({"font-size":"22px","font-weight":"bold"});
+				}
+				pageNav.append(btn);
+			}
+			pageNav.append($("<button/>").text(data.nextPageAreaNum));
 		}
 	});
 }
-loadCommentList();
+loadCommentList(1);
 $(".comment-write button").click(function(){
 	var cmtContent = $(".comment-write textarea");
 	if (cmtContent.val().length > 0) {
@@ -31,7 +43,7 @@ $(".comment-write button").click(function(){
 			data: {boardId: boardId, cmtContent: content},
 			success: function(data){
 				if (data == '1') {
-					loadCommentList();						
+					loadCommentList(1);
 				}
 			}
 		});
@@ -40,4 +52,8 @@ $(".comment-write button").click(function(){
 		cmtContent.focus();
 	}
 	cmtContent.val("");
+});
+
+$(".cmt-page-nav").on("click", "button", function(){
+	loadCommentList($(this).text());
 });

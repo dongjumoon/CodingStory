@@ -31,31 +31,45 @@ public class JUnitTest {
 
 	@Test
 	public void test() throws Exception {
-		int boardId = 337;
+		int boardId = 344;
 		String sql = "select count(cmtId) from FREE_COMMENT_TB where boardId = " + boardId;
 		pstmt = conn.prepareStatement(sql);
 		rs = pstmt.executeQuery();
 		int cmtCount = 0;
 		boolean isNext = rs.next(); 
 		if (isNext) {
-			cmtCount = rs.getInt(1);
+			cmtCount = rs.getInt(1);// 댓글 갯수..? 32개로 잡고
 		}
 		assertEquals(isNext, true);
 		
-		int clickNum = 1;
+		int clickNum = 5;// 페이지 입력값*********
 		sql = "select * from FREE_COMMENT_TB where boardId = ? order by cmtId limit ?, ?";
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, boardId);
-		pstmt.setInt(2, (clickNum - 1) * 10);
-		pstmt.setInt(3, 10);
+		pstmt.setInt(2, (clickNum - 1) * 5);
+		pstmt.setInt(3, 5);
 		rs = pstmt.executeQuery();
 		int i = 0;
-		while (rs.next()) {
+		while (rs.next()) {// 최대 5개
 			i++;
 		}
-		assertEquals(cmtCount > 10 ? i == cmtCount : i <= 10, true);
+		assertEquals(cmtCount > 5 ? i == 5 : i <= 5, true);
 		
-		//페이지 번호주면, 그곳의 영역과 nav갯수
+		
+		// 페이지 영역값으로 몇페이지 나오나?
+		sql = "SELECT ceil(COUNT(cmtId) / 5) " + 
+			  "FROM (SELECT cmtId from FREE_COMMENT_TB where boardId = ? order by cmtId LIMIT ?, ?) t1";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, boardId);
+		pstmt.setInt(2, (clickNum - 1) / 5 * 5 * 5);
+		pstmt.setInt(3, 5 * 5);
+		rs = pstmt.executeQuery();
+		int result = 0;
+		if (rs.next()) {
+			result = rs.getInt(1);
+		}
+		assertEquals(result, 5);
+		
 		
 	}
 
