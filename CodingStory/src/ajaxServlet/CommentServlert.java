@@ -27,19 +27,14 @@ public class CommentServlert extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		PrintWriter out = response.getWriter();
 		out.append("[");
+		String cmt = "{\"cmtUser\" : \"{0}\","
+				    + "\"cmtDate\" : \"{1}\","
+				    + "\"cmtContent\" : \"{2}\"}";
 		for (int i = 0; i < cmtList.size(); i++) {
-			out.append("{");
-			String cmt = "\"cmtUser\" : \"{0}\","
-					   + "\"cmtDate\" : \"{1}\","
-					   + "\"cmtContent\" : \"{2}\"";
 			out.append(MessageFormat.format(cmt, cmtList.get(i).getCmtUser(),
 												 cmtList.get(i).getCmtDate(),
 												 cmtList.get(i).getCmtContent()));
-			if (cmtList.size() != i+1) {
-				out.append("},");
-			} else {
-				out.append("}");
-			}
+			if (cmtList.size() != i+1) out.append(",");
 		}
 		out.append("]");
 	}
