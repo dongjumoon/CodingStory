@@ -10,7 +10,7 @@
  	}
 </script>
 <%
-	List<FreePostDTO> freePostList = new FreeBoardDAO().getBoardList(1);
+	List<FreePostDTO> freePostList = new FreeBoardDAO().getCommentViewerInBoardList(1);
 	pageContext.setAttribute("freePostList", freePostList);
 %>
 <link href="${contextPath}/css/index_page.css" rel="stylesheet" type="text/css">

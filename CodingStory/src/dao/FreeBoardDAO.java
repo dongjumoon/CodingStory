@@ -120,6 +120,46 @@ public class FreeBoardDAO {
 		} finally {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
+		return null;	
+	}
+	
+	public List<FreePostDTO> getCommentViewerInBoardList(int pageNum) {
+		String sql = "select t1.boardId, " + 
+					 "		 if(cmtCount is null, boardTitle, concat(boardTitle,' <span class=\"cmt-count-viewer\">[',cmtCount,']</span>')) boardTitle, " + 
+					 "		 userId, boardViews, " + 
+					 "		 if(date(now()) = date(boardDate), " + 
+					 "		 date_format(boardDate,'%H:%i'), " + 
+					 "		 date(boardDate)) boardDate " + 
+					 "from FREE_BOARD_TB t1 left join (select boardId, count(cmtId) cmtCount " + 
+					 "	   		 					   FROM FREE_COMMENT_TB " + 
+					 "				 				   group by boardId) t2		on t1.boardId = t2.boardId " + 
+					 "order by t1.boardId desc " + 
+					 "limit ?, ?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (pageNum - 1) * PRINT_COUNT);
+			pstmt.setInt(2, PRINT_COUNT);
+			rs = pstmt.executeQuery();
+			List<FreePostDTO> freePostList = new ArrayList<>();
+			while (rs.next()) {
+				FreePostDTO row = new FreePostDTO();
+				row.setBoardId(rs.getInt("boardId"));
+				row.setBoardTitle(rs.getString("boardTitle"));
+				row.setUserId(rs.getString("userId"));
+				row.setBoardDate(rs.getString("boardDate"));
+				row.setBoardViews(rs.getInt("boardViews"));
+				freePostList.add(row);
+			}
+			return freePostList;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt, conn);
+		}
 		return null;
 		
 	}

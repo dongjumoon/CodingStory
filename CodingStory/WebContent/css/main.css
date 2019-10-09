@@ -96,6 +96,7 @@ h1 {display:none;}
 #contents .board table tbody td:nth-child(2) {text-align:left; padding:10px;}
 #contents .board table tbody td:nth-child(2) a:hover {text-decoration:underline;}
 #contents .board table td {border-bottom: 1px solid #bbb; padding:10px;}
+.cmt-count-viewer {color:#1d1;}/* sql에서 입힌 class */
 
 .write-form legend {text-align:center;}
 .write-form {max-width:600px;margin:auto;}

@@ -221,7 +221,7 @@ public class BoardController extends HttpServlet {
 			request.getRequestDispatcher("/error404").forward(request, response);
 			return;
 		}
-		List<FreePostDTO> freePostList = new FreeBoardDAO().getBoardList(pageInt);
+		List<FreePostDTO> freePostList = new FreeBoardDAO().getCommentViewerInBoardList(pageInt);
 		int pageCount = new FreeBoardDAO().getPageCount(pageInt);
 		if (freePostList != null || pageCount != -1) {
 			request.setAttribute("freePostList", freePostList);
