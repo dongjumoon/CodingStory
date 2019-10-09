@@ -50,6 +50,7 @@
 		</ul>
 	</nav>
 	<div id="blind"></div><!-- 위치 이동 금지(#gnb-switch+#gnb+#blind) 사용중 -->
+	<div id="white-blind"></div>
 	<nav id="user-nav-bar">
 		<ul>
 					<li><a href="${contextPath == '' ? '/' : contextPath}"><i class="fa fa-home user-nav-bar-font" aria-hidden="true"></i><span class="screen-out">임시 홈버튼</span></a></li>

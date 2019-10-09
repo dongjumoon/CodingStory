@@ -4,9 +4,13 @@
 <footer>
 	<address>
 		<p>
-			<span>CodingStory _DongJu.Moon</span>
+			<span><strong>CodingStory</strong> &lt;Coderight 2019. DongJu.Moon_back end&gt;</span>
 		</p>
 		<p>
+			본 사이트는 반응형웹으로 제작되었기에 화면 크기에 상관없이 편안한 이용을 하실 수 있습니다.
+		</p>
+		<p>
+			<span>DongJu.Moon </span>
 			<a href="https://github.com/mdj44518" target="_blank" title="깃허브 새창열기"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>
 			<a href="https://blog.naver.com/esj44518" target="_blank" title="블로그 새창열기"><i class="fa fa-address-card-o" aria-hidden="true"></i> Blog</a>
 		</p>

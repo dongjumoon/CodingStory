@@ -74,6 +74,7 @@ function lastChatView(){
 }
 $("#message-box-switch-label").click(function(){
 	$("#message-box-switch").click();
+	$("#white-blind").css("display", "block");
 	lastChatView();
 });
 
@@ -205,9 +206,16 @@ if($("#message-box")[0] !== undefined) {
 
 $("#help-switch").click(function(){
     $(".help-message").toggleClass("screen-out");
+    $("#white-blind").css("display", "block");
     return false;
 });
 
 $(".delete-btn").click(function(){
 	return confirm("정말 삭제하시겠습니까?");
+});
+
+$("#white-blind").click(function(){
+	$("#message-box-switch-label").click();
+	$("#help-switch").click();
+	$(this).css("display", "");
 });

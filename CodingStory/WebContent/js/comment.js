@@ -57,10 +57,10 @@ $(".comment-write button").click(function(){
 $(".cmt-page-nav").on("click", "button", function(){
 	loadCommentList($(this).text());
 });
-$(".cmt-page-nav").on("mouseover, focus", "button", function(){
+$(".cmt-page-nav").on("mouseover focus", "button", function(){
 	$(this).css({"cursor": "pointer",
 				 "color": "#3da"});
 });
-$(".cmt-page-nav").on("mouseout, blur", "button", function(){
+$(".cmt-page-nav").on("mouseout blur", "button", function(){
 	$(this).css("color", "");
 });

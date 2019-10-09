@@ -10,6 +10,8 @@ a {color:black;}
 .screen-out {display:none;}
 .form {max-width:600px; margin:auto;}
 #blind {position:fixed; display:none; width:100%; top:0; height:100vh; background-color:rgba(0,0,0,.5); z-index:110;}
+#white-blind {position:fixed; display:none; width:100%; top:0; height:100vh; opacity:0; z-index:130;}
+.cls {display:block;}
 body {font-family:'굴림', sans-serif;}
 textarea {resize:none;}
 button {border:none; outline:none; background-color: transparent;}
@@ -57,8 +59,8 @@ h1 {display:none;}
 #user-nav-bar a:hover:not(.help-atag) {border-radius:50%; background-color:#eee;}
 #user-nav-bar #login-atag {border:2px solid #eee; border-radius:15px; margin-left:10px;}
 #user-nav-bar .user-nav-bar-font {font-size:22px; vertical-align:middle;}
-.help-message {position:absolute; right:0; background-color:white;
-										width:320px; padding:15px; box-shadow:0 0 12px; border-radius:15px;text-align:center;}						
+.help-message {position:absolute; right:0; background-color:white; z-index:140;
+				width:320px; padding:15px; box-shadow:0 0 12px; border-radius:15px;text-align:center;}						
 .help-message .help-btn {padding:8px; border-radius:10px; background-color:white; border:1px solid black; margin-top:10px;}
 .help-message .help-atag {display:inline-block; font-size:13px;}
 .help-message .help-btn:hover {background-color:#eee;}
@@ -67,7 +69,7 @@ h1 {display:none;}
 	display:none; position:absolute; width:300px; padding:10px;
 	background-color:white; box-shadow:0 0 12px; right:0;}
 #message-box-switch:checked + #message-box {display:block;}
-#message-box-switch + #message-box {height:70vh;}
+#message-box-switch + #message-box {height:70vh; z-index:140;}
 #message-box-switch + #message-box ul {height:calc(100% - 45px); overflow:auto; overflow-x:hidden;}
 #message-box-switch + #message-box li {width:100%; margin-bottom:10px;}
 #message-box-switch + #message-box .my-msg {text-align:right;}
@@ -79,7 +81,7 @@ h1 {display:none;}
 	
 /* main contents */
 #wrap {width:calc(100% - 230px); min-width:320px; margin-left:230px; margin-top:50px;}
-#contents {max-width:1500px; min-height:calc(100vh - 140px); margin:auto;}
+#contents {max-width:1500px; min-height:calc(100vh - 150px); margin:auto;}
 #contents>section,
 #contents>div {width:80%; margin:auto; padding:30px;}
 #contents>section h3,
@@ -127,10 +129,8 @@ h1 {display:none;}
 
 
 /* footer */
-footer {max-width:1500px; min-height:90px; margin:auto; background-color:#FBF8EF; box-shadow:2px 2px 5px -5px; }
+footer {max-width:1500px; min-height:100px; padding:10px; margin:auto; background-color:#FBF8EF; box-shadow:2px 2px 5px -5px; }
 footer address {text-align:center; color:#777;}
-footer address a {font-size:18px; padding:0 5px; color:#777;}
+footer address a {font-size:14px; padding:0 5px; color:#777;}
 footer address a:hover {text-decoration:underline;}
-footer address p {padding:5px 0;}
-footer address p span {font-size:20px;}
-footer address span {font-size:15px;}
+footer address p {padding:5px 0; font-size:12px;}
