@@ -146,7 +146,7 @@ public class FreeBoardDAO {
 		             "          date_format(boardDate,'%H:%i'), " + 
 		             "          date(boardDate)) boardDate " + 
 		             "from FREE_BOARD_TB t1 left join (select boardId, count(cmtId) cmtCount " + 
-		             "                                 FROM FREE_COMMENT_TB " + 
+		             "                                 from FREE_COMMENT_TB " + 
 		             "                                 group by boardId) t2            on t1.boardId = t2.boardId " + 
 	                 "order by t1.boardId desc " + 
 	                 "limit ?, ?";

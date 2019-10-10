@@ -9,7 +9,6 @@
 <title>${title == null ? '코딩 이야기' : title}</title>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <link href="${contextPath}/css/main.css" rel="stylesheet" type="text/css">
-<link href="${contextPath}/css/main_media.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.pixabay.com/photo/2017/06/10/07/18/list-2389219_960_720.png" rel="shortcut icon" type="image/x-icon" ><!-- title 아이콘 -->
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

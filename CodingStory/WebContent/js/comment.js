@@ -1,11 +1,13 @@
 var contextPath = location.href.match("localhost") == null ? "" : "/CodingStory";//로컬에서 테스트할때마다 바꿔주지 않기위해
+
+loadCommentList(1);
 function loadCommentList(pageNum){
 	$.ajax({
 		url: contextPath + "/comment",
 		type: "post",
 		data: {boardId: boardId, pageNum: pageNum},
 		dataType: "json",
-		success: function(data){
+		success: function(data){// 댓글과 pageNav 다시 그리기
 			var cmtList = $(".comment-list>ul");
 			cmtList.empty();
 			data.cmts.forEach(function(i){
@@ -17,24 +19,31 @@ function loadCommentList(pageNum){
 				);
 				cmtList.append(li);
 			});
+			
+			
 			var pageNav =  $(".comment-list>nav>div");
 			pageNav.empty();
 			if (data.pageCount > 0) {
+				// '<<' 버튼
 				pageNav.append($("<button/>").text(data.pageAreaNum == 0 ? 1 : data.pageAreaNum));
+				
 				for (var i = 1; i <= data.pageCount; i++) {
 					var pNum = Number(data.pageAreaNum) + i;
 					var btn = $("<button/>").text(pNum);
-					if (pNum === Number(pageNum)) {
+					
+					if (pNum === Number(pageNum)) {//현재 보고있는 페이지라면 알수있게 표시
 						btn.css({"font-size":"22px","font-weight":"bold"});
 					}
 					pageNav.append(btn);
 				}
+				
+				// '>>' 버튼
 				pageNav.append($("<button/>").text(data.nextPageAreaNum));
 			}
 		}
 	});
 }
-loadCommentList(1);
+
 $(".comment-write button").click(function(){
 	var cmtContent = $(".comment-write textarea");
 	if (cmtContent.val().length > 0) {
@@ -54,6 +63,7 @@ $(".comment-write button").click(function(){
 	cmtContent.val("");
 });
 
+// 페이지 버튼 이벤트 ' << ? ? ? ? ? >> '
 $(".cmt-page-nav").on("click", "button", function(){
 	loadCommentList($(this).text());
 });

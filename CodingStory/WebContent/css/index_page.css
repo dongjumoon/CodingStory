@@ -13,3 +13,27 @@
 #contents .video-board li:not(:first-child) {margin-left:2.66%;}
 #contents .video-board li .video-box {width:100%; padding-bottom:56.26%}
 #contents .video-board li .video-box iframe {position: absolute; width: 100%; height: 100%; border:none;}
+
+
+@media (max-width:1350px) {   /* 영상게시판전용 */
+    #contents .video-board ul {width:133.33%;}
+    #contents .video-board li:nth-child(2),
+    #contents .video-board li:nth-child(3) {margin-left:3%;}
+    #contents .video-board li:nth-child(4) {display:none;}
+}
+
+@media (max-width:1024px) {   /* 테블릿 */
+	#contents .video-board ul {width:200%;}
+    #contents .video-board li:nth-child(1),
+    #contents .video-board li:nth-child(2) {width:23.5%;}
+    #contents .video-board li:nth-child(3) {display:none;}
+    #contents #main-title {font-size:70px;}
+  	#contents #main-view {width:100%; margin-top:0;}
+}
+
+@media (max-width:480px) {   /* 모바일 */
+	#contents .video-board ul {width:100%;}
+	#contents .video-board li:nth-child(1) {width:100%;}
+    #contents .video-board li:nth-child(2) {display:none;}
+    #contents #main-title {font-size:50px;}
+}

@@ -1,35 +1,35 @@
 @charset "UTF-8";
 
 /* reset */
-* {margin:0;padding:0;box-sizing:border-box;list-style:none;text-decoration:none;}
+* {margin:0; padding:0; box-sizing:border-box; list-style:none; text-decoration:none;}
 fieldset {border:none;}
 select::-ms-expand {display:none;}
 a {color:black;}
+
 /* common */
 .mouse-cursor {cursor:pointer;}
 .screen-out {display:none;}
 .form {max-width:600px; margin:auto;}
 #blind {position:fixed; display:none; width:100%; top:0; height:100vh; background-color:rgba(0,0,0,.5); z-index:110;}
 #white-blind {position:fixed; display:none; width:100%; top:0; height:100vh; opacity:0; z-index:130;}
-.cls {display:block;}
 body {font-family:'굴림', sans-serif;}
 textarea {resize:none;}
 button {border:none; outline:none; background-color: transparent;}
 address {font-style:normal;}
+h1 {display:none;}
 
 /* -- main -- */
 /* header */
 header {
-	position:fixed; height:50px; width:100%;
+	position:fixed; height:50px;/* #contents의 min-height에 영향 */ width:100%;
 	background-color:white; top:0; z-index:100;
 	box-shadow:0 -2px 10px -2px;}
-h1 {display:none;}
 #search-form {
-	width:30%; min-width:400px; height:34px; padding:6px 0 0 10px; margin-top:8px; 
+	width:30%; min-width:400px; height:34px; padding:6px 0 0 10px; margin-top:8px;
 	box-shadow:0 0 3px -1px; border-radius:20px; position:relative; left:50%;
 	transform:translateX(-50%);}
 #search-form select {
-	border:none; background-color:white; height:22px; padding:0 0 2px 10px; 
+	border:none; background-color:white; height:22px; padding:0 0 2px 10px;
 	-webkit-appearance: none; -moz-appearance:none; -o-appearance:none; appearance:none;}
 #search-form button[type=submit] {position:absolute; right:0; margin:-9px 9px 0 0;}
 #search {border:none; outline:none; width:calc(100% - 135px); display:inline-block; font-size:16px;}
@@ -40,17 +40,16 @@ h1 {display:none;}
 #gnb-switch-label .fontAwesome {font-size:22px; padding:0 15px;line-height:50px;}
 #gnb {
 	background-color:white;
-	position:fixed; top:0; width:230px; margin-left:-240px;
+	position:fixed; top:0; width:230px;/* #wrap넓이, main.js 에 영향있음 */ margin-left:-240px;
 	height:100vh; overflow:auto; z-index:120;
 	box-shadow:8px 32px 15px -20px;}
 #gnb-switch:checked + #gnb {margin-left:0;}
 #gnb #virtual-elements {
-	display:block; height:50px; width:50px; line-height:54px;
+	display:block; height:50px; width:50px;
 	background-color:white; text-align:center; transition:all .3s ease;}
-#gnb #virtual-elements .fontAwesome {transition:all .3s ease;}
-#gnb #virtual-elements .fontAwesome::before {font-size:22px; padding:0 15px;line-height:50px;}
+#gnb #virtual-elements .fontAwesome {transition:all .3s ease; font-size:22px; padding:0 15px; line-height:50px;}
 #gnb #virtual-elements .fontAwesome:hover {border-radius:50%; background-color:#eee;}
-#gnb #virtual-elements::after {content:"";position:absolute;left:50px; width:180px;height:50px;background-color:white;}
+#gnb #virtual-elements::after {content:""; position:absolute; left:50px; width:180px; height:50px; background-color:white;}
 #gnb a {padding:28px 0; display:block; text-align:center; transition:all .3s ease;}
 #gnb a:hover {background-color:#eee;}
 #user-nav-bar {position:absolute; right:5px; top:15px;}
@@ -60,7 +59,7 @@ h1 {display:none;}
 #user-nav-bar #login-atag {border:2px solid #eee; border-radius:15px; margin-left:10px;}
 #user-nav-bar .user-nav-bar-font {font-size:22px; vertical-align:middle;}
 .help-message {position:absolute; right:0; background-color:white; z-index:140;
-				width:320px; padding:15px; box-shadow:0 0 12px; border-radius:15px;text-align:center;}						
+               width:320px; padding:15px; box-shadow:0 0 12px; border-radius:15px; text-align:center;}
 .help-message .help-btn {padding:8px; border-radius:10px; background-color:white; border:1px solid black; margin-top:10px;}
 .help-message .help-atag {display:inline-block; font-size:13px;}
 .help-message .help-btn:hover {background-color:#eee;}
@@ -70,7 +69,7 @@ h1 {display:none;}
 	background-color:white; box-shadow:0 0 12px; right:0;}
 #message-box-switch:checked + #message-box {display:block;}
 #message-box-switch + #message-box {height:70vh; z-index:140;}
-#message-box-switch + #message-box ul {height:calc(100% - 45px); overflow:auto; overflow-x:hidden;}
+#message-box-switch + #message-box ul {height:calc(100% - 45px);/* 45px = #chat-content높이 */ overflow:auto; overflow-x:hidden;}
 #message-box-switch + #message-box li {width:100%; margin-bottom:10px;}
 #message-box-switch + #message-box .my-msg {text-align:right;}
 #message-box-switch + #message-box .my-msg p:nth-child(3) {text-align-last:left;}
@@ -78,18 +77,18 @@ h1 {display:none;}
 #chat-box p:nth-child(1) {font-size:15px;}
 #chat-box p:nth-child(2) {font-size:12px; color:#999;}
 #chat-box p:nth-child(3) {padding:10px; box-shadow:inset 0 0 10px -5px; border-radius:10px; display:inline-block;}
-	
+
 /* main contents */
-#wrap {width:calc(100% - 230px); min-width:320px; margin-left:230px; margin-top:50px;}
-#contents {max-width:1500px; min-height:calc(100vh - 150px); margin:auto;}
-#contents>section,
-#contents>div {width:80%; margin:auto; padding:30px;}
-#contents>section h3,
-#contents>section h3 a {padding:15px 0;}
-#contents>section:not(:last-child) {border-bottom:1px solid black;}
-#contents .board table {border-collapse:collapse; width:100%;text-align:center;}
+#wrap {width:calc(100% - 230px);/* 230px(#gnb넓이) */ min-width:320px; margin-left:230px; margin-top:50px;}
+#contents {max-width:1500px; min-height:calc(100vh - 50px - 100px);/* 50px(header높이), 100px(footer높이) */ margin:auto;}
+#contents > section,
+#contents > div {width:80%; margin:auto; padding:30px;}
+#contents > section h3,
+#contents > section h3 a {padding:15px 0;}
+#contents > section:not(:last-child) {border-bottom:1px solid black;}
+#contents .board table {border-collapse:collapse; width:100%; text-align:center;}
 #contents .board table thead {border-top:2px solid black;}
-#contents .board table thead td {padding:13px 10px;} 
+#contents .board table thead td {padding:13px 10px;}
 #contents .board td:nth-child(1) {width:1px; white-space: nowrap;}
 #contents .board td:nth-child(2) {}
 #contents .board td:nth-child(3) {width:1px; white-space: nowrap;}
@@ -100,15 +99,15 @@ h1 {display:none;}
 #contents .board table td {border-bottom: 1px solid #bbb; padding:10px;}
 .cmt-count-viewer {color:#1d1;}/* sql에서 입힌 class */
 
-.write-form legend {text-align:center;}
-.write-form {max-width:600px;margin:auto;}
-.write-form input {width:100%;margin:20px 0 10px; padding:7px;}
-.write-form textarea {width:100%; padding:7px;}
+.board-write-form legend {text-align:center;}
+.board-write-form {max-width:600px;margin:auto;}
+.board-write-form input {width:100%;margin:20px 0 10px; padding:7px;}
+.board-write-form textarea {width:100%; padding:7px;}
 
 .board-btn-box {overflow:hidden; margin-top:10px; text-align:center;}
-.board-btn-box>a {display:bloak; float:right; padding:7px; border:1px solid black; border-radius:10px; margin-left:5px;}
-.board-btn-box+nav {text-align:center; margin-top:10px;}
-.board-btn-box+nav a {padding:5px;}
+.board-btn-box > a {display:block; float:right; padding:7px; border:1px solid black; border-radius:10px; margin-left:5px;}
+.board-btn-box + nav {text-align:center; margin-top:10px;}
+.board-btn-box + nav a {padding:5px;}
 .post-viewer {text-align:center;}
 .post-viewer h4 {font-size:35px;padding:30px 0 2px;}
 .post-viewer p:nth-child(5) {margin-top:40px; min-height:200px; text-align-last:left; line-height:30px;}
@@ -116,7 +115,7 @@ h1 {display:none;}
 .comment-list .comment-write > * {vertical-align:top;}
 .comment-list .comment-write {font-size:0;}
 .comment-list .comment-write textarea {width:calc(100% - 50px); height:47px;}
-.comment-list .comment-write button {width:50px; height:47px; background-color:#da6;}
+.comment-list .comment-write button   {width:            50px ; height:47px; background-color:#da6;}
 .comment-list li {padding:20px 0;}
 .comment-list li p:not(:last-child) {display:inline-block;}
 .comment-list li p:nth-child(2) {font-size:12px; color:#aaa; padding-left:5px;}
@@ -129,8 +128,39 @@ h1 {display:none;}
 
 
 /* footer */
-footer {max-width:1500px; min-height:100px; padding:10px; margin:auto; background-color:#FBF8EF; box-shadow:2px 2px 5px -5px; }
+footer {max-width:1500px; height:100px;/* #contents의 min-height에 영향 */ padding:10px; margin:auto;
+        background-color:#FBF8EF; box-shadow:2px 2px 5px -5px;}
 footer address {text-align:center; color:#777;}
 footer address a {font-size:14px; padding:0 5px; color:#777;}
 footer address a:hover {text-decoration:underline;}
 footer address p {padding:5px 0; font-size:12px;}
+
+
+@media (max-width:1024px) {   /* 테블릿 */
+	#wrap {width:100%; margin-left:0;}
+    #gnb {transition:all .3s ease;}
+    #gnb-switch:checked + #gnb + #blind {display:block;}
+  	#search-form {box-shadow:0 0 0 0; width:100%; min-width:320px;}
+	#search-form select,
+	#search {display:none;}
+	#search-form button[type=submit] {margin:-8px 0 0 0; transition:background-color,border-radius .3s ease;}
+	#search-form button[type=submit]:hover {border-radius:50%; background-color:#eee;}
+	#contents .board table {box-shadow:0 0 10px #eee;}
+	#contents .board table tr {box-shadow:inset 0 5px 5px -3px #eee; border-left:2px solid green;text-align:left;}
+	#contents .board table td {display:inline-block; vertical-align:top; border:0; padding:0; color:#6E6E6E; font-size:12px;}
+	#contents .board table thead,
+	#contents .board table td:nth-child(1) {display:none;}
+	#contents .board table tbody td:nth-child(2) {display:block; width:100%; font-weight:bold; font-size:16px; padding:0;}
+	#contents .board table td:nth-child(3) {padding-left:15px; margin-bottom:15px; width:auto;}
+	#contents .board table td:nth-child(4) {padding-left:8px; margin-bottom:15px; width:auto;}
+	#contents .board table td:nth-child(5) {padding-left:8px; margin-bottom:15px; width:auto;}
+	#contents .board table td:nth-child(5)::before {
+		content: "."; color:white; display:inline-block; padding-right:3px; width:20px; height:12px;
+		background:url("../images/views_img.jpg") no-repeat;}
+	#contents .board table td a {padding:15px 15px 8px; display:block;}
+}
+
+@media (max-width:750px) {
+	#contents>section,
+	#contents>div {width:100%; margin:0;}
+}

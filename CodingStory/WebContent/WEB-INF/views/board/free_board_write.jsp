@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <h2 class="screen-out">자유게시판 글쓰기</h2>
 <div>
-	<form action="${contextPath}/board/free" method="post" class="write-form">
+	<form action="${contextPath}/board/free" method="post" class="board-write-form">
 		<fieldset>
 			<c:if test="${post == null}">
 				<legend>게시물 작성</legend>

@@ -18,19 +18,19 @@ function getHtmlWidth() {
 		if (filter.indexOf(navigator.platform.toLowerCase()) >= 0) {
 			//#gnb 는 100vh 이고 이거보다 크다면 스크롤이 있는것으로 판단
 			if ($("#gnb").height() < $("html").height()) {
-				htmlWidth += 17;
+				htmlWidth += 17;// 스크롤바 크기 더하기
 			}
 		} 
 	}
 	return htmlWidth;
 }
 //gnb 화면 요청시
-$("#gnb-switch-label").click(function(){// 스크롤부모이벤막기
+$("#gnb-switch-label").click(function(){
 	var htmlWidth = getHtmlWidth();
 	var isDesktop = htmlWidth > 1024;
 	if (isDesktop) {
 		$("#wrap").css({
-			"width":"calc(100% - 230px)",
+			"width":"calc(100% - 230px)",// 230px = #gnb넓이
 			"margin-left":"230px"
 		});
 		if (htmlWidth <= 1254) {
@@ -38,6 +38,7 @@ $("#gnb-switch-label").click(function(){// 스크롤부모이벤막기
 		}
 	}
 });
+
 function gnbSwitchOff() {
 	var htmlWidth = getHtmlWidth();
 	if (htmlWidth > 1024 && htmlWidth <= 1350) {
@@ -72,6 +73,7 @@ function lastChatView(){
 		box.scrollTop(box[0].scrollHeight);
 	}
 }
+// IE에서 <label for='?'> 로 input checkbox 작동이 안되어서 아래 방법으로 수정
 $("#message-box-switch-label").click(function(){
 	$("#message-box-switch").click();
 	$("#white-blind").css("display", "block");
@@ -80,30 +82,31 @@ $("#message-box-switch-label").click(function(){
 
 $(window).resize(function(){
 	lastChatView();//채팅창 열려있으면 가장 아래로 스크롤
+	searchModeOff();
+	
+	//가로 사이즈 변경시 그에 맞는 반응(컨텐츠 크기조정)
 	var isGnbSwitchOn = $("#gnb-switch").get(0).checked;
 	var htmlWidth = getHtmlWidth();
-	if (isGnbSwitchOn) {
+	if (isGnbSwitchOn) {//gnb가 보이는 상태일떄
 		if (htmlWidth > 1254) {
 			minimumDesktopViewOff();
+			
 		} else if (htmlWidth < 1024){
 			gnbSwitchOff();
+			
 		} else {
 			minimumDesktopViewOn();
 		}
-	} else if (htmlWidth > 1024) {
+	} else if (htmlWidth > 1024) {//pc일때
 		$("#search-form button[type=submit]").css("right", "");
-		searchModeOff();
 		minimumDesktopViewOff();
 		if (isReadyOnMobile) {
 			$("#gnb-switch-label").click();
 			isReadyOnMobile = false;
 		}
-	} else {
-		if (beforeWidth !== htmlWidth) {
-			searchModeOff();
-		}
 	}
 });
+
 var isReadyOnMobile;
 $(window).ready(function(){
 	var htmlWidth = getHtmlWidth();
@@ -124,13 +127,17 @@ $(window).ready(function(){
 		isReadyOnMobile = true;
 	}
 });
-var beforeWidth = getHtmlWidth();
+
 $("#search-form button[type=submit]").click(function(){
+	if ($("#search").val().length == 0) {
+		alert("검색어를 입력해주세요");
+		$("#search").focus();
+		return false;
+	}
 	var htmlWidth = getHtmlWidth();
-	beforeWidth = htmlWidth;
 	var isMobile = htmlWidth <= 1024;
 	var isSearchModeOff = $("#user-nav-bar").css("display") !== "none";
-	if (isMobile && isSearchModeOff) {
+	if (isMobile && isSearchModeOff) {//모바일인데 #user-nav-bar가 보인다면 검색모드가 아닌상태에서 클릭한것이므로 검색모드로 전환
 	 	$("#search-form select").css("display", "inline-block"); 
 	 	$("#search").css("display", "inline-block").focus();
 	 	$("#search-form button[type=submit]").css("right","10px");
@@ -139,7 +146,9 @@ $("#search-form button[type=submit]").click(function(){
 		return false;
 	}
 });
+
 $("#search-form select").change(function(){$("#search").focus();});
+
 function searchModeOff() {
 	var htmlWidth = getHtmlWidth();
 	var isDesktop = htmlWidth > 1024;
@@ -162,11 +171,13 @@ function updateChatList() {
 		url: contextPath + "/chat",
 		type: "post",
 		dataType: "json",
-		success : function(data){
+		success : function(data){ // 채팅목록 다시 출력
 			var chatBox = $("#chat-box");
-			//현재 스크롤을 끝까지 내린 상태인지.
+			//지우기전 스크롤이 끝까지 내린 상태인지.
 			var isMaxScroll = chatBox.scrollTop() === chatBox[0].scrollHeight - chatBox.height();
+			
 			chatBox.empty();
+			
 			for (var i = 0; i < data.length; i++) {
 				var li = $("<li/>");
 				li.append(
@@ -179,6 +190,7 @@ function updateChatList() {
 				}
 				chatBox.append(li);
 			}
+			
 			if (isMaxScroll) chatBox.scrollTop(chatBox[0].scrollHeight);
 		}
 	});
@@ -192,8 +204,7 @@ if($("#message-box")[0] !== undefined) {
 			$.ajax({
 				url: contextPath + "/addChat",
 				type: "post",
-				data: {chatContent:$(this).val()},
-				dataType: "json"
+				data: {chatContent:$(this).val()}
 			});
 			$(this).val("");
 			updateChatList();

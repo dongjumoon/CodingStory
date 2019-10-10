@@ -14,7 +14,6 @@
 	pageContext.setAttribute("freePostList", freePostList);
 %>
 <link href="${contextPath}/css/index_page.css" rel="stylesheet" type="text/css">
-<link href="${contextPath}/css/index_page_media.css" rel="stylesheet" type="text/css">
 <h2 class="screen-out">게시판 종합</h2>
 	<article id="main-view">
 		<h3 id="main-title">Coding Story</h3>
@@ -31,7 +30,7 @@
 			<li>
 				<h4 class="screen-out">포프TV : 올바른 변수 이름 짓는법</h4>
 				<div class="video-box">
-				<iframe src="https://www.youtube.com/embed/ZtkIwGZZAq8" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></iframe>
+				<iframe src="https://www.youtube.com/embed/ZtkIwGZZAq8" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
 			</li>
 			<li>
