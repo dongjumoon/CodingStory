@@ -17,13 +17,16 @@ public class HashPassword {
 		try {
 			SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
 			byte[] hashPwByte = skf.generateSecret(spec).getEncoded();
+			
 			return Base64.getEncoder().encodeToString(hashPwByte);
+			
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			spec.clearPassword();
 		}
+		
 		return null;
 	}
 }

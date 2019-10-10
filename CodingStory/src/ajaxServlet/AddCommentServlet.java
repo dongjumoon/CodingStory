@@ -20,13 +20,16 @@ public class AddCommentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		FreeCommentDTO cmt = new FreeCommentDTO();
 		int boardId = Integer.parseInt(request.getParameter("boardId"));
 		String cmtContent = request.getParameter("cmtContent");
+		
+		FreeCommentDTO cmt = new FreeCommentDTO();
 		cmt.setCmtContent(cmtContent);
 		cmt.setCmtUser((String)request.getSession().getAttribute("user"));
 		cmt.setBoardId(boardId);
+		
 		int result = new FreeCommentDAO().insert(cmt);
+		
 		PrintWriter out = response.getWriter();
 		if (result != 1) {
 			out.append("" + result);

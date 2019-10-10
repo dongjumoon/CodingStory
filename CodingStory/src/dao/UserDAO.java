@@ -26,8 +26,9 @@ public class UserDAO {
 	}
 	
 	public int insertUser(UserDTO user) {
-		String sql = "insert into USER_TB (userId, userPw, userName, userGender, userPhone, userEmail, userAddress) "
-				+ "values(?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into USER_TB (userId, userPw, userName, userGender, userPhone, userEmail, userAddress) " +
+		             "values(?, ?, ?, ?, ?, ?, ?)";
+		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -38,20 +39,25 @@ public class UserDAO {
 			pstmt.setString(5, user.getUserPhone());
 			pstmt.setString(6, user.getUserEmail());
 			pstmt.setString(7, user.getUserAddress());
+			
 			return pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(pstmt, conn);
 		}
+		
 		return -1;
 	}
 	
 	public int login(String id, String pw) {
 		String sql = "select userPw from USER_TB where userId = ?";
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
@@ -63,12 +69,14 @@ public class UserDAO {
 				}
 			}
 			return 0;
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
+		
 		return -1;
 	}
 }

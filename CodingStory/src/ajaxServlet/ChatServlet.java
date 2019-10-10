@@ -22,16 +22,22 @@ public class ChatServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
+		
 		List<ChatDTO> chatList = new ChatDAO().getChatList();
-		if (chatList == null || chatList.size() == 0) return;
+		if (chatList == null || chatList.size() == 0) {
+			return;
+		}
 		StringBuffer strBuffer = new StringBuffer();
 		strBuffer.append("[");
 		for (int i = 0; i < chatList.size(); i++) {
 			strBuffer.append("{\"fromUserId\":\"" + chatList.get(i).getFromUserId() + "\"");
-			strBuffer.append(",\"chatDate\":\""+ chatList.get(i).getChatDate() +"\"");
+			strBuffer.append(",\"chatDate\":\""   + chatList.get(i).getChatDate() +"\"");
 			strBuffer.append(",\"chatContent\":\""+ chatList.get(i).getChatContent() +"\"");
-			strBuffer.append(",\"chatId\":\""+ chatList.get(i).getChatId() + "\"}");
-			if (chatList.size() -1 != i) strBuffer.append(",");
+			strBuffer.append(",\"chatId\":\""     + chatList.get(i).getChatId() + "\"}");
+			
+			if (chatList.size() -1 != i) {
+				strBuffer.append(",");				
+			}
 		}
 		strBuffer.append("]");
 		response.getWriter().write(strBuffer.toString());

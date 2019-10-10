@@ -19,12 +19,18 @@ public class AddChatServlet extends HttpServlet {
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		
 		String fromUserId = (String)request.getSession().getAttribute("user");
 		String chatContent = request.getParameter("chatContent");
-		if (fromUserId == null || fromUserId.equals("") || chatContent == null || chatContent.equals("")) return;
+		
+		if (fromUserId == null || fromUserId.equals("") || chatContent == null || chatContent.equals("")) {
+			return;			
+		}
+		
 		ChatDTO chat = new ChatDTO();
 		chat.setFromUserId(fromUserId);
 		chat.setChatContent(chatContent);
+		
 		new ChatDAO().insert(chat);
 	}
 

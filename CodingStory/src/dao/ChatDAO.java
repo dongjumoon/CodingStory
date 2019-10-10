@@ -45,8 +45,10 @@ public class ChatDAO {
 			int result = pstmt.executeUpdate();
 			if (result == 1) {//메세지 1개 추가한후 20개 넘는지확인
 				sql = "select chatId from CHAT_TB order by chatDate desc, chatId desc limit ?, 99";//20개 를 초과하는것들
+				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, SAVE_CHAT_COUNT);
+				
 				rs = pstmt.executeQuery();
 				while (rs.next()) {//다 지움
 					sql = "delete from CHAT_TB where chatId = " + rs.getInt(1);
@@ -73,13 +75,13 @@ public class ChatDAO {
 	}
 	
 	public List<ChatDTO> getChatList() {
-		String sql = "SELECT chatId, fromUserId, chatContent, chatTime " + 
-					 "FROM (SELECT chatId, fromUserId, chatContent, chatDate, " + 
-					 "		       if(DATE(NOW()) = DATE(chatDate), " + 
-					 "		       DATE_FORMAT(chatDate,'%H:%i'), " + 
-					 "		       DATE_FORMAT(chatDate,'%c월%e일')) chatTime " + 
-					 "      FROM CHAT_TB) t1 " + 
-					 "ORDER BY chatDate";
+		String sql = "select chatId, fromUserId, chatContent, chatTime " + 
+		             "from (select chatId, fromUserId, chatContent, chatDate, " + 
+		             "             if(date(now()) = date(chatDate), " + 
+		             "                date_format(chatDate,'%H:%i'), " + 
+		             "                date_format(chatDate,'%c월%e일')) chatTime " + 
+		             "      from CHAT_TB) t1 " + 
+		             "order by chatDate";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -103,6 +105,7 @@ public class ChatDAO {
 		} finally {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
+		
 		return null;
 	}
 

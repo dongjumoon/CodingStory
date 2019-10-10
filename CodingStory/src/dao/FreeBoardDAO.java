@@ -42,13 +42,16 @@ public class FreeBoardDAO {
 			pstmt.setString(1, board.getUserId());
 			pstmt.setString(2, board.getBoardTitle());
 			pstmt.setString(3, board.getBoardContent());
+			
 			return pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(pstmt, conn);
 		}
+		
 		return -1;
 	}
 	
@@ -56,19 +59,21 @@ public class FreeBoardDAO {
 		String sql = "update FREE_BOARD_TB set boardTitle = ?, boardContent = ? where boardId = ?";
 		
 		PreparedStatement pstmt = null;
-		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, title);
 			pstmt.setString(2, content);
 			pstmt.setInt(3, boardId);
+			
 			return pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(pstmt, conn);
 		}
+		
 		return -1;
 	}
 	
@@ -78,30 +83,36 @@ public class FreeBoardDAO {
 		Statement stmt = null;
 		try {
 			stmt = conn.createStatement();
+			
 			return stmt.executeUpdate(sql);
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(stmt, conn);
 		}
+		
 		return -1;
 	}
 
 	public List<FreePostDTO> getBoardList(int pageNum) {
 		String sql = "select boardId, boardTitle, userId, boardViews, " + 
-					 "	     if(date(now()) = date(boardDate), " + 
-					 "		 date_format(boardDate,'%H:%i'), " + 
-					 "		 date(boardDate)) boardDate " + 
-					 "from FREE_BOARD_TB " + 
-					 "order by boardId desc " + 
-					 "limit ?, ?";
+		             "       if(date(now()) = date(boardDate), " + 
+		             "          date_format(boardDate,'%H:%i'), " + 
+		             "          date(boardDate)) boardDate " + 
+		             "from FREE_BOARD_TB " + 
+		             "order by boardId desc " + 
+		             "limit ?, ?";
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, (pageNum - 1) * PRINT_COUNT);
 			pstmt.setInt(2, PRINT_COUNT);
+			
 			rs = pstmt.executeQuery();
 			List<FreePostDTO> freePostList = new ArrayList<>();
 			while (rs.next()) {
@@ -114,34 +125,40 @@ public class FreeBoardDAO {
 				freePostList.add(row);
 			}
 			return freePostList;
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
+		
 		return null;	
 	}
 	
 	public List<FreePostDTO> getCommentViewerInBoardList(int pageNum) {
 		String sql = "select t1.boardId, " + 
-					 "		 if(cmtCount is null, boardTitle, concat(boardTitle,' <span class=\"cmt-count-viewer\">[',cmtCount,']</span>')) boardTitle, " + 
-					 "		 userId, boardViews, " + 
-					 "		 if(date(now()) = date(boardDate), " + 
-					 "		 date_format(boardDate,'%H:%i'), " + 
-					 "		 date(boardDate)) boardDate " + 
-					 "from FREE_BOARD_TB t1 left join (select boardId, count(cmtId) cmtCount " + 
-					 "	   		 					   FROM FREE_COMMENT_TB " + 
-					 "				 				   group by boardId) t2		on t1.boardId = t2.boardId " + 
-					 "order by t1.boardId desc " + 
-					 "limit ?, ?";
+		             "       if(cmtCount is null, " +
+		             "          boardTitle, " +
+		             "          concat(boardTitle,' <span class=\"cmt-count-viewer\">[',cmtCount,']</span>')) boardTitle, " + 
+		             "       userId, boardViews, " + 
+		             "       if(date(now()) = date(boardDate), " + 
+		             "          date_format(boardDate,'%H:%i'), " + 
+		             "          date(boardDate)) boardDate " + 
+		             "from FREE_BOARD_TB t1 left join (select boardId, count(cmtId) cmtCount " + 
+		             "                                 FROM FREE_COMMENT_TB " + 
+		             "                                 group by boardId) t2            on t1.boardId = t2.boardId " + 
+	                 "order by t1.boardId desc " + 
+	                 "limit ?, ?";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, (pageNum - 1) * PRINT_COUNT);
 			pstmt.setInt(2, PRINT_COUNT);
+			
 			rs = pstmt.executeQuery();
 			List<FreePostDTO> freePostList = new ArrayList<>();
 			while (rs.next()) {
@@ -154,30 +171,33 @@ public class FreeBoardDAO {
 				freePostList.add(row);
 			}
 			return freePostList;
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
-		return null;
 		
+		return null;
 	}
 	
 	public List<FreePostDTO> getBoardList(String search) {
 		String sql = "select boardId, boardTitle, userId, boardViews, " + 
-					 "	     if(date(now()) = date(boardDate), " + 
-					 "		 date_format(boardDate,'%H:%i'), " + 
-					 "		 date(boardDate)) boardDate " + 
-					 "from FREE_BOARD_TB " + 
-					 "where boardTitle like concat('%"+search+"%')" + 
-					 "order by boardId desc " + 
-					 "limit 0, 20";
-		PreparedStatement pstmt = null;
+		             "       if(date(now()) = date(boardDate), " + 
+		             "          date_format(boardDate,'%H:%i'), " + 
+		             "          date(boardDate)) boardDate " + 
+		             "from FREE_BOARD_TB " + 
+		             "where boardTitle like concat('%"+search+"%')" + 
+		             "order by boardId desc " + 
+		             "limit 0, 20";
+		
+		Statement stmt = null;
 		ResultSet rs = null;
+		
 		try {
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
 			List<FreePostDTO> freePostList = new ArrayList<>();
 			while (rs.next()) {
 				FreePostDTO row = new FreePostDTO();
@@ -189,28 +209,32 @@ public class FreeBoardDAO {
 				freePostList.add(row);
 			}
 			return freePostList;
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			JdbcUtil.close(rs, pstmt, conn);
+			JdbcUtil.close(rs, stmt, conn);
 		}
-		return null;
 		
+		return null;
 	}
 	
 	// 해당 페이지에서 보여줄 페이징 표시 갯수 구하기
 	public int getPageCount(int pageNum) {
-		String sql = "select ceil(COUNT(boardId) / ?) boardCount " + 
-					 "from (select boardId from FREE_BOARD_TB limit ?, ?) t1";
+		String sql = "select ceil(count(boardId) / ?) boardCount " + 
+		             "from (select boardId from FREE_BOARD_TB limit ?, ?) t1";
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			int pageAreaNum = (pageNum - 1) / MAX_PAGE_COUNT * MAX_PAGE_COUNT;
 			pstmt.setInt(1, PRINT_COUNT);
 			pstmt.setInt(2, pageAreaNum * PRINT_COUNT);
 			pstmt.setInt(3, MAX_PAGE_COUNT * PRINT_COUNT);
+			
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt(1);
@@ -221,18 +245,21 @@ public class FreeBoardDAO {
 		} finally {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
+		
 		return -1;
 	}
 	
 	public FreePostDTO getPost(int boardId) {
 		String sql = "select boardId, userId, boardTitle, boardContent, boardViews, " +
-  				     "	     if(date(now()) = date(boardDate), " +
-  				     "		 date_format(boardDate,'%H:%i'), " +
-  				     "		 date(boardDate)) boardDate " +
-				     "from FREE_BOARD_TB " +
-				     "where boardId=" + boardId;
+  		             "       if(date(now()) = date(boardDate), " +
+  		             "          date_format(boardDate,'%H:%i'), " +
+  		             "          date(boardDate)) boardDate " +
+		             "from FREE_BOARD_TB " +
+		             "where boardId=" + boardId;
+		
 		Statement stmt = null;
 		ResultSet rs = null;
+		
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
@@ -244,6 +271,7 @@ public class FreeBoardDAO {
 				post.setBoardContent(rs.getString("boardContent").replaceAll("\n", "<br>"));
 				post.setBoardDate(rs.getString("boardDate"));
 				post.setBoardViews(rs.getInt("boardViews"));
+				
 				return post;
 			}
 		} catch (SQLException e) {
@@ -252,6 +280,7 @@ public class FreeBoardDAO {
 		} finally {
 			JdbcUtil.close(rs, stmt, conn);
 		}
+		
 		return null;
 	}
 	

@@ -40,23 +40,28 @@ public class FreeCommentDAO {
 			pstmt.setInt(1, comment.getBoardId());
 			pstmt.setString(2, comment.getCmtContent());
 			pstmt.setString(3, comment.getCmtUser());
+			
 			return pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(pstmt, conn);
 		}
+		
 		return -1;
 	}
 	
 	public List<FreeCommentDTO> getCommentList(int boardId, int pageNum) {
-		String sql =  "select cmtUser, cmtContent,"
-							+ "if(date(now()) = date(cmtDate), date_format(cmtDate,'%H:%i'), date(cmtDate)) cmtDate "
-					+ "from FREE_COMMENT_TB "
-					+ "where boardId = ? "
-					+ "order by cmtId "
-					+ "limit ?, ?";
+		String sql =  "select cmtUser, cmtContent, " +
+		              "       if(date(now()) = date(cmtDate), " +
+		              "          date_format(cmtDate,'%H:%i'), " +
+		              "          date(cmtDate)) cmtDate " +
+		              "from FREE_COMMENT_TB " +
+		              "where boardId = ? " +
+		              "order by cmtId " +
+		              "limit ?, ?";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -66,6 +71,7 @@ public class FreeCommentDAO {
 			pstmt.setInt(1, boardId);
 			pstmt.setInt(2, (pageNum - 1) * PRINT_COUNT);
 			pstmt.setInt(3, PRINT_COUNT);
+			
 			rs = pstmt.executeQuery();
 			List<FreeCommentDTO> cmtList = new ArrayList<>();
 			while (rs.next()) {
@@ -76,20 +82,28 @@ public class FreeCommentDAO {
 				cmtList.add(cmt);
 			}
 			return cmtList;
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
+		
 		return null;
 	}
 	
 	public int getPageCount(int boardId, int pageNum) {		
-		String sql = "SELECT ceil(COUNT(cmtId) / ?) " + 
-				     "FROM (SELECT cmtId from FREE_COMMENT_TB where boardId = ? order by cmtId LIMIT ?, ?) t1";
+		String sql = "select ceil(count(cmtId) / ?) " + 
+		             "from (select cmtId " +
+		             "      from FREE_COMMENT_TB " +
+		             "      where boardId = ? " +
+		             "      order by cmtId " +
+		             "      limit ?, ?) t1";
+		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		
 		try {
 			pstmt = conn.prepareStatement(sql);
 			int pageAreaNum = (pageNum - 1) / MAX_PAGE_COUNT * MAX_PAGE_COUNT;
@@ -97,6 +111,7 @@ public class FreeCommentDAO {
 			pstmt.setInt(2, boardId);
 			pstmt.setInt(3, pageAreaNum * PRINT_COUNT);
 			pstmt.setInt(4, MAX_PAGE_COUNT * PRINT_COUNT);
+			
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt(1);
@@ -107,6 +122,7 @@ public class FreeCommentDAO {
 		} finally {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
+		
 		return -1;
 	}
 	
@@ -120,6 +136,7 @@ public class FreeCommentDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, PRINT_COUNT);
 			pstmt.setInt(2, boardId);
+			
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt(1);
@@ -130,6 +147,7 @@ public class FreeCommentDAO {
 		} finally {
 			JdbcUtil.close(rs, pstmt, conn);
 		}
+		
 		return -1;
 	}
 }
