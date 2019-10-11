@@ -230,3 +230,7 @@ $("#white-blind").click(function(){
 	$("#help-switch").click();
 	$(this).css("display", "");
 });
+
+$(".close-btn").click(function(){
+	$(this).parent().css("display", "none");
+});

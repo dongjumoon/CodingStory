@@ -78,6 +78,13 @@ header {
 #chat-box p:nth-child(2) {font-size:12px; color:#999;}
 #chat-box p:nth-child(3) {padding:10px; box-shadow:inset 0 0 10px -5px; border-radius:10px; display:inline-block;}
 
+#quick-login-box {position:fixed; bottom:7px; right:7px; width:150px; height:150px; background-color:white;
+        border-radius:50%; box-shadow:0 0 10px;}
+#quick-login-box form {position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);}
+#quick-login-box form button[type=submit] {font-size:15px; padding:10px;}
+#quick-login-box > .close-btn {position:absolute; right:5px; font-size:20px;}
+#quick-login-box button:hover {color:#1d1;}
+
 /* main contents */
 #wrap {width:calc(100% - 230px);/* 230px(#gnb넓이) */ min-width:320px; margin-left:230px; margin-top:50px;}
 #contents {max-width:1500px; min-height:calc(100vh - 50px - 100px);/* 50px(header높이), 100px(footer높이) */ margin:auto;}

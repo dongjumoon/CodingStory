@@ -84,7 +84,7 @@
 							이용 가능합니다</p>
 							<form action="${contextPath}/user/login" method="post">
 								<fieldset>
-									<legend class="screen-out">테스트아이디 로그인</legend>
+									<legend class="screen-out">tester 로그인</legend>
 										<input type="hidden" name="id" value="tester">
 										<input type="hidden" name="pw" value="1234">
 										<input type="submit" value="바로 접속하기" class="mouse-cursor help-btn">
@@ -98,6 +98,20 @@
 			</c:choose>
 		</ul>
 	</nav>
+	<c:if test="${user == null}">
+		<section id="quick-login-box">
+			<h3 class="screen-out">방문자 빠른 로그인창</h3>
+			<button class="close-btn">X<span class="screen-out">:닫기버튼</span></button>
+			<form action="${contextPath}/user/login" method="post">
+				<fieldset>
+					<legend class="screen-out">tester 로그인</legend>
+						<input type="hidden" name="id" value="tester">
+						<input type="hidden" name="pw" value="1234">
+						<button type="submit" class="mouse-cursor">손님<br>로그인</button>
+				</fieldset>
+			</form>
+		</section>
+	</c:if>
 </header>
 <div id="wrap">
 <section id="contents">
