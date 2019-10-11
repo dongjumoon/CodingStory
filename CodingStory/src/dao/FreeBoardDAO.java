@@ -95,48 +95,8 @@ public class FreeBoardDAO {
 		
 		return -1;
 	}
-
-	public List<FreePostDTO> getBoardList(int pageNum) {
-		String sql = "select boardId, boardTitle, userId, boardViews, " + 
-		             "       if(date(now()) = date(boardDate), " + 
-		             "          date_format(boardDate,'%H:%i'), " + 
-		             "          date(boardDate)) boardDate " + 
-		             "from FREE_BOARD_TB " + 
-		             "order by boardId desc " + 
-		             "limit ?, ?";
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, (pageNum - 1) * PRINT_COUNT);
-			pstmt.setInt(2, PRINT_COUNT);
-			
-			rs = pstmt.executeQuery();
-			List<FreePostDTO> freePostList = new ArrayList<>();
-			while (rs.next()) {
-				FreePostDTO row = new FreePostDTO();
-				row.setBoardId(rs.getInt("boardId"));
-				row.setBoardTitle(rs.getString("boardTitle"));
-				row.setUserId(rs.getString("userId"));
-				row.setBoardDate(rs.getString("boardDate"));
-				row.setBoardViews(rs.getInt("boardViews"));
-				freePostList.add(row);
-			}
-			return freePostList;
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			JdbcUtil.close(rs, pstmt, conn);
-		}
-		
-		return null;	
-	}
 	
-	public List<FreePostDTO> getCommentViewerInBoardList(int pageNum) {
+	public List<FreePostDTO> getBoardList(int pageNum) {
 		String sql = "select t1.boardId, " + 
 		             "       if(cmtCount is null, " +
 		             "          boardTitle, " +
@@ -183,14 +143,20 @@ public class FreeBoardDAO {
 	}
 	
 	public List<FreePostDTO> getBoardList(String search) {
-		String sql = "select boardId, boardTitle, userId, boardViews, " + 
-		             "       if(date(now()) = date(boardDate), " + 
-		             "          date_format(boardDate,'%H:%i'), " + 
-		             "          date(boardDate)) boardDate " + 
-		             "from FREE_BOARD_TB " + 
-		             "where boardTitle like concat('%"+search+"%')" + 
-		             "order by boardId desc " + 
-		             "limit 0, 20";
+		String sql = "select t1.boardId, " + 
+                     "       if(cmtCount is null, " +
+                     "          boardTitle, " +
+                     "          concat(boardTitle,' <span class=\"cmt-count-viewer\">[',cmtCount,']</span>')) boardTitle, " + 
+                     "       userId, boardViews, " + 
+                     "       if(date(now()) = date(boardDate), " + 
+                     "          date_format(boardDate,'%H:%i'), " + 
+                     "          date(boardDate)) boardDate " + 
+                     "from FREE_BOARD_TB t1 left join (select boardId, count(cmtId) cmtCount " + 
+                     "                                 from FREE_COMMENT_TB " + 
+                     "                                 group by boardId) t2            on t1.boardId = t2.boardId " + 
+                     "where boardTitle like concat('%"+search+"%')" + 
+                     "order by t1.boardId desc " + 
+                     "limit 0, 20";
 		
 		Statement stmt = null;
 		ResultSet rs = null;
