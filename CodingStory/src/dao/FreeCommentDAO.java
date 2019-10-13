@@ -54,7 +54,7 @@ public class FreeCommentDAO {
 	}
 	
 	public List<FreeCommentDTO> getCommentList(int boardId, int pageNum) {
-		String sql =  "select cmtUser, cmtContent, " +
+		String sql =  "select cmtId, cmtUser, cmtContent, " +
 		              "       if(date(now()) = date(cmtDate), " +
 		              "          date_format(cmtDate,'%H:%i'), " +
 		              "          date(cmtDate)) cmtDate " +
@@ -76,6 +76,7 @@ public class FreeCommentDAO {
 			List<FreeCommentDTO> cmtList = new ArrayList<>();
 			while (rs.next()) {
 				FreeCommentDTO cmt = new FreeCommentDTO();
+				cmt.setCmtId(rs.getInt("cmtId"));
 				cmt.setCmtUser(rs.getString("cmtUser"));
 				cmt.setCmtContent(rs.getString("cmtContent").replaceAll("\n", "<br>"));
 				cmt.setCmtDate(rs.getString("cmtDate"));
@@ -146,6 +147,49 @@ public class FreeCommentDAO {
 			e.printStackTrace();
 		} finally {
 			JdbcUtil.close(rs, pstmt, conn);
+		}
+		
+		return -1;
+	}
+	
+	public int update(int cmtId, String cmtContent, String requestorId) {
+		String sql = "update FREE_COMMENT_TB set cmtContent = ? where cmtId = ? and cmtUser = ?";
+		
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, cmtContent);
+			pstmt.setInt(2, cmtId);
+			pstmt.setString(3, requestorId);
+			
+			return pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt, conn);
+		}
+		
+		return -1;
+	}
+	
+	public int delete(int cmtId, String requestorId) {
+		String sql = "delete from FREE_COMMENT_TB where cmtId = ? and cmtUser = ?";
+		
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, cmtId);
+			pstmt.setString(2, requestorId);
+			return pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt, conn);
 		}
 		
 		return -1;

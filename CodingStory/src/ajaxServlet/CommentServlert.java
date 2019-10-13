@@ -34,13 +34,15 @@ public class CommentServlert extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		out.append("{\"cmts\": [");
-		String cmt = "\"cmtUser\" : \"{0}\","
-		           + "\"cmtDate\" : \"{1}\","
-		           + "\"cmtContent\" : \"{2}\"}";
+		String cmt = "\"cmtId\" : \"{0}\","
+		           + "\"cmtUser\" : \"{1}\","
+		           + "\"cmtDate\" : \"{2}\","
+		           + "\"cmtContent\" : \"{3}\"}";
 		
 		for (int i = 0; i < cmtList.size(); i++) {
 			out.append("{");
-			out.append(MessageFormat.format(cmt, cmtList.get(i).getCmtUser(),
+			out.append(MessageFormat.format(cmt, cmtList.get(i).getCmtId(),
+			                                     cmtList.get(i).getCmtUser(),
 			                                     cmtList.get(i).getCmtDate(),
 			                                     cmtList.get(i).getCmtContent()));
 			if (cmtList.size() != i+1) {
