@@ -258,10 +258,11 @@ public class BoardController extends HttpServlet {
 			
 			int pageAreaNum = (pageInt - 1) / maxPageCount * maxPageCount;
 			int nextPageAreaNum;
-			if (pageCount == maxPageCount) {
-				nextPageAreaNum = pageAreaNum + maxPageCount + 1;
-			} else {
+			if (pageCount > maxPageCount) {
 				nextPageAreaNum = pageAreaNum + pageCount;
+				pageCount--;
+			} else {
+				nextPageAreaNum = -1;
 			}
 			request.setAttribute("freePostList", freePostList);
 			request.setAttribute("pageCount", pageCount);

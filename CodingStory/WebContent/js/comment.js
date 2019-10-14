@@ -35,20 +35,27 @@ function loadCommentList(pageNum){
 			pageNav.empty();
 			if (data.pageCount > 0) {
 				// '<<' 버튼
-				pageNav.append($("<button/>").text(data.pageAreaNum == 0 ? 1 : data.pageAreaNum));
+				if (data.pageAreaNum !== '0') {
+					pageNav.append($("<button/>").addClass("back-area-btn").text(data.pageAreaNum));
+				}
 				
-				for (var i = 1; i <= data.pageCount; i++) {
-					var pNum = Number(data.pageAreaNum) + i;
-					var btn = $("<button/>").text(pNum);
-					
-					if (pNum === Number(pageNum)) {//현재 보고있는 페이지라면 알수있게 표시
-						btn.css({"font-size":"22px","font-weight":"bold"});
-					}
-					pageNav.append(btn);
+				if (!(data.pageCount === '1' && data.pageAreaNum === '0')) {
+					for (var i = 1; i <= data.pageCount; i++) {
+						var pNum = Number(data.pageAreaNum) + i;
+						var btn = $("<button/>").text(pNum);
+						
+						if (pNum === Number(pageNum)) {//현재 보고있는 페이지라면 알수있게 표시
+							btn.css({"font-size":"22px","font-weight":"bold"});
+							btn.addClass("current-page");
+						}
+						pageNav.append(btn);
+					}					
 				}
 				
 				// '>>' 버튼
-				pageNav.append($("<button/>").text(data.nextPageAreaNum));
+				if (data.nextPageAreaNum !== '-1') {
+					pageNav.append($("<button/>").addClass("next-area-btn").text(data.nextPageAreaNum));					
+				}
 			}
 		}
 	});
@@ -75,15 +82,15 @@ $(".comment-write button").click(function(){
 
 // 페이지 버튼 이벤트 ' << ? ? ? ? ? >> '
 var currentPage = '1';
-$(".cmt-page-nav").on("click", "button", function(){
+$(".cmt-page-nav").on("click", "button:not(.current-page)", function(){
 	currentPage = $(this).text();
 	loadCommentList(currentPage);
 });
-$(".cmt-page-nav").on("mouseover focus", "button", function(){
+$(".cmt-page-nav").on("mouseover focus", "button:not(.current-page)", function(){
 	$(this).css({"cursor": "pointer",
 				 "color": "#3da"});
 });
-$(".cmt-page-nav").on("mouseout blur", "button", function(){
+$(".cmt-page-nav").on("mouseout blur", "button:not(.current-page)", function(){
 	$(this).css("color", "");
 });
 

@@ -111,7 +111,7 @@ public class FreeCommentDAO {
 			pstmt.setInt(1, PRINT_COUNT);
 			pstmt.setInt(2, boardId);
 			pstmt.setInt(3, pageAreaNum * PRINT_COUNT);
-			pstmt.setInt(4, MAX_PAGE_COUNT * PRINT_COUNT);
+			pstmt.setInt(4, MAX_PAGE_COUNT * PRINT_COUNT + 1);
 			
 			rs = pstmt.executeQuery();
 			if (rs.next()) {

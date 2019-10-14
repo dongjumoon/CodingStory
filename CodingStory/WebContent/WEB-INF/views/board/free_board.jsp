@@ -40,11 +40,17 @@
 	<c:if test="${param.search == null}">
 		<nav>
 			<h4 class="screen-out">페이지 네비게이션</h4>
-			<a href="?page=${pageAreaNum == 0 ? 1 : pageAreaNum}"><<</a>
+			<c:if test="${pageAreaNum != 0}">
+				<a href="?page=${pageAreaNum}"><<</a>
+			</c:if>
+			
 			<c:forEach var="i" begin="1" end="${pageCount}">
 				<a href="?page=${pageAreaNum + i}">${pageAreaNum + i}</a>
 			</c:forEach>
-			<a href="?page=${nextPageAreaNum}">>></a>
+			
+			<c:if test="${nextPageAreaNum != -1}">
+				<a href="?page=${nextPageAreaNum}">>></a>
+			</c:if>
 		</nav>
 		<script>
 			var page = '${param.page}';

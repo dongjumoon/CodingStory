@@ -60,10 +60,11 @@ public class CommentServlert extends HttpServlet {
 		int pageCount = new FreeCommentDAO().getPageCount(boardId, pageNum);
 		int pageAreaNum = (pageNum - 1) / maxPageCount * FreeCommentDAO.MAX_PAGE_COUNT;
 		int nextPageAreaNum;
-		if (pageCount == maxPageCount) {
-			nextPageAreaNum = pageAreaNum + maxPageCount + 1;
-		} else {
+		if (pageCount > maxPageCount) {
 			nextPageAreaNum = pageAreaNum + pageCount;
+			pageCount--;
+		} else {
+			nextPageAreaNum = -1;
 		}
 		
 		out.append(MessageFormat.format(format, pageCount,

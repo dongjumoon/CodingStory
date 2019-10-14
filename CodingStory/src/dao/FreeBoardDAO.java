@@ -199,7 +199,7 @@ public class FreeBoardDAO {
 			int pageAreaNum = (pageNum - 1) / MAX_PAGE_COUNT * MAX_PAGE_COUNT;
 			pstmt.setInt(1, PRINT_COUNT);
 			pstmt.setInt(2, pageAreaNum * PRINT_COUNT);
-			pstmt.setInt(3, MAX_PAGE_COUNT * PRINT_COUNT);
+			pstmt.setInt(3, MAX_PAGE_COUNT * PRINT_COUNT + 1);
 			
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
