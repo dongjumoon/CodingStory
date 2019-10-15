@@ -76,6 +76,20 @@ function lastChatView(){
 // IE에서 <label for='?'> 로 input checkbox 작동이 안되어서 아래 방법으로 수정
 $("#message-box-switch-label").click(function(){
 	$("#message-box-switch").click();
+	if ($("#message-box-switch").is(":checked")) {
+		// message-box 열때 new-message-count 0 으로 돌리고 안보이게.
+		$("#message-box-switch-label .new-message-count").css("display", "");
+		$("#message-box-switch-label .new-message-count").text("0");
+	} else {
+		// message-box 닫을때 어디까지 봤는지 업데이트
+		if (lastChatId !== undefined) {
+			$.ajax({
+				url: contextPath + "/updateLastSeenChatId",
+				type: "post",
+				data: {lastChatId: lastChatId}
+			});
+		}
+	}
 	$("#white-blind").css("display", "block");
 	lastChatView();
 });
@@ -166,48 +180,110 @@ function searchModeOff() {
 $("#wrap").click(searchModeOff);
 
 var contextPath = location.href.match("localhost") == null ? "" : "/CodingStory";//로컬에서 테스트할때마다 바꿔주지 않기위해
+var lastChatId;
 function updateChatList() {
-	$.ajax({
-		url: contextPath + "/chat",
-		type: "post",
-		dataType: "json",
-		success : function(data){ // 채팅목록 다시 출력
-			var chatBox = $("#chat-box");
-			//지우기전 스크롤이 끝까지 내린 상태인지.
-			var isMaxScroll = chatBox.scrollTop() === chatBox[0].scrollHeight - chatBox.height();
-			
-			chatBox.empty();
-			
-			for (var i = 0; i < data.length; i++) {
-				var li = $("<li/>");
-				li.append(
-					$("<p/>").text(data[i].fromUserId),
-					$("<p/>").text(data[i].chatDate),
-					$("<p/>").text(data[i].chatContent)
-				);
-				if (data[i].fromUserId === userId) {
-					li.addClass("my-msg");
+	if (arguments[0] === "pageLoad") {
+		// 페이지 로드되고 첫 요청시
+		$.ajax({
+			url: contextPath + "/chat",
+			type: "post",
+			dataType: "json",
+			success : function(data){ // 채팅목록 다시 출력
+				var chatBox = $("#chat-box");
+				//지우기전 스크롤이 끝까지 내린 상태인지.
+				var isMaxScroll = chatBox.scrollTop() === chatBox[0].scrollHeight - chatBox.height();
+				
+				chatBox.empty();
+				
+				var chatList = data.chatList;
+				for (var i = 0; i < chatList.length; i++) {
+					var li = $("<li/>");
+					li.append(
+						$("<p/>").text(chatList[i].fromUserId),
+						$("<p/>").text(chatList[i].chatDate),
+						$("<p/>").text(chatList[i].chatContent)
+					);
+					if (chatList[i].fromUserId === userId) {
+						li.addClass("my-msg");
+					}
+					chatBox.append(li);
+					if (i + 1 === chatList.length) {
+						lastChatId = chatList[i].chatId;
+					}
 				}
-				chatBox.append(li);
+				
+				if (isMaxScroll) chatBox.scrollTop(chatBox[0].scrollHeight);
+				// 해당 유저의 읽지 않은 메세지 수 적용
+				var newMsgCountViewer = $("#message-box-switch-label .new-message-count");
+				newMsgCountViewer.text(data.newChatCount);
+				// 채팅창 닫혀있고, 읽지 않은 메세지가 있으면 .new-message-count 보이게
+				var isCloseChatBox = !$("#message-box").is(":visible");
+				var isNewMessage = newMsgCountViewer.text() !== '0'; 
+				if (isCloseChatBox && isNewMessage) {
+					newMsgCountViewer.css("display","block");
+				}
 			}
-			
-			if (isMaxScroll) chatBox.scrollTop(chatBox[0].scrollHeight);
-		}
-	});
+		});		
+	} else if (lastChatId !== undefined) {
+		$.ajax({
+			url: contextPath + "/chat",
+			type: "post",
+			data: {lastChatId: lastChatId},
+			dataType: "json",
+			success : function(data){ // 채팅목록 다시 출력
+				if (data.noMessage === undefined) {
+					var chatBox = $("#chat-box");
+					//지우기전 스크롤이 끝까지 내린 상태인지.
+					var isMaxScroll = chatBox.scrollTop() === chatBox[0].scrollHeight - chatBox.height();
+					
+					chatBox.empty();
+					
+					var chatList = data.chatList;
+					for (var i = 0; i < chatList.length; i++) {
+						var li = $("<li/>");
+						li.append(
+							$("<p/>").text(chatList[i].fromUserId),
+							$("<p/>").text(chatList[i].chatDate),
+							$("<p/>").text(chatList[i].chatContent)
+						);
+						if (chatList[i].fromUserId === userId) {
+							li.addClass("my-msg");
+						}
+						chatBox.append(li);
+						if (i + 1 === chatList.length) {
+							lastChatId = chatList[i].chatId;
+						}
+					}
+					
+					if (isMaxScroll) chatBox.scrollTop(chatBox[0].scrollHeight);
+					
+					var isCloseChatBox = !$("#message-box").is(":visible");
+					if (isCloseChatBox) {
+						var newMsgCountViewer = $("#message-box-switch-label .new-message-count");
+						var beforeCount = Number(newMsgCountViewer.text());
+						newMsgCountViewer.text(beforeCount + Number(data.newChatCount));
+						newMsgCountViewer.css("display","block");
+					}
+				}
+			}
+		});
+	}
 }
 //로그인 한 회원이라면 message-box 가 존재함.
 if($("#message-box")[0] !== undefined) {
-	updateChatList();
+	updateChatList("pageLoad");
 	$('#chat-content').keydown(function(event){
 		var e = event ? event : window.event;
 		if (e.keyCode == 13) {//엔터키라면.
 			$.ajax({
 				url: contextPath + "/addChat",
 				type: "post",
-				data: {chatContent:$(this).val()}
+				data: {chatContent:$(this).val()},
+				success: function(){
+					updateChatList();
+				}
 			});
 			$(this).val("");
-			updateChatList();
 			return false;
 		}
 	});

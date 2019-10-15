@@ -64,6 +64,10 @@ header {
 .help-message .help-atag {display:inline-block; font-size:13px;}
 .help-message .help-btn:hover {background-color:#eee;}
 
+#message-box-switch-label {position:relative;}
+#message-box-switch-label .new-message-count {
+	display:none; position:absolute; border-radius:50%; background-color:red; color:white;
+	min-width:21px; text-align:center; top:-10px; right:0; font-size:12px; padding:4px 4px 3px 3px;}
 #message-box-switch + #message-box {
 	display:none; position:absolute; width:300px; padding:10px;
 	background-color:white; box-shadow:0 0 12px; right:0;}

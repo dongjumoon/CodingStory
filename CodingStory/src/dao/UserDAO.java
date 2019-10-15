@@ -79,4 +79,26 @@ public class UserDAO {
 		
 		return -1;
 	}
+
+	public int updateLastSeenChatId(String userId, int lastChatId) {
+		String sql = "update USER_TB set lastSeenChatId = ? where userId = ?";
+		
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lastChatId);
+			pstmt.setString(2, userId);
+			
+			return pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt, conn);
+		}
+		
+		return -1;
+	}
 }

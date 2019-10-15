@@ -59,6 +59,7 @@
 						<label id="message-box-switch-label">
 							<a class="mouse-cursor"><i class="fa fa-commenting user-nav-bar-font" aria-hidden="true"></i>
 							<span class="screen-out">메세지함</span></a>
+							<p class="new-message-count mouse-cursor">0</p>
 						</label>
 						<input type="checkbox" id="message-box-switch" class="screen-out">
 						<section id="message-box">

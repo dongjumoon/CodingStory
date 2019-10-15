@@ -30,8 +30,8 @@ public class AddChatServlet extends HttpServlet {
 		ChatDTO chat = new ChatDTO();
 		chat.setFromUserId(fromUserId);
 		chat.setChatContent(chatContent);
-		
-		new ChatDAO().insert(chat);
+
+		response.getWriter().append("" + new ChatDAO().insert(chat));
 	}
 
 }

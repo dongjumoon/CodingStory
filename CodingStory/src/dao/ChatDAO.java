@@ -109,4 +109,56 @@ public class ChatDAO {
 		return null;
 	}
 
+	public int getNewChatCount(String userId) {
+		String sql = "select (select max(chatId) from CHAT_TB) - lastSeenChatId "
+                   + "from USER_TB "
+                   + "where userId = ?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt, conn);
+		}
+		
+		return -1;
+	}
+	
+	public int getNewChatCount(int lastChatId) {
+		String sql = "select max(chatId) - ? from CHAT_TB";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, lastChatId);
+			
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, pstmt, conn);
+		}
+		
+		return -1;
+	}
+
 }
