@@ -118,6 +118,7 @@ public class BoardController extends HttpServlet {
 				
 				FreePostDTO post = new FreeBoardDAO().getPost(boardId);
 				if (post != null) {
+					post.setBoardContent(post.getBoardContent().replaceAll("<br>", "\n"));
 					request.setAttribute("post", post);
 					request.setAttribute("title", "수정 페이지");
 					request.getRequestDispatcher("/WEB-INF/views/board/free_board_write.jsp").forward(request, response);

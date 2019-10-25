@@ -95,13 +95,12 @@ $("#message-box-switch-label").click(function(){
 });
 
 $(window).resize(function(){
-	lastChatView();//채팅창 열려있으면 가장 아래로 스크롤
-	searchModeOff();
-	
 	//가로 사이즈 변경시 그에 맞는 반응(컨텐츠 크기조정)
 	var isGnbSwitchOn = $("#gnb-switch").get(0).checked;
 	var htmlWidth = getHtmlWidth();
 	if (isGnbSwitchOn) {//gnb가 보이는 상태일떄
+		lastChatView();//채팅창 열려있으면 가장 아래로 스크롤
+		searchModeOff();
 		if (htmlWidth > 1254) {
 			minimumDesktopViewOff();
 			
@@ -112,6 +111,8 @@ $(window).resize(function(){
 			minimumDesktopViewOn();
 		}
 	} else if (htmlWidth > 1024) {//pc일때
+		lastChatView();//채팅창 열려있으면 가장 아래로 스크롤
+		searchModeOff();
 		$("#search-form button[type=submit]").css("right", "");
 		minimumDesktopViewOff();
 		if (isReadyOnMobile) {
@@ -143,20 +144,20 @@ $(window).ready(function(){
 });
 
 $("#search-form button[type=submit]").click(function(){
-	if ($("#search").val().length == 0) {
-		alert("검색어를 입력해주세요");
-		$("#search").focus();
-		return false;
-	}
 	var htmlWidth = getHtmlWidth();
 	var isMobile = htmlWidth <= 1024;
 	var isSearchModeOff = $("#user-nav-bar").css("display") !== "none";
 	if (isMobile && isSearchModeOff) {//모바일인데 #user-nav-bar가 보인다면 검색모드가 아닌상태에서 클릭한것이므로 검색모드로 전환
-	 	$("#search-form select").css("display", "inline-block"); 
+	 	$("#search-form select").css("display", "inline-block");
 	 	$("#search").css("display", "inline-block").focus();
 	 	$("#search-form button[type=submit]").css("right","10px");
 		$("#gnb-switch-label").css("display", "none");
 		$("#user-nav-bar").css("display", "none");
+		return false;
+	}
+	if ($("#search").val().length == 0) {
+		alert("검색어를 입력해주세요");
+		$("#search").focus();
 		return false;
 	}
 });
