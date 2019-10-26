@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.FreeBoardDAO;
+import dao.VideoBoardDAO;
 import model.FreePostDTO;
+import model.VideoPostDTO;
 
 /**
  * Servlet implementation class BoardController
@@ -41,14 +43,20 @@ public class BoardController extends HttpServlet {
 			String nextPage = "";//다음으로 이동하게될 경로
 			if (board.equals("free") && boardId > 0) {
 				FreePostDTO freePost = new FreeBoardDAO().getPost(boardId);
+				freePost.setBoardContent(freePost.getBoardContent().replace("\n", "<br>"));
 				new FreeBoardDAO().increseViews(boardId);
 				request.setAttribute("post", freePost);
 				request.setAttribute("title", freePost.getBoardTitle());
 				nextPage = "/WEB-INF/views/board/free_post_view.jsp";
 				
 			} else if (board.equals("video") && boardId > 0) {
-				// video 게시글 요청이면
-				
+				VideoPostDTO videoPost = new VideoBoardDAO().getPost(boardId);
+				videoPost.setBoardContent(videoPost.getBoardContent().replace("\n", "<br>"));
+				videoPost.setVideoURL(VideoBoardDAO.getVideoId(videoPost.getVideoURL()));
+				new VideoBoardDAO().increseViews(boardId);
+				request.setAttribute("post", videoPost);
+				request.setAttribute("title", videoPost.getBoardTitle());
+				nextPage = "/WEB-INF/views/board/video_post_view.jsp";
 			} else {
 				request.setAttribute("title", "페이지 요청 오류");
 				request.getRequestDispatcher("/error404").forward(request, response);
@@ -118,7 +126,7 @@ public class BoardController extends HttpServlet {
 				
 				FreePostDTO post = new FreeBoardDAO().getPost(boardId);
 				if (post != null) {
-					post.setBoardContent(post.getBoardContent().replaceAll("<br>", "\n"));
+					post.setBoardContent(post.getBoardContent());
 					request.setAttribute("post", post);
 					request.setAttribute("title", "수정 페이지");
 					request.getRequestDispatcher("/WEB-INF/views/board/free_board_write.jsp").forward(request, response);
@@ -230,8 +238,31 @@ public class BoardController extends HttpServlet {
 			}
 			response.sendRedirect(request.getContextPath()+"/board/free");
 		} else if (action.equals("video")) { // insert, update 요청 처리
-			// video 게시판 준비중
+			String boardId = request.getParameter("boardId");
 			
+			if (boardId == null) { //insert
+				String title = request.getParameter("boardTitle");
+				String content = request.getParameter("boardContent");
+				String videoURL = request.getParameter("videoURL");
+				String user = (String)request.getSession().getAttribute("user");
+				
+				VideoPostDTO videoPost = new VideoPostDTO();
+				videoPost.setBoardTitle(title);
+				videoPost.setBoardContent(content);
+				videoPost.setUserId(user);
+				videoPost.setVideoURL(videoURL);
+				
+				int result = new VideoBoardDAO().insert(videoPost);
+				if (result > 0) {
+					session.setAttribute("message", "글 작성이 완료되었습니다.");
+				} else {
+					session.setAttribute("message", "DB오류로 게시물 작성에 실패하였습니다.");
+				}
+				
+			} else { // update
+				
+			}
+			response.sendRedirect(request.getContextPath()+"/board/video");
 		} else {
 			request.setAttribute("title", "페이지 요청 오류");
 			request.getRequestDispatcher("/error404").forward(request, response);
@@ -280,8 +311,44 @@ public class BoardController extends HttpServlet {
 	}
 	
 	private void goVideoBoardPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setAttribute("title", "영상게시판");
-		request.getRequestDispatcher("/WEB-INF/views/board/video_board.jsp").forward(request, response);
+		String page = request.getParameter("page");
+		if (page == null) page = "1";
+		int pageInt = 1;
+		try {
+			pageInt = Integer.parseInt(page);
+		} catch (Exception e) {
+			request.getSession().setAttribute("message", "잘못된 페이지 번호입니다.");
+			request.setAttribute("title", "페이지 요청 오류");
+			request.getRequestDispatcher("/error404").forward(request, response);
+			return;
+		}
+		List<VideoPostDTO> videoPostList = new VideoBoardDAO().getBoardList(pageInt);
+		int pageCount = new VideoBoardDAO().getPageCount(pageInt);
+		
+		if (videoPostList != null && pageCount != -1) {
+			//페이징에 필요한 정보 얻기 
+			int maxPageCount = VideoBoardDAO.MAX_PAGE_COUNT;
+			
+			int pageAreaNum = (pageInt - 1) / maxPageCount * maxPageCount;
+			int nextPageAreaNum;
+			if (pageCount > maxPageCount) {
+				nextPageAreaNum = pageAreaNum + pageCount;
+				pageCount--;
+			} else {
+				nextPageAreaNum = -1;
+			}
+			request.setAttribute("videoPostList", videoPostList);
+			request.setAttribute("pageCount", pageCount);
+			request.setAttribute("pageAreaNum", pageAreaNum);
+			request.setAttribute("nextPageAreaNum", nextPageAreaNum);
+			request.setAttribute("title", "영상게시판");
+			request.getRequestDispatcher("/WEB-INF/views/board/video_board.jsp").forward(request, response);
+			
+		} else {
+			request.getSession().setAttribute("message", "데이터 조회에 실패하였습니다.");
+			String contextPath = request.getContextPath();
+			response.sendRedirect(contextPath.length() == 0 ? "/" : contextPath);
+		}
 	}
 
 }

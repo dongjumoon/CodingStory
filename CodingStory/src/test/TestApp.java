@@ -21,6 +21,8 @@ public class TestApp {
 				+ "   ";
 		System.out.println(MessageFormat.format(cmt, "asd","asd","dfgs"));
 		
+		System.out.println("https://translate.google.co.kr/?hl=ko#view=home&op=translate&sl=en&tl=ko&text=sads".length());
+		
 	}
 
 }
