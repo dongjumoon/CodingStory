@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.FreeCommentDAO;
+import dao.CommentDAO;
+import model.BoardType;
 
 /**
  * Servlet implementation class UpdateCommentServlet
@@ -20,8 +21,9 @@ public class UpdateCommentServlet extends HttpServlet {
 		int cmtId = Integer.parseInt(request.getParameter("cmtId"));
 		String cmtContent = request.getParameter("cmtContent");
 		String requestorId = (String)request.getSession().getAttribute("user");
+		BoardType boardType = BoardType.valueOf(request.getParameter("boardType"));
 		
-		int result = new FreeCommentDAO().update(cmtId, cmtContent, requestorId);
+		int result = new CommentDAO(boardType).update(cmtId, cmtContent, requestorId);
 		
 		response.getWriter().append("" + result);
 	}

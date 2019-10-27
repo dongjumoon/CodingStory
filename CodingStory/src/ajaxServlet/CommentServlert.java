@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.FreeCommentDAO;
-import model.FreeCommentDTO;
+import dao.CommentDAO;
+import model.BoardType;
+import model.CommentDTO;
 
 /**
  * Servlet implementation class CommentServlert
@@ -29,8 +30,9 @@ public class CommentServlert extends HttpServlet {
 		try {
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		} catch(Exception e) {};
+		BoardType boardType = BoardType.valueOf(request.getParameter("boardType"));
 		
-		List<FreeCommentDTO> cmtList = new FreeCommentDAO().getCommentList(boardId, pageNum);
+		List<CommentDTO> cmtList = new CommentDAO(boardType).getCommentList(boardId, pageNum);
 		
 		PrintWriter out = response.getWriter();
 		out.append("{\"cmts\": [");
@@ -55,10 +57,10 @@ public class CommentServlert extends HttpServlet {
 		              + "\"pageAreaNum\" : \"{1}\","
 		              + "\"nextPageAreaNum\" : \"{2}\"}";
 		
-		int maxPageCount = FreeCommentDAO.MAX_PAGE_COUNT;
+		int maxPageCount = CommentDAO.MAX_PAGE_COUNT;
 		
-		int pageCount = new FreeCommentDAO().getPageCount(boardId, pageNum);
-		int pageAreaNum = (pageNum - 1) / maxPageCount * FreeCommentDAO.MAX_PAGE_COUNT;
+		int pageCount = new CommentDAO(boardType).getPageCount(boardId, pageNum);
+		int pageAreaNum = (pageNum - 1) / maxPageCount * CommentDAO.MAX_PAGE_COUNT;
 		int nextPageAreaNum;
 		if (pageCount > maxPageCount) {
 			nextPageAreaNum = pageAreaNum + pageCount;

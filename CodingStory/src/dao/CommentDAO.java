@@ -12,14 +12,18 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import model.FreeCommentDTO;
+import model.BoardType;
+import model.CommentDTO;
 
-public class FreeCommentDAO {
+public class CommentDAO {
 	private Connection conn;
+	private String boardType;
 	public static final int MAX_PAGE_COUNT = 5; // 페이지 이동 태그 갯수 5 = << ? ? ? ? ? >>
 	public static final int PRINT_COUNT = 5; // 한 페이지에 나타낼 댓글 수
 	
-	public FreeCommentDAO() {
+	public CommentDAO(BoardType boardType) {
+		this.boardType = boardType.name() + "_COMMENT_TB ";
+		
 		try {
 			InitialContext initCtx = new InitialContext();
 			Context envContext = (Context)initCtx.lookup("java:/comp/env");
@@ -31,8 +35,8 @@ public class FreeCommentDAO {
 		}
 	}
 	
-	public int insert(FreeCommentDTO comment) {
-		String sql = "insert into FREE_COMMENT_TB (boardId, cmtContent, cmtUser) values(?, ?, ?)";
+	public int insert(CommentDTO comment) {
+		String sql = "insert into " + boardType + " (boardId, cmtContent, cmtUser) values(?, ?, ?)";
 		
 		PreparedStatement pstmt = null;
 		try {
@@ -53,12 +57,12 @@ public class FreeCommentDAO {
 		return -1;
 	}
 	
-	public List<FreeCommentDTO> getCommentList(int boardId, int pageNum) {
+	public List<CommentDTO> getCommentList(int boardId, int pageNum) {
 		String sql =  "select cmtId, cmtUser, cmtContent, " +
 		              "       if(date(now()) = date(cmtDate), " +
 		              "          date_format(cmtDate,'%H:%i'), " +
 		              "          date(cmtDate)) cmtDate " +
-		              "from FREE_COMMENT_TB " +
+		              "from " + boardType +
 		              "where boardId = ? " +
 		              "order by cmtId " +
 		              "limit ?, ?";
@@ -73,9 +77,9 @@ public class FreeCommentDAO {
 			pstmt.setInt(3, PRINT_COUNT);
 			
 			rs = pstmt.executeQuery();
-			List<FreeCommentDTO> cmtList = new ArrayList<>();
+			List<CommentDTO> cmtList = new ArrayList<>();
 			while (rs.next()) {
-				FreeCommentDTO cmt = new FreeCommentDTO();
+				CommentDTO cmt = new CommentDTO();
 				cmt.setCmtId(rs.getInt("cmtId"));
 				cmt.setCmtUser(rs.getString("cmtUser"));
 				cmt.setCmtContent(rs.getString("cmtContent").replaceAll("\n", "<br>"));
@@ -97,7 +101,7 @@ public class FreeCommentDAO {
 	public int getPageCount(int boardId, int pageNum) {		
 		String sql = "select ceil(count(cmtId) / ?) " + 
 		             "from (select cmtId " +
-		             "      from FREE_COMMENT_TB " +
+		             "      from " + boardType +
 		             "      where boardId = ? " +
 		             "      order by cmtId " +
 		             "      limit ?, ?) t1";
@@ -128,7 +132,7 @@ public class FreeCommentDAO {
 	}
 	
 	public int getLastCommentPage(int boardId) {
-		String sql = "select ceil(count(cmtId) / ?) from FREE_COMMENT_TB where boardId = ?";
+		String sql = "select ceil(count(cmtId) / ?) from "+ boardType +" where boardId = ?";
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -153,7 +157,7 @@ public class FreeCommentDAO {
 	}
 	
 	public int update(int cmtId, String cmtContent, String requestorId) {
-		String sql = "update FREE_COMMENT_TB set cmtContent = ? where cmtId = ? and cmtUser = ?";
+		String sql = "update "+ boardType +" set cmtContent = ? where cmtId = ? and cmtUser = ?";
 		
 		PreparedStatement pstmt = null;
 		
@@ -176,7 +180,7 @@ public class FreeCommentDAO {
 	}
 	
 	public int delete(int cmtId, String requestorId) {
-		String sql = "delete from FREE_COMMENT_TB where cmtId = ? and cmtUser = ?";
+		String sql = "delete from "+ boardType +" where cmtId = ? and cmtUser = ?";
 		
 		PreparedStatement pstmt = null;
 		try {

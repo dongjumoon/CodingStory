@@ -1,11 +1,13 @@
 var contextPath = location.href.match("localhost") == null ? "" : "/CodingStory";//로컬에서 테스트할때마다 바꿔주지 않기위해
 
+var tokens = location.pathname.split("/");
+var boardType = tokens[tokens.length - 2].toUpperCase();
 loadCommentList(1);
 function loadCommentList(pageNum){
 	$.ajax({
 		url: contextPath + "/comment",
 		type: "post",
-		data: {boardId: boardId, pageNum: pageNum},
+		data: {boardId: boardId, pageNum: pageNum, boardType: boardType},
 		dataType: "json",
 		success: function(data){// 댓글과 pageNav 다시 그리기
 			var cmtList = $(".comment-list>ul");
@@ -68,7 +70,7 @@ $(".comment-write button").click(function(){
 		$.ajax({
 			url: contextPath + "/addComment",
 			type: "post",
-			data: {boardId: boardId, cmtContent: content},
+			data: {boardId: boardId, cmtContent: content, boardType: boardType},
 			success: function(data){
 				loadCommentList(data);
 			}
@@ -127,7 +129,7 @@ $(".comment-list").on("click", ".comment-delete-btn", function(){
 		$.ajax({
 			url: contextPath + "/deleteComment",
 			type:"post",
-			data:{cmtId:cmtId},
+			data:{cmtId: cmtId, boardType: boardType},
 			success:function(data){
 				if (data === '1') {
 					alert("삭제되었습니다.");
@@ -145,7 +147,7 @@ $(".comment-list").on("click", ".update-mode-submit-btn", function(){
 	$.ajax({
 		url: contextPath + "/updateComment",
 		type:"post" ,
-		data:{cmtId:cmtId,cmtContent:cmtContent},
+		data:{cmtId: cmtId, cmtContent: cmtContent, boardType: boardType},
 		success: function(data){
 			if (data === '1') {
             	beforeComment.children("p:nth-child(4)").text(cmtContent);

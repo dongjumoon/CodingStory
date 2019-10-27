@@ -1,6 +1,6 @@
 package model;
 
-public class FreeCommentDTO {
+public class CommentDTO {
 	private int boardId;
 	private int cmtId;
 	private String cmtContent;

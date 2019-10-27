@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.FreeCommentDAO;
+import dao.CommentDAO;
+import model.BoardType;
 
 /**
  * Servlet implementation class DeleteCommentServlet
@@ -19,8 +20,9 @@ public class DeleteCommentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int cmtId = Integer.parseInt(request.getParameter("cmtId"));
 		String requestorId = (String)request.getSession().getAttribute("user");
+		BoardType boardType = BoardType.valueOf(request.getParameter("boardType"));
 		
-		int result = new FreeCommentDAO().delete(cmtId,requestorId);
+		int result = new CommentDAO(boardType).delete(cmtId,requestorId);
 		
 		response.getWriter().append("" + result);
 	}

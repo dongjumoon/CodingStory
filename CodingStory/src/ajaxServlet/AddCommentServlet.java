@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import dao.FreeCommentDAO;
-import model.FreeCommentDTO;
+import dao.CommentDAO;
+import model.BoardType;
+import model.CommentDTO;
 
 /**
  * Servlet implementation class AddCommentServlet
@@ -22,19 +23,20 @@ public class AddCommentServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int boardId = Integer.parseInt(request.getParameter("boardId"));
 		String cmtContent = request.getParameter("cmtContent");
+		BoardType boardType = BoardType.valueOf(request.getParameter("boardType"));
 		
-		FreeCommentDTO cmt = new FreeCommentDTO();
+		CommentDTO cmt = new CommentDTO();
 		cmt.setCmtContent(cmtContent);
 		cmt.setCmtUser((String)request.getSession().getAttribute("user"));
 		cmt.setBoardId(boardId);
 		
-		int result = new FreeCommentDAO().insert(cmt);
+		int result = new CommentDAO(boardType).insert(cmt);
 		
 		PrintWriter out = response.getWriter();
 		if (result != 1) {
 			out.append("" + result);
 		} else {
-			int lastPage = new FreeCommentDAO().getLastCommentPage(boardId);
+			int lastPage = new CommentDAO(boardType).getLastCommentPage(boardId);
 			out.append("" + lastPage);
 		}
 	}

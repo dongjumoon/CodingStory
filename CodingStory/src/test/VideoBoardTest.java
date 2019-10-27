@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import dao.VideoBoardDAO;
+import model.BoardType;
 
 public class VideoBoardTest {
 
@@ -19,6 +20,12 @@ public class VideoBoardTest {
 		assertEquals(vBoard.getVideoId("VIDEO_ID"), "VIDEO_ID");
 		assertEquals(vBoard.getVideoId(pattern2), "VIDEO_ID");
 		assertEquals(vBoard.getVideoId(pattern3), "VIDEO_ID");
+	}
+	
+	@Test
+	public void enumTest() {
+		BoardType bType = BoardType.valueOf("FREE");
+		assertEquals(bType.name() + "_COMMENT_TB", "FREE_COMMENT_TB");
 	}
 
 }
