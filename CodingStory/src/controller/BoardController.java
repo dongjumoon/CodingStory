@@ -29,6 +29,9 @@ public class BoardController extends HttpServlet {
 		if (action.equals("free")) {
 			goFreeBoardPage(request, response);
 			
+		} else if (action.equals("video")) {
+			goVideoBoardPage(request, response);
+			
 		} else if (action.equals("view")) { // 글 내용 요청
 			String board = uriTokens[uriTokens.length - 2];// '게시판구분'/view (어느게시판 관련 요청인지)
 			int boardId;
@@ -63,9 +66,6 @@ public class BoardController extends HttpServlet {
 				return;
 			}
 			request.getRequestDispatcher(nextPage).forward(request, response);
-			
-		} else if (action.equals("video")) {
-			goVideoBoardPage(request, response);
 			
 		} else if (action.equals("write.user")) {// .user 요청은 LoginCheckFilter를 통해 회원인지 판단(web.xml설정)
 			String boardType = uriTokens[uriTokens.length - 2];// '게시판구분'/write.user (어느게시판 관련 요청인지)
@@ -105,7 +105,23 @@ public class BoardController extends HttpServlet {
 				response.sendRedirect(request.getContextPath() + "/board/free");
 				
 			} else if (boardType.equals("video")) {
-				// video 게시글 지우기
+				int boardId = 0;
+				try {
+					boardId = Integer.parseInt(request.getParameter("boardId"));
+				} catch (Exception e) {
+					session.setAttribute("message", "잘못된 요청입니다.");
+					response.sendRedirect(request.getContextPath() + "/board/video");
+					return;
+				}
+				int result = new VideoBoardDAO().delete(boardId);
+				if (result == 1) {
+					session.setAttribute("message", "삭제 되었습니다");
+				} else if (result == 0) {
+					session.setAttribute("message", "이미 삭제되었거나 없는 게시물입니다.");
+				} else {
+					session.setAttribute("message", "DB오류로 삭제에 실패하였습니다.");
+				}
+				response.sendRedirect(request.getContextPath() + "/board/video");
 				
 			} else {
 				request.setAttribute("title", "페이지 요청 오류");
@@ -126,7 +142,6 @@ public class BoardController extends HttpServlet {
 				
 				FreePostDTO post = new FreeBoardDAO().getPost(boardId);
 				if (post != null) {
-					post.setBoardContent(post.getBoardContent());
 					request.setAttribute("post", post);
 					request.setAttribute("title", "수정 페이지");
 					request.getRequestDispatcher("/WEB-INF/views/board/free_board_write.jsp").forward(request, response);
@@ -139,7 +154,27 @@ public class BoardController extends HttpServlet {
 				}
 				
 			} else if (boardType.equals("video")) {
-				//영상게시물 수정페이지
+				int boardId = 0;
+				try {
+					boardId = Integer.parseInt(request.getParameter("boardId"));
+				} catch (Exception e) {
+					session.setAttribute("message", "잘못된 요청입니다.");
+					response.sendRedirect(request.getContextPath() + "/board/video");
+					return;
+				}
+				
+				VideoPostDTO post = new VideoBoardDAO().getPost(boardId);
+				if (post != null) {
+					request.setAttribute("post", post);
+					request.setAttribute("title", "수정 페이지");
+					request.getRequestDispatcher("/WEB-INF/views/board/video_board_write.jsp").forward(request, response);
+					return;
+					
+				} else {
+					session.setAttribute("message", "DB오류로 접근에 실패했습니다.");
+					response.sendRedirect(request.getContextPath() + "/board/video");
+					return;
+				}
 				
 			} else {
 				request.setAttribute("title", "페이지 요청 오류");
@@ -260,7 +295,26 @@ public class BoardController extends HttpServlet {
 				}
 				
 			} else { // update
+				int parseBoardId = Integer.parseInt(boardId); // post요청이니까 예외처리x?
+				VideoPostDTO post = new VideoBoardDAO().getPost(parseBoardId);
 				
+				// 얻어온 게시글의 작성자와 수정요청한 사람이 일치하는지 확인
+				String insertId = post.getUserId();
+				String updateId = (String)session.getAttribute("user");
+				if (insertId.equals(updateId)) {
+					String title = request.getParameter("boardTitle");
+					String content = request.getParameter("boardContent");
+					String videoURL = request.getParameter("videoURL");
+					
+					int result = new VideoBoardDAO().update(parseBoardId, title, content, videoURL);
+					if (result == 1) {
+						session.setAttribute("message", "수정 되었습니다.");
+					} else {
+						session.setAttribute("message", "DB오류로 수정에 실패하였습니다.");
+					}
+				} else {
+					session.setAttribute("message", "수정 권한이 없습니다.");
+				}
 			}
 			response.sendRedirect(request.getContextPath()+"/board/video");
 		} else {

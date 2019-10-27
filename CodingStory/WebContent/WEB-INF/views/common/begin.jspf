@@ -44,7 +44,7 @@
 	<nav id="gnb">
 		<span id="virtual-elements"><i class="fa fa-bars fontAwesome" aria-hidden="true"></i></span>
 		<ul>
-			<li><a href="${contextPath}/board/video">(x)영상게시판</a></li>
+			<li><a href="${contextPath}/board/video">영상게시판</a></li>
 			<li><a href="${contextPath}/board/free">자유게시판</a></li>
 		</ul>
 	</nav>

@@ -1,3 +1,5 @@
+<%@page import="model.VideoPostDTO"%>
+<%@page import="dao.VideoBoardDAO"%>
 <%@page import="model.FreePostDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="dao.FreeBoardDAO"%>
@@ -11,7 +13,9 @@
 </script>
 <%
 	List<FreePostDTO> freePostList = new FreeBoardDAO().getBoardList(1);
+	List<VideoPostDTO> videoPostList = new VideoBoardDAO().getBoardList(1);
 	pageContext.setAttribute("freePostList", freePostList);
+	pageContext.setAttribute("videoPostList", videoPostList);
 %>
 <link href="${contextPath}/css/index_page.css" rel="stylesheet" type="text/css">
 <h2 class="screen-out">게시판 종합</h2>
@@ -21,30 +25,14 @@
 	<section class="video-board">
 		<h3><a href="${contextPath}/board/video">영상 게시판</a></h3>
 		<ul>
-			<li>
-				<h4 class="screen-out">얄팍한 코딩사전 : 객체지향 프로그래밍이란?</h4>
-				<div class="video-box">
-				<iframe src="https://www.youtube.com/embed/vrhIxBWSJ04" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				</div>
-			</li>
-			<li>
-				<h4 class="screen-out">포프TV : 올바른 변수 이름 짓는법</h4>
-				<div class="video-box">
-				<iframe src="https://www.youtube.com/embed/ZtkIwGZZAq8" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				</div>
-			</li>
-			<li>
-				<h4 class="screen-out">알고리즘 투게더 거니 : 1차 브라우저 전쟁</h4>
-				<div class="video-box">
-				<iframe src="https://www.youtube.com/embed/aY1TCdRWGfU" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				</div>
-			</li>
-			<li>
-				<h4 class="screen-out">테크보이 워니 : 초보 개발자가 하는 실수들</h4>
-				<div class="video-box">
-				<iframe src="https://www.youtube.com/embed/6qcQd4HPpTU" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				</div>
-			</li>
+			<c:forEach var="post" items="${videoPostList}" end="3">
+				<li>
+					<h4 class="screen-out">${post.boardContent}</h4>
+					<div class="video-box">
+					<iframe src="https://www.youtube.com/embed/${post.videoURL}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					</div>
+				</li>
+			</c:forEach>
 		</ul>
 	</section>
 	<section class="board">

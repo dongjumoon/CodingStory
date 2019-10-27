@@ -9,7 +9,7 @@
 	<p>${post.boardDate}</p>
 	<p>조회수 ${post.boardViews}</p>
 	<p>${post.userId}</p>
-	<p>${post.boardContent}</p>
+	<p class="board-content">${post.boardContent}</p>
 <c:if test="${user == post.userId}">
 	<div class="board-btn-box">
 		<a href="delete?boardId=${post.boardId}" class="delete-btn">삭제</a>

@@ -92,6 +92,25 @@ public class VideoBoardDAO {
 		return -1;
 	}
 	
+	public int delete(int boardId) {
+		String sql = "delete from VIDEO_BOARD_TB where boardId = " + boardId;
+		
+		Statement stmt = null;
+		try {
+			stmt = conn.createStatement();
+			
+			return stmt.executeUpdate(sql);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(stmt, conn);
+		}
+		
+		return -1;
+	}
+	
 	public VideoPostDTO getPost(int boardId) {
 		String sql = "select boardId, userId, boardTitle, boardContent, boardViews, videoURL," +
   		             "       if(date(now()) = date(boardDate), " +
@@ -133,7 +152,7 @@ public class VideoBoardDAO {
 		             "       if(cmtCount is null, " +
 		             "          boardTitle, " +
 		             "          concat(boardTitle,' <span class=\"cmt-count-viewer\">[',cmtCount,']</span>')) boardTitle, " + 
-		             "       userId, boardViews, " + 
+		             "       userId, boardViews, videoURL," + 
 		             "       if(date(now()) = date(boardDate), " + 
 		             "          date_format(boardDate,'%H:%i'), " + 
 		             "          date(boardDate)) boardDate " + 
@@ -160,6 +179,7 @@ public class VideoBoardDAO {
 				row.setUserId(rs.getString("userId"));
 				row.setBoardDate(rs.getString("boardDate"));
 				row.setBoardViews(rs.getInt("boardViews"));
+				row.setVideoURL(getVideoId(rs.getString("videoURL")));
 				videoPostList.add(row);
 			}
 			return videoPostList;

@@ -108,6 +108,12 @@ header {
 #contents .board table tbody td:nth-child(2) {text-align:left; padding:10px;}
 #contents .board table tbody td:nth-child(2) a:hover {text-decoration:underline;}
 #contents .board table td {border-bottom: 1px solid #bbb; padding:10px;}
+#contents .video-board,
+#contents .video-board ul {overflow:hidden;}
+#contents .video-board li {width:23%; position:relative; float:left;}
+#contents .video-board li:not(:first-child) {margin-left:2.66%;}
+#contents .video-box {width:100%; padding-bottom:56.26%; position:relative;}
+#contents .video-box iframe {position: absolute; width: 100%; height: 100%; border:none; top:0; left:0;}
 .cmt-count-viewer {color:#1d1;}/* sql에서 입힌 class */
 
 .board-write-form legend {text-align:center;}
@@ -121,13 +127,14 @@ header {
 .board-btn-box + nav a {padding:5px;}
 .post-viewer {text-align:center;}
 .post-viewer h4 {font-size:35px;padding:30px 0 2px;}
-.post-viewer p:nth-child(5) {margin-top:40px; min-height:300px; text-align-last:left; line-height:30px;}
+.post-viewer .user-id {margin-bottom:5px;}
+.post-viewer .board-content {margin-top:40px; min-height:300px; text-align-last:left; line-height:30px;}
 
 .comment-list .comment-write > * {vertical-align:top;}
 .comment-list .comment-write {font-size:0;}
 .comment-list .comment-write textarea {width:calc(100% - 50px); height:47px;}
 .comment-list .comment-write button   {width:            50px ; height:47px; background-color:#da6;}
-.comment-list li {padding:20px 0; position:relative;}
+.comment-list li {padding:20px 0;}
 .comment-list li p:first-child {display: none;}
 .comment-list li p:not(:first-child):not(:nth-child(4)) {display:inline-block;}
 .comment-list li p:nth-child(3) {font-size:12px; color:#aaa; padding-left:5px;}
