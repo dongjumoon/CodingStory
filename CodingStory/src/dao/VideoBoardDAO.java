@@ -194,6 +194,51 @@ public class VideoBoardDAO {
 		return null;
 	}
 	
+	public List<VideoPostDTO> getBoardList(String search) {
+		String sql = "select t1.boardId, " + 
+                     "       if(cmtCount is null, " +
+                     "          boardTitle, " +
+                     "          concat(boardTitle,' <span class=\"cmt-count-viewer\">[',cmtCount,']</span>')) boardTitle, " + 
+                     "       userId, boardViews, videoURL, " + 
+                     "       if(date(now()) = date(boardDate), " + 
+                     "          date_format(boardDate,'%H:%i'), " + 
+                     "          date(boardDate)) boardDate " + 
+                     "from VIDEO_BOARD_TB t1 left join (select boardId, count(cmtId) cmtCount " + 
+                     "                                 from VIDEO_COMMENT_TB " + 
+                     "                                 group by boardId) t2            on t1.boardId = t2.boardId " + 
+                     "where boardTitle like concat('%"+search+"%')" + 
+                     "order by t1.boardId desc " + 
+                     "limit 0, 20";
+		
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			List<VideoPostDTO> videoPostList = new ArrayList<>();
+			while (rs.next()) {
+				VideoPostDTO row = new VideoPostDTO();
+				row.setBoardId(rs.getInt("boardId"));
+				row.setBoardTitle(rs.getString("boardTitle"));
+				row.setUserId(rs.getString("userId"));
+				row.setBoardDate(rs.getString("boardDate"));
+				row.setBoardViews(rs.getInt("boardViews"));
+				row.setVideoURL(rs.getString("videoURL"));
+				videoPostList.add(row);
+			}
+			return videoPostList;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(rs, stmt, conn);
+		}
+		
+		return null;
+	}
+	
 	public int getPageCount(int pageNum) {
 		String sql = "select ceil(count(boardId) / ?) boardCount " + 
 		             "from (select boardId from VIDEO_BOARD_TB limit ?, ?) t1";

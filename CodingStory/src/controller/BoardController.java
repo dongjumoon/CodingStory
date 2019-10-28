@@ -189,7 +189,11 @@ public class BoardController extends HttpServlet {
 			}
 			
 			if (searchArea.equals("all")) {
-				//추후 영상게시판도..!
+				//영상게시판
+				List<VideoPostDTO> videoPostList = new VideoBoardDAO().getBoardList(search);
+				if (videoPostList != null) {
+					request.setAttribute("videoPostList", videoPostList);
+				}
 				
 				//자유게시판
 				List<FreePostDTO> freePostList = new FreeBoardDAO().getBoardList(search);
@@ -209,8 +213,12 @@ public class BoardController extends HttpServlet {
 				request.getRequestDispatcher("/WEB-INF/views/board/free_board.jsp").forward(request, response);
 				
 			} else if (searchArea.equals("video")) {
-				//준비중..
-				response.sendRedirect(request.getContextPath() + "/board/video");
+				List<VideoPostDTO> videoPostList = new VideoBoardDAO().getBoardList(search);
+				if (videoPostList != null) {
+					request.setAttribute("videoPostList", videoPostList);
+				}
+				request.setAttribute("title", "영상게시판 검색");
+				request.getRequestDispatcher("/WEB-INF/views/board/video_board.jsp").forward(request, response);
 				
 			} else {
 				request.setAttribute("title", "페이지 요청 오류");

@@ -15,10 +15,21 @@
 			</tr>
 		</thead>
 		<tbody>
+			<c:if test="${videoPostList.size() == 0}">
+				<tr>
+					<td></td>
+					<td colspan="4">검색결과가 없습니다.</td>
+				</tr>
+			</c:if>
+			<c:forEach var="post" items="${videoPostList}">
 			<tr>
-				<td></td>
-				<td colspan="4">영상게시판은 준비중입니다..</td>
+				<td>${post.boardId}</td>
+				<td><a href="video/view?boardId=${post.boardId}" title="내용보기">${post.boardTitle}</a></td>
+				<td><span>${post.userId}</span></td>
+				<td>${post.boardDate}</td>
+				<td>${post.boardViews}</td>
 			</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 	<div class="board-btn-box">
