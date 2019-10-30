@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +34,13 @@ public class UserController extends HttpServlet {
 			
 		} else if(action.equals("logout")) {
 			request.getSession().invalidate();
+			Cookie[] cookies = request.getCookies();
+			for (Cookie c : cookies) {
+				if (c.getName().equals("user")) {
+					c.setMaxAge(0);
+					response.addCookie(c);
+				}
+			}
 			String contextPath = request.getContextPath();
 			response.sendRedirect(contextPath.length() == 0 ? "/" : contextPath);
 			
@@ -77,11 +85,19 @@ public class UserController extends HttpServlet {
 		} else if (action.equals("login")) {
 			String id = request.getParameter("id");
 			String pw = request.getParameter("pw");
+			boolean isLongTimeLoginRequest = request.getParameter("longTimeLogin") != null;
 			
 			int result = new UserDAO().login(id, pw);
 			if (result == 1) {
 				HttpSession session = request.getSession();
 				session.setAttribute("user", id);
+				if (isLongTimeLoginRequest) {
+					session.setMaxInactiveInterval(60 * 60 * 24 * 30);//한달
+					Cookie cookie = new Cookie("user", id);
+					cookie.setPath("/");
+					cookie.setMaxAge(60 * 60 * 24 * 30);//한달
+					response.addCookie(cookie);
+				}
 				if (id.equals("tester")) {
 					// 테스터는 무조건 홈으로
 					session.removeAttribute("resultURI");
