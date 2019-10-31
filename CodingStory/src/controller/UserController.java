@@ -34,13 +34,11 @@ public class UserController extends HttpServlet {
 			
 		} else if(action.equals("logout")) {
 			request.getSession().invalidate();
-			Cookie[] cookies = request.getCookies();
-			for (Cookie c : cookies) {
-				if (c.getName().equals("user")) {
-					c.setMaxAge(0);
-					response.addCookie(c);
-				}
-			}
+			Cookie cookie = new Cookie("user", null);
+			cookie.setMaxAge(0);
+			cookie.setPath("/");
+			response.addCookie(cookie);
+			
 			String contextPath = request.getContextPath();
 			response.sendRedirect(contextPath.length() == 0 ? "/" : contextPath);
 			
@@ -92,7 +90,6 @@ public class UserController extends HttpServlet {
 				HttpSession session = request.getSession();
 				session.setAttribute("user", id);
 				if (isLongTimeLoginRequest) {
-					session.setMaxInactiveInterval(60 * 60 * 24 * 30);//한달
 					Cookie cookie = new Cookie("user", id);
 					cookie.setPath("/");
 					cookie.setMaxAge(60 * 60 * 24 * 30);//한달

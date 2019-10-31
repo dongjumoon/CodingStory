@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:if test="${user == null && cookie.user != null}" >
-
-		<!-- 로그인하며 세션과 쿠키 시간 한달씩으로 초기화 -->
+<c:if test="${user == null && cookie.user.value != null}" >
+		<!-- 로그인하며 쿠키 시간 한달로 초기화 -->
 		<c:set var="session" value="${pageContext.session}"/>
-		${session.setMaxInactiveInterval(60*60*24*30)}
 		${session.setAttribute('user',cookie.user.value)}
 		
 		<c:set var="response" value="${pageContext.response}"/>
 		${cookie.user.setMaxAge(60*60*24*30)}
+		${cookie.user.setPath('/')}
 		${response.addCookie(cookie.user)}
 </c:if>
 <!DOCTYPE html>
