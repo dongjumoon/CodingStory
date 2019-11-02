@@ -57,7 +57,7 @@ public class UserController extends HttpServlet {
 
 		if (action.equals("signUp")) {
 			UserDTO user = new UserDTO();
-			user.setUserId(request.getParameter("id"));
+			user.setUserId(request.getParameter("id").trim());
 			user.setUserPw(request.getParameter("pw"));
 			user.setUserName(request.getParameter("name"));
 			user.setUserGender(request.getParameter("gender"));
@@ -81,7 +81,7 @@ public class UserController extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/user/sign_up.jsp").forward(request, response);
 			
 		} else if (action.equals("login")) {
-			String id = request.getParameter("id");
+			String id = request.getParameter("id").trim();
 			String pw = request.getParameter("pw");
 			boolean isLongTimeLoginRequest = request.getParameter("longTimeLogin") != null;
 			

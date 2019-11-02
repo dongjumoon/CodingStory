@@ -100,7 +100,7 @@ function parseHtml(stringText) {
 	return stringText.replace(/&/g, "&#38;").replace(/</g, "&lt;").replace(/ /g, "&nbsp;").replace(/\n/g, "<br>");
 }
 function parseText(stringHtml) {
-	return stringHtml.replace(/<br>/g, "\n").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&/g, "&#38;");
+	return stringHtml.replace(/<br>/g, "\n").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&#38;/g, "&");
 }
 // 수정,삭제관련
 //<li>

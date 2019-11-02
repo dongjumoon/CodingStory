@@ -4,7 +4,6 @@
 .login-form input:not(#long-time-login) {width:100%; padding:10px;}
 .login-form #pw {margin:10px 0 20px;}
 .login-form + section {max-width:600px; margin:auto;}
-.login-form + section a {float:right; padding:7px; margin-top:15px; border:1px solid black;}
+.login-form + section a {float:right; padding:7px; margin-top:-34px; border:1px solid black;}
 .login-form + section a:hover {background-color:#eee;}
-.login-form fieldset {position: relative;}
-#long-time-login-p-tag {position: absolute; top:270px;}
+#long-time-login-p-tag {margin:20px 0 8px;}
