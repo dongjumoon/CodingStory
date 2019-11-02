@@ -96,7 +96,12 @@ $(".cmt-page-nav").on("mouseout blur", "button:not(.current-page)", function(){
 	$(this).css("color", "");
 });
 
-
+function parseHtml(stringText) {
+	return stringText.replace(/&/g, "&#38;").replace(/</g, "&lt;").replace(/ /g, "&nbsp;").replace(/\n/g, "<br>");
+}
+function parseText(stringHtml) {
+	return stringHtml.replace(/<br>/g, "\n").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&/g, "&#38;");
+}
 // 수정,삭제관련
 //<li>
 //	<p>7</p>
@@ -111,10 +116,10 @@ $(".cmt-page-nav").on("mouseout blur", "button:not(.current-page)", function(){
 var beforeCommentContent;
 var beforeComment;
 $(".comment-list").on("click", ".comment-update-btn", function(){
-	beforeCommentContent = $(this).parent().prev().text();
+	beforeCommentContent = $(this).parent().prev().html();
 	beforeComment = $(this).parent().parent().clone();//수정취소 버튼 클릭시 되돌릴 객체
 	// 수정모드로 교체
-	$(this).parent().prev().replaceWith($("<textarea/>").val(beforeCommentContent).fadeIn());
+	$(this).parent().prev().replaceWith($("<textarea/>").html(parseText(beforeCommentContent)).fadeIn());
 	// 버튼 클래스 바꾸기.
 	$(this).get(0).className = "update-mode-submit-btn";
 	$(this).text("완료");
@@ -150,7 +155,7 @@ $(".comment-list").on("click", ".update-mode-submit-btn", function(){
 		data:{cmtId: cmtId, cmtContent: cmtContent, boardType: boardType},
 		success: function(data){
 			if (data === '1') {
-            	beforeComment.children("p:nth-child(4)").text(cmtContent);
+            	beforeComment.children("p:nth-child(4)").html(parseHtml(cmtContent));
             	cmtBox.replaceWith(beforeComment.fadeIn());
 			}
 		}

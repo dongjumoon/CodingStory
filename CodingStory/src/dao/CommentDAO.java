@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 
 import model.BoardType;
 import model.CommentDTO;
+import util.StringUtil;
 
 public class CommentDAO {
 	private Connection conn;
@@ -82,7 +83,7 @@ public class CommentDAO {
 				CommentDTO cmt = new CommentDTO();
 				cmt.setCmtId(rs.getInt("cmtId"));
 				cmt.setCmtUser(rs.getString("cmtUser"));
-				cmt.setCmtContent(rs.getString("cmtContent").replaceAll("\n", "<br>"));
+				cmt.setCmtContent(StringUtil.parseHtml(rs.getString("cmtContent")));
 				cmt.setCmtDate(rs.getString("cmtDate"));
 				cmtList.add(cmt);
 			}

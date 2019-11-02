@@ -7,7 +7,11 @@
 			<c:if test="${post == null}">
 				<legend>게시물 작성</legend>
 				<p><span class="screen-out">제목:</span><input type="text" name="boardTitle" maxlangth="30" placeholder="제목" required></p>
-				<p><span class="screen-out">영상 URL:</span><input type="text" name="videoURL" maxlangth="100" placeholder="영상 링크" required></p>
+				<p class="video-url-input">
+					<span class="screen-out">영상 URL:</span>
+					<input type="text" name="videoURL" id="video-url" maxlangth="100" placeholder="영상 링크" required><!-- 
+				 --><a href="https://www.youtube.com/" target="_blank" title="유튜브 새창열기"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+				</p>
 				<p><span class="screen-out">내용:</span><textarea rows="20" cols="50" name="boardContent" placeholder="글 내용" required></textarea></p>
 				<p><input type="submit" value="제출"></p>
 			</c:if>

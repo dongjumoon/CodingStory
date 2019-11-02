@@ -46,7 +46,7 @@ public class CommentServlert extends HttpServlet {
 			out.append(MessageFormat.format(cmt, cmtList.get(i).getCmtId(),
 			                                     cmtList.get(i).getCmtUser(),
 			                                     cmtList.get(i).getCmtDate(),
-			                                     cmtList.get(i).getCmtContent()));
+			                                     cmtList.get(i).getCmtContent().replace("\\", "\\\\").replace("\"", "\\\"")));
 			if (cmtList.size() != i+1) {
 				out.append(",");
 			}

@@ -118,8 +118,12 @@ header {
 
 .board-write-form legend {text-align:center;}
 .board-write-form {max-width:600px;margin:auto;}
-.board-write-form input {width:100%;margin:20px 0 10px; padding:7px;}
+.board-write-form input:not(#video-url) {width:100%;margin:20px 0 10px; padding:7px;}
 .board-write-form textarea {width:100%; padding:7px;}
+.board-write-form .video-url-input {padding:0 0 10px;}
+.board-write-form #video-url {width:calc(100% - 24.84px); padding:7px;}
+.board-write-form #video-url + a {display:inline-block; width:24.84px;}
+.board-write-form #video-url + a .fa {font-size:29px; vertical-align:middle;}
 
 .board-btn-box {overflow:hidden; margin-top:10px; text-align:center;}
 .board-btn-box > a {display:block; float:right; padding:7px; border:1px solid black; border-radius:10px; margin-left:5px;}

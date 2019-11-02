@@ -202,7 +202,7 @@ function updateChatList() {
 					li.append(
 						$("<p/>").text(chatList[i].fromUserId),
 						$("<p/>").text(chatList[i].chatDate),
-						$("<p/>").text(chatList[i].chatContent)
+						$("<p/>").html(chatList[i].chatContent)
 					);
 					if (chatList[i].fromUserId === userId) {
 						li.addClass("my-msg");
@@ -245,7 +245,7 @@ function updateChatList() {
 						li.append(
 							$("<p/>").text(chatList[i].fromUserId),
 							$("<p/>").text(chatList[i].chatDate),
-							$("<p/>").text(chatList[i].chatContent)
+							$("<p/>").html(chatList[i].chatContent)
 						);
 						if (chatList[i].fromUserId === userId) {
 							li.addClass("my-msg");

@@ -13,6 +13,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import model.ChatDTO;
+import util.StringUtil;
 
 public class ChatDAO {
 	private static final int SAVE_CHAT_COUNT = 20;
@@ -95,7 +96,7 @@ public class ChatDAO {
 				row.setChatId(rs.getInt("chatId"));
 				row.setFromUserId(rs.getString("fromUserId"));
 				row.setChatDate(rs.getString("chatTime"));
-				row.setChatContent(rs.getString("chatContent"));
+				row.setChatContent(StringUtil.parseHtml(rs.getString("chatContent")));
 				chatList.add(row);
 			}
 			return chatList;

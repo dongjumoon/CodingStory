@@ -37,7 +37,7 @@ public class ChatServlet extends HttpServlet {
 			for (int i = 0; i < chatList.size(); i++) {
 				strBuffer.append("{\"fromUserId\":\"" + chatList.get(i).getFromUserId() + "\"");
 				strBuffer.append(",\"chatDate\":\""   + chatList.get(i).getChatDate() +"\"");
-				strBuffer.append(",\"chatContent\":\""+ chatList.get(i).getChatContent().replace("\\", "\\\\") +"\"");
+				strBuffer.append(",\"chatContent\":\""+ chatList.get(i).getChatContent().replace("\\", "\\\\").replace("\"", "\\\"") +"\"");
 				strBuffer.append(",\"chatId\":\""     + chatList.get(i).getChatId() + "\"}");
 
 				if (chatList.size() -1 != i) {
@@ -64,7 +64,7 @@ public class ChatServlet extends HttpServlet {
 				for (int i = 0; i < chatList.size(); i++) {
 					strBuffer.append("{\"fromUserId\":\"" + chatList.get(i).getFromUserId() + "\"");
 					strBuffer.append(",\"chatDate\":\""   + chatList.get(i).getChatDate() +"\"");
-					strBuffer.append(",\"chatContent\":\""+ chatList.get(i).getChatContent().replace("\\", "\\\\") +"\"");
+					strBuffer.append(",\"chatContent\":\""+ chatList.get(i).getChatContent().replace("\\", "\\\\").replace("\"", "\\\"") +"\"");
 					strBuffer.append(",\"chatId\":\""     + chatList.get(i).getChatId() + "\"}");
 
 					if (chatList.size() -1 != i) {

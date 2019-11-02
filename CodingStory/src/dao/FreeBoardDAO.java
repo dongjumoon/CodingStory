@@ -14,6 +14,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import model.FreePostDTO;
+import util.StringUtil;
 
 public class FreeBoardDAO {
 	
@@ -234,7 +235,7 @@ public class FreeBoardDAO {
 				post.setBoardId(rs.getInt("boardId"));
 				post.setUserId(rs.getString("userId"));
 				post.setBoardTitle(rs.getString("boardTitle"));
-				post.setBoardContent(rs.getString("boardContent"));
+				post.setBoardContent(StringUtil.parseHtml(rs.getString("boardContent")));
 				post.setBoardDate(rs.getString("boardDate"));
 				post.setBoardViews(rs.getInt("boardViews"));
 				

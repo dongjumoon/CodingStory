@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 import model.VideoPostDTO;
+import util.StringUtil;
 
 public class VideoBoardDAO {
 
@@ -130,7 +131,7 @@ public class VideoBoardDAO {
 				post.setBoardId(rs.getInt("boardId"));
 				post.setUserId(rs.getString("userId"));
 				post.setBoardTitle(rs.getString("boardTitle"));
-				post.setBoardContent(rs.getString("boardContent"));
+				post.setBoardContent(StringUtil.parseHtml(rs.getString("boardContent")));
 				post.setBoardDate(rs.getString("boardDate"));
 				post.setBoardViews(rs.getInt("boardViews"));
 				post.setVideoURL(rs.getString("videoURL"));

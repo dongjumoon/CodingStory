@@ -46,7 +46,6 @@ public class BoardController extends HttpServlet {
 			String nextPage = "";//다음으로 이동하게될 경로
 			if (board.equals("free") && boardId > 0) {
 				FreePostDTO freePost = new FreeBoardDAO().getPost(boardId);
-				freePost.setBoardContent(freePost.getBoardContent().replace("\n", "<br>"));
 				new FreeBoardDAO().increseViews(boardId);
 				request.setAttribute("post", freePost);
 				request.setAttribute("title", freePost.getBoardTitle());
@@ -54,7 +53,6 @@ public class BoardController extends HttpServlet {
 				
 			} else if (board.equals("video") && boardId > 0) {
 				VideoPostDTO videoPost = new VideoBoardDAO().getPost(boardId);
-				videoPost.setBoardContent(videoPost.getBoardContent().replace("\n", "<br>"));
 				videoPost.setVideoURL(VideoBoardDAO.getVideoId(videoPost.getVideoURL()));
 				new VideoBoardDAO().increseViews(boardId);
 				request.setAttribute("post", videoPost);
