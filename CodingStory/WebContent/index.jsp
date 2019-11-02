@@ -23,7 +23,7 @@
 		<h3 id="main-title">Coding Story</h3>
 	</article>
 	<section class="video-board">
-		<h3><a href="${contextPath}/board/video">영상 게시판</a></h3>
+		<h3><a href="${contextPath}/board/video">영상 게시판 <i class="fa fa-hand-o-left" aria-hidden="true"></i></a></h3>
 		<ul>
 			<c:forEach var="post" items="${videoPostList}" end="3">
 				<li>
@@ -36,7 +36,7 @@
 		</ul>
 	</section>
 	<section class="board">
-		<h3><a href="${contextPath}/board/free">자유 게시판</a></h3>
+		<h3><a href="${contextPath}/board/free">자유 게시판 <i class="fa fa-hand-o-left" aria-hidden="true"></i></a></h3>
 		<table>
 			<caption class="screen-out">게시글 목록</caption>
 			<thead>
@@ -60,6 +60,9 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		<div class="board-btn-box">
+			<a href="${contextPath}/board/free?page=2">게시글 더보기</a>
+		</div>
 	</section>
 
 <%@ include file="/WEB-INF/views/common/end.jspf" %>
