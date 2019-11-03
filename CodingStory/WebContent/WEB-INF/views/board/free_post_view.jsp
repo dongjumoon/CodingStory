@@ -9,6 +9,7 @@
 	<p>${post.boardDate}</p>
 	<p>조회수 ${post.boardViews}</p>
 	<p>${post.userId}</p>
+	<img src="${contextPath}/images_upload/${post.imgFileRealName}" alt="${post.imgFileName}">
 	<p class="board-content">${post.boardContent}</p>
 <c:if test="${user == post.userId}">
 	<div class="board-btn-box">

@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -9,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import dao.FreeBoardDAO;
 import dao.VideoBoardDAO;
@@ -241,14 +245,42 @@ public class BoardController extends HttpServlet {
 			String boardId = request.getParameter("boardId");
 			
 			if (boardId == null) { //insert
-				String title = request.getParameter("boardTitle");
-				String content = request.getParameter("boardContent");
+				String saveDirectory = session.getServletContext().getRealPath("images_upload/");
+				int maxPostSize = 1024 * 1024 * 10;
+				String encoding = "UTF-8";
+				
+				MultipartRequest multipartRequest = null;
+				try {
+					multipartRequest = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, new DefaultFileRenamePolicy());
+				} catch (Exception e) {
+					session.setAttribute("message", "업로드 실패. 파일 크기는 10MB를 넘을 수 없습니다.");
+					response.sendRedirect(request.getContextPath() + "/board/free");
+					return;
+				}
+				String title = multipartRequest.getParameter("boardTitle");
+				String content = multipartRequest.getParameter("boardContent");
+				String imgFileName = multipartRequest.getOriginalFileName("imgFileName");
+				String imgFileRealName = multipartRequest.getFilesystemName("imgFileName");
 				String user = (String)request.getSession().getAttribute("user");
+				
+				//파일이 넘어 왔는데 그것이 jpg,png,gif 파일이 아니라면 등록거부
+				if (imgFileName != null) {
+					String ext = imgFileName.substring(imgFileName.lastIndexOf(".") + 1).toLowerCase();
+					if (!ext.equals("jpg") && !ext.equals("png") && !ext.equals("gif")) {
+						File file = new File(saveDirectory + imgFileRealName);
+						file.delete();
+						session.setAttribute("message", "업로드실패. 파일추가는 이미지파일(jpg,png,gif)만 가능합니다");
+						response.sendRedirect(request.getContextPath() + "/board/free");
+						return;
+					}
+				}
 				
 				FreePostDTO freePost = new FreePostDTO();
 				freePost.setBoardTitle(title);
 				freePost.setBoardContent(content);
 				freePost.setUserId(user);
+				freePost.setImgFileName(imgFileName);
+				freePost.setImgFileRealName(imgFileRealName);
 				
 				int result = new FreeBoardDAO().insert(freePost);
 				if (result > 0) {

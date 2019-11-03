@@ -124,6 +124,7 @@ header {
 .board-write-form #video-url {width:calc(100% - 24.84px); padding:7px;}
 .board-write-form #video-url + a {display:inline-block; width:24.84px;}
 .board-write-form #video-url + a .fa {font-size:29px; vertical-align:middle;}
+.board-write-form #file-name-viewer:not(#no) {margin:0 0 10px;}
 
 .board-btn-box {overflow:hidden; margin-top:10px; text-align:center;}
 .board-btn-box > a {display:block; float:right; padding:7px; border:1px solid black; border-radius:10px; margin-left:5px;}
@@ -133,6 +134,7 @@ header {
 .post-viewer h4 {font-size:35px;padding:30px 0 2px;}
 .post-viewer .user-id {margin-bottom:5px;}
 .post-viewer .board-content {margin-top:40px; min-height:300px; text-align-last:left; line-height:30px;}
+.post-viewer img {margin-top:30px; max-width:100%;}
 
 .comment-list .comment-write > * {vertical-align:top;}
 .comment-list .comment-write {font-size:0;}

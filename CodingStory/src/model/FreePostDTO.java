@@ -7,6 +7,8 @@ public class FreePostDTO {
 	private String boardContent;
 	private String boardDate;
 	private int boardViews;
+	private String imgFileName;
+	private String imgFileRealName;
 	
 	public int getBoardId() {
 		return boardId;
@@ -43,6 +45,18 @@ public class FreePostDTO {
 	}
 	public void setBoardViews(int boardHit) {
 		this.boardViews = boardHit;
+	}
+	public String getImgFileName() {
+		return imgFileName;
+	}
+	public void setImgFileName(String imgFileName) {
+		this.imgFileName = imgFileName;
+	}
+	public String getImgFileRealName() {
+		return imgFileRealName;
+	}
+	public void setImgFileRealName(String imgFileRealName) {
+		this.imgFileRealName = imgFileRealName;
 	}
 	
 }

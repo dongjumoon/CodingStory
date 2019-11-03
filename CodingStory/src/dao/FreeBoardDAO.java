@@ -35,7 +35,7 @@ public class FreeBoardDAO {
 	}
 	
 	public int insert(FreePostDTO board) {
-		String sql = "insert into FREE_BOARD_TB (userId, boardTitle, boardContent) values(?, ?, ?)";
+		String sql = "insert into FREE_BOARD_TB (userId, boardTitle, boardContent, imgFileName, imgFileRealName) values(?, ?, ?, ?, ?)";
 		
 		PreparedStatement pstmt = null;
 		try {
@@ -43,6 +43,8 @@ public class FreeBoardDAO {
 			pstmt.setString(1, board.getUserId());
 			pstmt.setString(2, board.getBoardTitle());
 			pstmt.setString(3, board.getBoardContent());
+			pstmt.setString(4, board.getImgFileName());
+			pstmt.setString(5, board.getImgFileRealName());
 			
 			return pstmt.executeUpdate();
 			
@@ -233,7 +235,8 @@ public class FreeBoardDAO {
 		String sql = "select boardId, userId, boardTitle, boardContent, boardViews, " +
   		             "       if(date(now()) = date(boardDate), " +
   		             "          date_format(boardDate,'%H:%i'), " +
-  		             "          date(boardDate)) boardDate " +
+  		             "          date(boardDate)) boardDate, " +
+  		             "          imgFileName, imgFileRealName " +
 		             "from FREE_BOARD_TB " +
 		             "where boardId=" + boardId;
 		
@@ -251,6 +254,8 @@ public class FreeBoardDAO {
 				post.setBoardContent(StringUtil.parseHtml(rs.getString("boardContent")));
 				post.setBoardDate(rs.getString("boardDate"));
 				post.setBoardViews(rs.getInt("boardViews"));
+				post.setImgFileName(rs.getString("imgFileName"));
+				post.setImgFileRealName(rs.getString("imgFileRealName"));
 				
 				return post;
 			}
