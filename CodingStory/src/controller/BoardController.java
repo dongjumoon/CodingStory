@@ -80,9 +80,10 @@ public class BoardController extends HttpServlet {
 				request.getRequestDispatcher("/error404").forward(request, response);
 			}
 			
-		} else if (action.equals("delete")) {
+		} else if (action.equals("delete.user")) {
 			String boardType = uriTokens[uriTokens.length - 2];// '게시판구분'/delete (어느게시판 관련 요청인지)
 			HttpSession session = request.getSession();
+			String userId = (String)session.getAttribute("user");
 			if (boardType.equals("free")) {
 				int boardId = 0;
 				try {
@@ -92,13 +93,13 @@ public class BoardController extends HttpServlet {
 					response.sendRedirect(request.getContextPath() + "/board/free");
 					return;
 				}
-				int result = new FreeBoardDAO().delete(boardId);
+				int result = new FreeBoardDAO().delete(boardId, userId);
 				if (result == 1) {
 					session.setAttribute("message", "삭제 되었습니다");
 				} else if (result == 0) {
 					session.setAttribute("message", "이미 삭제되었거나 없는 게시물입니다.");
 				} else {
-					session.setAttribute("message", "DB오류로 삭제에 실패하였습니다.");
+					session.setAttribute("message", "DB오류 또는 삭제권한이 없습니다.");
 				}
 				response.sendRedirect(request.getContextPath() + "/board/free");
 				
@@ -111,13 +112,13 @@ public class BoardController extends HttpServlet {
 					response.sendRedirect(request.getContextPath() + "/board/video");
 					return;
 				}
-				int result = new VideoBoardDAO().delete(boardId);
+				int result = new VideoBoardDAO().delete(boardId, userId);
 				if (result == 1) {
 					session.setAttribute("message", "삭제 되었습니다");
 				} else if (result == 0) {
 					session.setAttribute("message", "이미 삭제되었거나 없는 게시물입니다.");
 				} else {
-					session.setAttribute("message", "DB오류로 삭제에 실패하였습니다.");
+					session.setAttribute("message", "DB오류 또는 삭제권한이 없습니다.");
 				}
 				response.sendRedirect(request.getContextPath() + "/board/video");
 				

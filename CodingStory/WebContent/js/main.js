@@ -99,7 +99,6 @@ $(window).resize(function(){
 	var isGnbSwitchOn = $("#gnb-switch").get(0).checked;
 	var htmlWidth = getHtmlWidth();
 	if (isGnbSwitchOn) {//gnb가 보이는 상태일떄
-		lastChatView();//채팅창 열려있으면 가장 아래로 스크롤
 		searchModeOff();
 		if (htmlWidth > 1254) {
 			minimumDesktopViewOff();
@@ -111,7 +110,6 @@ $(window).resize(function(){
 			minimumDesktopViewOn();
 		}
 	} else if (htmlWidth > 1024) {//pc일때
-		lastChatView();//채팅창 열려있으면 가장 아래로 스크롤
 		searchModeOff();
 		$("#search-form button[type=submit]").css("right", "");
 		minimumDesktopViewOff();
@@ -120,6 +118,7 @@ $(window).resize(function(){
 			isReadyOnMobile = false;
 		}
 	}
+	lastChatView();//채팅창 열려있으면 가장 아래로 스크롤
 });
 
 var isReadyOnMobile;

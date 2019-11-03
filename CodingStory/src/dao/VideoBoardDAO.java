@@ -93,20 +93,33 @@ public class VideoBoardDAO {
 		return -1;
 	}
 	
-	public int delete(int boardId) {
-		String sql = "delete from VIDEO_BOARD_TB where boardId = " + boardId;
+	public int delete(int boardId, String userId) {
+		String sql = "select userId from VIDEO_BOARD_TB where boardId = " + boardId;
 		
 		Statement stmt = null;
+		ResultSet rs = null;
 		try {
 			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
 			
-			return stmt.executeUpdate(sql);
-			
+			if (rs.next()) {// 글 작성자와 삭제요청하는자가 일치하는지 확인
+				if (rs.getString("userId").equals(userId)) {
+					// 댓글삭제
+					sql = "delete from VIDEO_COMMENT_TB where boardId = " + boardId;
+					stmt.executeUpdate(sql);
+					//글삭제
+					sql = "delete from VIDEO_BOARD_TB where boardId = " + boardId;
+					return stmt.executeUpdate(sql);
+					
+				}
+			} else {
+				return 0; //존재하지 않는 글
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			JdbcUtil.close(stmt, conn);
+			JdbcUtil.close(rs, stmt, conn);
 		}
 		
 		return -1;

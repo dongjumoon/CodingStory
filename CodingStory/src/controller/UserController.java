@@ -60,10 +60,6 @@ public class UserController extends HttpServlet {
 			user.setUserId(request.getParameter("id").trim());
 			user.setUserPw(request.getParameter("pw"));
 			user.setUserName(request.getParameter("name"));
-			user.setUserGender(request.getParameter("gender"));
-			user.setUserPhone(request.getParameter("phone"));
-			user.setUserEmail(request.getParameter("email"));
-			user.setUserAddress(request.getParameter("address"));
 			int result = new UserDAO().insertUser(user);
 			if (result == 1) {
 				request.setAttribute("title", "로그인");

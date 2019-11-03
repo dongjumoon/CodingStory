@@ -26,8 +26,8 @@ public class UserDAO {
 	}
 	
 	public int insertUser(UserDTO user) {
-		String sql = "insert into USER_TB (userId, userPw, userName, userGender, userPhone, userEmail, userAddress) " +
-		             "values(?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into USER_TB (userId, userPw, userName) " +
+		             "values(?, ?, ?)";
 		
 		PreparedStatement pstmt = null;
 		try {
@@ -35,10 +35,6 @@ public class UserDAO {
 			pstmt.setString(1, user.getUserId());
 			pstmt.setString(2, HashPassword.getHashPw(user.getUserPw()));
 			pstmt.setString(3, user.getUserName());
-			pstmt.setString(4, user.getUserGender());
-			pstmt.setString(5, user.getUserPhone());
-			pstmt.setString(6, user.getUserEmail());
-			pstmt.setString(7, user.getUserAddress());
 			
 			return pstmt.executeUpdate();
 			

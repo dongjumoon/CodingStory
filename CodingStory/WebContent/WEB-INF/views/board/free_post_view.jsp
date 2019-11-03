@@ -12,7 +12,7 @@
 	<p class="board-content">${post.boardContent}</p>
 <c:if test="${user == post.userId}">
 	<div class="board-btn-box">
-		<a href="delete?boardId=${post.boardId}" class="delete-btn">삭제</a>
+		<a href="delete.user?boardId=${post.boardId}" class="delete-btn">삭제</a>
 		<a href="update?boardId=${post.boardId}">수정</a>
 	</div>
 </c:if>
