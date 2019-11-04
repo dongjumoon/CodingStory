@@ -231,6 +231,10 @@ function updateChatList() {
 			data: {lastChatId: lastChatId},
 			dataType: "json",
 			success : function(data){ // 채팅목록 다시 출력
+				if (data.newChatCount === '-1') {// 세션종료로 인한 로그아웃
+					location.reload();
+					return;
+				}
 				if (data.noMessage === undefined) {
 					var chatBox = $("#chat-box");
 					//지우기전 스크롤이 끝까지 내린 상태인지.
@@ -256,14 +260,22 @@ function updateChatList() {
 					}
 					
 					if (isMaxScroll) chatBox.scrollTop(chatBox[0].scrollHeight);
-					
+					// 해당 유저의 읽지 않은 메세지 수 적용
+					var newMsgCountViewer = $("#message-box-switch-label .new-message-count");
+					newMsgCountViewer.text(data.newChatCount);
+					// 채팅창 닫혀있고, 읽지 않은 메세지가 있으면 .new-message-count 보이게
 					var isCloseChatBox = !$("#message-box").is(":visible");
 					if (isCloseChatBox) {
-						var newMsgCountViewer = $("#message-box-switch-label .new-message-count");
-						var beforeCount = Number(newMsgCountViewer.text());
-						newMsgCountViewer.text(beforeCount + Number(data.newChatCount));
-						newMsgCountViewer.css("display","block");
+						var isNewMessage = newMsgCountViewer.text() !== '0';
+						if (isNewMessage) {
+							newMsgCountViewer.css("display","block");
+						} else {
+							newMsgCountViewer.css("display","");
+						}
 					}
+				} else {
+					$("#message-box-switch-label .new-message-count").text('0');
+					$("#message-box-switch-label .new-message-count").css("display","");
 				}
 			}
 		});

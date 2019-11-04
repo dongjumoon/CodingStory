@@ -21,11 +21,11 @@ public class ChatServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setCharacterEncoding("utf-8");
-		//파라메타에 lastChatId 넘어왔는지.
+		String userId = (String)request.getSession().getAttribute("user");
 		String lastChatId = request.getParameter("lastChatId");
+		
 		if (lastChatId == null) {
 			// 없다면 첫 요청
-			String userId = (String)request.getSession().getAttribute("user");
 			int newChatCount = new ChatDAO().getNewChatCount(userId);
 			
 			List<ChatDTO> chatList = new ChatDAO().getChatList();
@@ -48,11 +48,13 @@ public class ChatServlet extends HttpServlet {
 			response.getWriter().write(strBuffer.toString());
 			
 		} else {
-			// lastChatId로 이거보다 나중챗이 있는지확인. 있으면 넘기고 없으면 noMessage
+			// 요청유저가 읽지 않은 챗이 있는지확인. 있으면 넘기고 없으면 noMessage
+			int newChatCount = new ChatDAO().getNewChatCount(userId);
+			// 사용자가 다른 기기로 메세지를 확인 했는지 파악 
 			int lastChatIdNum = Integer.parseInt(lastChatId);
-			int newChatCount = new ChatDAO().getNewChatCount(lastChatIdNum);
+			int nowUnitnewChatCount = new ChatDAO().getNewChatCount(lastChatIdNum);
 			
-			if (newChatCount == 0) {
+			if (newChatCount == 0 && nowUnitnewChatCount == 0) {
 				response.getWriter().append("{\"noMessage\" : \"0\"}");
 			} else {
 				List<ChatDTO> chatList = new ChatDAO().getChatList();
