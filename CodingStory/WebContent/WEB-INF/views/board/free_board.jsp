@@ -58,7 +58,8 @@
 			
 			$('.board-btn-box+nav a').each(function (index, item) {
 				if ($(this).text() === page) {
-					$(this).css({"font-weight": "bold", "font-size": "20px"});
+					$(this).addClass("now-view-page-num");
+					$(this).removeAttr("href");
 				}
 			});
 		</script>

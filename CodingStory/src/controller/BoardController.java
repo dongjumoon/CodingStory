@@ -97,7 +97,11 @@ public class BoardController extends HttpServlet {
 					response.sendRedirect(request.getContextPath() + "/board/free");
 					return;
 				}
-				int result = new FreeBoardDAO().delete(boardId, userId);
+				
+				// 게시글에 이미지파일이 있다면 같이 지울수 있도록 경로구하기
+				String saveDirectory = session.getServletContext().getRealPath("images_upload/");
+				
+				int result = new FreeBoardDAO().delete(boardId, userId, saveDirectory);
 				if (result == 1) {
 					session.setAttribute("message", "삭제 되었습니다");
 				} else if (result == 0) {
@@ -242,21 +246,21 @@ public class BoardController extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		if (action.equals("free")) { // insert, update 요청 처리
-			String boardId = request.getParameter("boardId");
+			String saveDirectory = session.getServletContext().getRealPath("images_upload/");
+			int maxPostSize = 1024 * 1024 * 10;
+			String encoding = "UTF-8";
+			
+			MultipartRequest multipartRequest = null;
+			try {
+				multipartRequest = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, new DefaultFileRenamePolicy());
+			} catch (Exception e) {
+				session.setAttribute("message", "업로드 실패. 파일 크기는 10MB를 넘을 수 없습니다.");
+				response.sendRedirect(request.getContextPath() + "/board/free");
+				return;
+			}
+			String boardId = multipartRequest.getParameter("boardId");
 			
 			if (boardId == null) { //insert
-				String saveDirectory = session.getServletContext().getRealPath("images_upload/");
-				int maxPostSize = 1024 * 1024 * 10;
-				String encoding = "UTF-8";
-				
-				MultipartRequest multipartRequest = null;
-				try {
-					multipartRequest = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, new DefaultFileRenamePolicy());
-				} catch (Exception e) {
-					session.setAttribute("message", "업로드 실패. 파일 크기는 10MB를 넘을 수 없습니다.");
-					response.sendRedirect(request.getContextPath() + "/board/free");
-					return;
-				}
 				String title = multipartRequest.getParameter("boardTitle");
 				String content = multipartRequest.getParameter("boardContent");
 				String imgFileName = multipartRequest.getOriginalFileName("imgFileName");
@@ -269,7 +273,7 @@ public class BoardController extends HttpServlet {
 					if (!ext.equals("jpg") && !ext.equals("png") && !ext.equals("gif")) {
 						File file = new File(saveDirectory + imgFileRealName);
 						file.delete();
-						session.setAttribute("message", "업로드실패. 파일추가는 이미지파일(jpg,png,gif)만 가능합니다");
+						session.setAttribute("message", "업로드실패. 파일추가는 사진파일(jpg,png,gif)만 가능합니다");
 						response.sendRedirect(request.getContextPath() + "/board/free");
 						return;
 					}
@@ -297,10 +301,47 @@ public class BoardController extends HttpServlet {
 				String insertId = post.getUserId();
 				String updateId = (String)session.getAttribute("user");
 				if (insertId.equals(updateId)) {
-					String title = request.getParameter("boardTitle");
-					String content = request.getParameter("boardContent");
+					String title = multipartRequest.getParameter("boardTitle");
+					String content = multipartRequest.getParameter("boardContent");
+					String imgFileName = multipartRequest.getOriginalFileName("imgFileName");
+					String imgFileRealName = multipartRequest.getFilesystemName("imgFileName");
+					String fileNameViewer = multipartRequest.getParameter("fileNameViewer");
 					
-					int result = new FreeBoardDAO().update(parseBoardId, title, content);
+					if (fileNameViewer.equals("")) {// fileNameViewer 값이 없다면 결국 이미지는 삭제.
+						if (imgFileName != null) {
+							File file = new File(saveDirectory + imgFileRealName);// 넘어온파일 지우고
+							file.delete();
+						}
+						String beforeFile = post.getImgFileRealName();
+						if (beforeFile != null) {
+							File file = new File(saveDirectory + beforeFile);// 기존파일도 지우고
+							file.delete();
+						}
+						imgFileName = null;
+						imgFileRealName = null;
+					} else {
+						if (imgFileName == null) { // fileNameViewer 값이 있고 넘어온 파일은 없다면 기존파일 유지
+							imgFileName = post.getImgFileName();
+							imgFileRealName = post.getImgFileRealName();
+						} else {
+							//파일이 넘어 왔는데 그것이 jpg,png,gif 파일이 아니라면 수정거부
+							String ext = imgFileName.substring(imgFileName.lastIndexOf(".") + 1).toLowerCase();
+							if (!ext.equals("jpg") && !ext.equals("png") && !ext.equals("gif")) {
+								File file = new File(saveDirectory + imgFileRealName);
+								file.delete();
+								session.setAttribute("message", "수정실패. 파일은 사진파일(jpg,png,gif)만 가능합니다");
+								response.sendRedirect(request.getContextPath() + "/board/free");
+								return;
+							}
+							String beforeFile = post.getImgFileRealName();
+							if (beforeFile != null) {
+								File file = new File(saveDirectory + beforeFile);// 기존파일 지우기
+								file.delete();
+							}
+						}
+					}
+
+					int result = new FreeBoardDAO().update(parseBoardId, title, content, imgFileName, imgFileRealName);
 					if (result == 1) {
 						session.setAttribute("message", "수정 되었습니다.");
 					} else {

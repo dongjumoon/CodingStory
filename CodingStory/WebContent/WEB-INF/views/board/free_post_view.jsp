@@ -9,7 +9,9 @@
 	<p>${post.boardDate}</p>
 	<p>조회수 ${post.boardViews}</p>
 	<p>${post.userId}</p>
-	<img src="${contextPath}/images_upload/${post.imgFileRealName}" alt="${post.imgFileName}">
+	<c:if test="${post.imgFileName != null}">
+		<img src="${contextPath}/images_upload/${post.imgFileRealName}" alt="${post.imgFileName}">
+	</c:if>
 	<p class="board-content">${post.boardContent}</p>
 <c:if test="${user == post.userId}">
 	<div class="board-btn-box">

@@ -7,7 +7,10 @@ select::-ms-expand {display:none;}
 a {color:black;}
 
 /* common */
-.mouse-cursor {cursor:pointer;}
+*[id*=btn],
+*[class*=btn],
+.mouse-cursor,
+input[type=submit] {cursor:pointer;}
 .screen-out {display:none;}
 .form {max-width:600px; margin:auto;}
 #blind {position:fixed; display:none; width:100%; top:0; height:100vh; background-color:rgba(0,0,0,.5); z-index:110;}
@@ -122,14 +125,20 @@ header {
 .board-write-form textarea {width:100%; padding:7px;}
 .board-write-form .video-url-input {padding:0 0 10px;}
 .board-write-form #video-url {width:calc(100% - 24.84px); padding:7px;}
-.board-write-form #video-url + a {display:inline-block; width:24.84px;}
-.board-write-form #video-url + a .fa {font-size:29px; vertical-align:middle;}
+.board-write-form #video-url + a {width:        24.84px;display:inline-block;}
+.board-write-form #video-url + a .fa {font-size:29px; vertical-align:middle; color:red;}
 .board-write-form #file-name-viewer:not(#no) {margin:0 0 10px;}
+.board-write-form .file-upmode:not(#no):not(#no) {width:calc(100% - 85.36px);}/* 85.36px = #img-delete-btn 의 width */
+.board-write-form #img-delete-btn {background-color:red; color:white; padding:7.5px; vertical-align:top;}
+.board-write-form #img-delete-btn:hover {background-color:#555;}
 
 .board-btn-box {overflow:hidden; margin-top:10px; text-align:center;}
 .board-btn-box > a {display:block; float:right; padding:7px; border:1px solid black; border-radius:10px; margin-left:5px;}
+.board-btn-box a:hover {background-color:#eee;}
 .board-btn-box + nav {text-align:center; margin-top:10px;}
 .board-btn-box + nav a {padding:5px;}
+.board-btn-box + nav a:hover:not(.now-view-page-num) {color:#3da;}
+.now-view-page-num {font-weight:bold; font-size:20px;}
 .post-viewer {text-align:center;}
 .post-viewer h4 {font-size:35px;padding:30px 0 2px;}
 .post-viewer .user-id {margin-bottom:5px;}
@@ -139,7 +148,8 @@ header {
 .comment-list .comment-write > * {vertical-align:top;}
 .comment-list .comment-write {font-size:0;}
 .comment-list .comment-write textarea {width:calc(100% - 50px); height:47px;}
-.comment-list .comment-write button   {width:            50px ; height:47px; background-color:#da6;}
+.comment-list .comment-write button   {width:            50px ; height:47px; background-color:#da6; cursor:pointer;}
+.comment-list .comment-write button:hover {color:white;}
 .comment-list li {padding:20px 0; position:relative;}
 .comment-list li p:first-child {display: none;}
 .comment-list li p:not(:first-child):not(:nth-child(4)) {display:inline-block;}
@@ -148,6 +158,7 @@ header {
 .comment-list li p:nth-child(5) {position:absolute; top:20px; right:0;}
 .comment-list > ul button[class*=btn]:first-child {margin-right:10px;}
 .comment-list > ul button[class*=btn] {padding:3px; border:1px solid black; border-radius:5px;}
+.comment-list > ul button[class*=btn]:hover {background-color:#eee;}
 .comment-list > ul textarea {display:block; width:100%; margin-top:10px; height:3rem;}/* 수정모드 */
 
 .cmt-page-nav {text-align:center; margin:20px auto;}

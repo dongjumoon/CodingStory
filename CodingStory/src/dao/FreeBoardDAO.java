@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,15 +59,17 @@ public class FreeBoardDAO {
 		return -1;
 	}
 	
-	public int update(int boardId, String title, String content) {
-		String sql = "update FREE_BOARD_TB set boardTitle = ?, boardContent = ? where boardId = ?";
+	public int update(int boardId, String title, String content, String imgFileName, String imgFileRealName) {
+		String sql = "update FREE_BOARD_TB set boardTitle = ?, boardContent = ?, imgFileName = ?, imgFileRealName = ? where boardId = ?";
 		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, title);
 			pstmt.setString(2, content);
-			pstmt.setInt(3, boardId);
+			pstmt.setString(3, imgFileName);
+			pstmt.setString(4, imgFileRealName);
+			pstmt.setInt(5, boardId);
 			
 			return pstmt.executeUpdate();
 			
@@ -80,8 +83,8 @@ public class FreeBoardDAO {
 		return -1;
 	}
 	
-	public int delete(int boardId, String userId) {
-		String sql = "select userId from FREE_BOARD_TB where boardId = " + boardId;
+	public int delete(int boardId, String userId, String saveDirectory) {
+		String sql = "select userId, imgFileRealName from FREE_BOARD_TB where boardId = " + boardId;
 		
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -94,6 +97,12 @@ public class FreeBoardDAO {
 					// 댓글삭제
 					sql = "delete from FREE_COMMENT_TB where boardId = " + boardId;
 					stmt.executeUpdate(sql);
+					// 이미지 있으면 삭제
+					String imgFile = rs.getString("imgFileRealName");
+					if (imgFile != null) {
+						File file = new File(saveDirectory + imgFile);
+						file.delete();
+					}
 					//글삭제
 					sql = "delete from FREE_BOARD_TB where boardId = " + boardId;
 					return stmt.executeUpdate(sql);
