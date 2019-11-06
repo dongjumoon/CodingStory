@@ -4,6 +4,7 @@
 <c:if test="${user == null && cookie.user.value != null}" >
 		<!-- 로그인하며 쿠키 시간 한달로 초기화 -->
 		<c:set var="session" value="${pageContext.session}"/>
+		${session.setMaxInactiveInterval(60*60*27)}
 		${session.setAttribute('user',cookie.user.value)}
 		
 		<c:set var="response" value="${pageContext.response}"/>

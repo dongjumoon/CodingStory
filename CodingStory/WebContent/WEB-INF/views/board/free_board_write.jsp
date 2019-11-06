@@ -6,7 +6,7 @@
 		<fieldset>
 			<c:if test="${post == null}">
 				<legend>게시물 작성</legend>
-				<p><span class="screen-out">제목:</span><input type="text" name="boardTitle" maxlangth="30" placeholder="제목" required></p>
+				<p><span class="screen-out">제목:</span><input type="text" name="boardTitle" maxlength="30" placeholder="제목" required></p>
 				<p>
 					<input type="file" name="imgFileName" id="img-file-name" class="screen-out">
 					<input type="text" name="fileNameViewer" id="file-name-viewer" readonly placeholder="이미지 추가 ">
@@ -16,7 +16,7 @@
 			</c:if>
 			<c:if test="${post != null}">
 				<legend>게시물 수정</legend>
-				<p><span class="screen-out">제목:</span><input type="text" name="boardTitle" maxlangth="30" placeholder="제목" required value="${post.boardTitle}"></p>
+				<p><span class="screen-out">제목:</span><input type="text" name="boardTitle" maxlength="30" placeholder="제목" required value="${post.boardTitle}"></p>
 				<p class="file-box">
 					<input type="file" name="imgFileName" id="img-file-name" class="screen-out">
 					<input type="text" name="fileNameViewer" id="file-name-viewer" class="file-upmode" readonly placeholder="이미지 추가 " value="${post.imgFileName}"><!--

@@ -26,26 +26,38 @@ public class UserDAO {
 	}
 	
 	public int insertUser(UserDTO user) {
-		String sql = "insert into USER_TB (userId, userPw, userName) " +
-		             "values(?, ?, ?)";
+		String sql = "select max(chatId) from CHAT_TB";// 가입 시점까지의 채팅은 읽음처리
 		
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			int lastSeenChatId = 0;
+			if (rs.next()) {
+				lastSeenChatId = rs.getInt(1);
+			}
+			
+			sql = "insert into USER_TB (userId, userPw, userName, lastSeenChatId) " +
+		             "values(?, ?, ?, ?)";
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUserId());
 			pstmt.setString(2, HashPassword.getHashPw(user.getUserPw()));
 			pstmt.setString(3, user.getUserName());
+			pstmt.setInt(4, lastSeenChatId);
 			
 			return pstmt.executeUpdate();
-			
-		} catch (SQLException e) {
+		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		} finally {
-			JdbcUtil.close(pstmt, conn);
+			JdbcUtil.close(rs, pstmt, conn);
 		}
 		
 		return -1;
+		
 	}
 	
 	public int login(String id, String pw) {
