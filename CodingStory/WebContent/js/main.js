@@ -322,3 +322,9 @@ $("#white-blind").click(function(){
 $(".close-btn").click(function(){
 	$(this).parent().css("display", "none");
 });
+
+$("#logout-a-tag").click(function(){
+	if (!confirm("로그아웃 하시겠습니까?")) {
+		return false;
+	}
+});

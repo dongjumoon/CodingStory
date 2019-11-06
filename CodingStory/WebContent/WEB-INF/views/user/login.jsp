@@ -9,7 +9,7 @@
 				<p><span class="screen-out">아이디 :</span><input type="text" name="id" placeholder="아이디" maxlength="10" required></p>
 				<p><span class="screen-out">비밀번호 :</span><input type="password" name="pw" id="pw" placeholder="비밀번호" maxlength="15" required></p>
 				<p><input type="submit" value="로그인" class="mouse-cursor"></p>
-				<p id="long-time-login-p-tag"><input type="checkbox" name="longTimeLogin" id="long-time-login"><label for="long-time-login">로그인상태 유지</label></p>
+				<p id="long-time-login-p-tag"><input type="checkbox" name="longTimeLogin" id="long-time-login" checked><label for="long-time-login">로그인상태 유지</label></p>
 		</fieldset>
 	</form>
 	<section id="mySection">
