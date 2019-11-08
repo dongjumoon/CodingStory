@@ -37,5 +37,5 @@
 			<button>댓글<br>작성</button>
 		</div>
 	</c:if>
-	<script src="${contextPath}/js/comment.js"></script>
+	<script src="${contextPath}/js/comment.js?version=1.0"></script>
 </section>

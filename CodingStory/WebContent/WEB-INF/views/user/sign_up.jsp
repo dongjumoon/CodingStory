@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<link href="${contextPath}/css/sign_up_page.css" rel="stylesheet" type="text/css">
+<link href="${contextPath}/css/sign_up_page.css?version=1.0" rel="stylesheet" type="text/css">
 <h2 class="screen-out">회원가입</h2>
 <div>
 	<form action="${contextPath}/user/signUp" method="post" class="form sign-up-form">

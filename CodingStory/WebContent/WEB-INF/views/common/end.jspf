@@ -17,6 +17,6 @@
 	</address>
 </footer>
 </div>
-<script src="${contextPath}/js/main.js"></script>
+<script src="${contextPath}/js/main.js?version=1.0"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@
 	pageContext.setAttribute("freePostList", freePostList);
 	pageContext.setAttribute("videoPostList", videoPostList);
 %>
-<link href="${contextPath}/css/index_page.css" rel="stylesheet" type="text/css">
+<link href="${contextPath}/css/index_page.css?version=1.0" rel="stylesheet" type="text/css">
 <h2 class="screen-out">게시판 종합</h2>
 	<article id="main-view">
 		<h3 id="main-title">Coding Story</h3>

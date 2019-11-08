@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<link href="${contextPath}/css/login_page.css" rel="stylesheet" type="text/css">
+<link href="${contextPath}/css/login_page.css?version=1.0" rel="stylesheet" type="text/css">
 <h2 class="screen-out">로그인</h2>
 <div>
 	<form action="${contextPath}/user/login" method="post" class="form login-form">

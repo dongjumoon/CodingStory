@@ -260,7 +260,7 @@ public class FreeBoardDAO {
 				post.setBoardId(rs.getInt("boardId"));
 				post.setUserId(rs.getString("userId"));
 				post.setBoardTitle(rs.getString("boardTitle"));
-				post.setBoardContent(StringUtil.parseHtml(rs.getString("boardContent")));
+				post.setBoardContent(rs.getString("boardContent"));
 				post.setBoardDate(rs.getString("boardDate"));
 				post.setBoardViews(rs.getInt("boardViews"));
 				post.setImgFileName(rs.getString("imgFileName"));

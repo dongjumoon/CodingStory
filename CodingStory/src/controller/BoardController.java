@@ -18,6 +18,7 @@ import dao.FreeBoardDAO;
 import dao.VideoBoardDAO;
 import model.FreePostDTO;
 import model.VideoPostDTO;
+import util.StringUtil;
 
 /**
  * Servlet implementation class BoardController
@@ -50,6 +51,7 @@ public class BoardController extends HttpServlet {
 			String nextPage = "";//다음으로 이동하게될 경로
 			if (board.equals("free") && boardId > 0) {
 				FreePostDTO freePost = new FreeBoardDAO().getPost(boardId);
+				freePost.setBoardContent(StringUtil.parseHtml(freePost.getBoardContent()));
 				new FreeBoardDAO().increseViews(boardId);
 				request.setAttribute("post", freePost);
 				request.setAttribute("title", freePost.getBoardTitle());
@@ -58,6 +60,7 @@ public class BoardController extends HttpServlet {
 			} else if (board.equals("video") && boardId > 0) {
 				VideoPostDTO videoPost = new VideoBoardDAO().getPost(boardId);
 				videoPost.setVideoURL(VideoBoardDAO.getVideoId(videoPost.getVideoURL()));
+				videoPost.setBoardContent(StringUtil.parseHtml(videoPost.getBoardContent()));
 				new VideoBoardDAO().increseViews(boardId);
 				request.setAttribute("post", videoPost);
 				request.setAttribute("title", videoPost.getBoardTitle());
@@ -149,6 +152,7 @@ public class BoardController extends HttpServlet {
 				
 				FreePostDTO post = new FreeBoardDAO().getPost(boardId);
 				if (post != null) {
+					post.setBoardContent(post.getBoardContent().replace("&", "&#38;"));
 					request.setAttribute("post", post);
 					request.setAttribute("title", "수정 페이지");
 					request.getRequestDispatcher("/WEB-INF/views/board/free_board_write.jsp").forward(request, response);
@@ -172,6 +176,7 @@ public class BoardController extends HttpServlet {
 				
 				VideoPostDTO post = new VideoBoardDAO().getPost(boardId);
 				if (post != null) {
+					post.setBoardContent(post.getBoardContent().replace("&", "&#38;"));
 					request.setAttribute("post", post);
 					request.setAttribute("title", "수정 페이지");
 					request.getRequestDispatcher("/WEB-INF/views/board/video_board_write.jsp").forward(request, response);
