@@ -27,7 +27,7 @@
 		<ul>
 			<c:forEach var="post" items="${videoPostList}" end="3">
 				<li>
-					<h4 class="screen-out">${post.boardContent}</h4>
+					<h4 class="screen-out">${post.boardTitle}</h4>
 					<div class="video-box">
 					<iframe src="https://www.youtube.com/embed/${post.videoURL}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 					</div>

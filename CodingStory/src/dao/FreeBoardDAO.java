@@ -9,30 +9,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
+import model.DTOInterface;
 import model.FreePostDTO;
-import util.StringUtil;
+import model.PostDTO;
 
-public class FreeBoardDAO {
+public class FreeBoardDAO extends DAO {
 	
 	private Connection conn;
 	public static final int MAX_PAGE_COUNT = 5; // 페이지 이동 태그 갯수 5 = << ? ? ? ? ? >>
 	public static final int PRINT_COUNT = 10; // 한 페이지에 나타낼 게시물의 수
 	
 	public FreeBoardDAO() {
-		try {
-			InitialContext initCtx = new InitialContext();
-			Context envContext = (Context)initCtx.lookup("java:/comp/env");
-			DataSource ds = (DataSource)envContext.lookup("jdbc/mdj44518");
-			conn = ds.getConnection();
-		} catch (SQLException | NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		conn = super.conn;
 	}
 	
 	public int insert(FreePostDTO board) {
@@ -83,7 +71,12 @@ public class FreeBoardDAO {
 		return -1;
 	}
 	
-	public int delete(int boardId, String userId, String saveDirectory) {
+	@Override
+	public int delete(DTOInterface dto) {
+		PostDTO fPost = (PostDTO)dto;
+		int boardId = fPost.getBoardId();
+		String userId =  fPost.getUserId();
+		
 		String sql = "select userId, imgFileRealName from FREE_BOARD_TB where boardId = " + boardId;
 		
 		Statement stmt = null;
@@ -100,7 +93,7 @@ public class FreeBoardDAO {
 					// 이미지 있으면 삭제
 					String imgFile = rs.getString("imgFileRealName");
 					if (imgFile != null) {
-						File file = new File(saveDirectory + imgFile);
+						File file = new File(imgFile);
 						file.delete();
 					}
 					//글삭제

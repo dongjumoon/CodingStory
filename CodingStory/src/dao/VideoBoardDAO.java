@@ -8,32 +8,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
-
+import model.DTOInterface;
+import model.PostDTO;
 import model.VideoPostDTO;
-import util.StringUtil;
 
-public class VideoBoardDAO {
+public class VideoBoardDAO extends DAO {
 
 	private Connection conn;
 	public static final int MAX_PAGE_COUNT = 5; // 페이지 이동 태그 갯수 5 = << ? ? ? ? ? >>
 	public static final int PRINT_COUNT = 10; // 한 페이지에 나타낼 게시물의 수
 	
 	public VideoBoardDAO() {
-		try {
-			InitialContext initCtx = new InitialContext();
-			Context envContext = (Context)initCtx.lookup("java:/comp/env");
-			DataSource ds = (DataSource)envContext.lookup("jdbc/mdj44518");
-			conn = ds.getConnection();
-		} catch (SQLException | NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		conn = super.conn;
 	}
 	
 	public static String getVideoId(String url) {
@@ -93,7 +79,12 @@ public class VideoBoardDAO {
 		return -1;
 	}
 	
-	public int delete(int boardId, String userId) {
+	@Override
+	public int delete(DTOInterface dto) {
+		PostDTO vPost = (PostDTO)dto;
+		int boardId = vPost.getBoardId();
+		String userId = vPost.getUserId();
+		
 		String sql = "select userId from VIDEO_BOARD_TB where boardId = " + boardId;
 		
 		Statement stmt = null;
