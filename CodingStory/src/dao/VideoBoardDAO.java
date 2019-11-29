@@ -1,6 +1,5 @@
 package dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,14 +12,6 @@ import model.PostDTO;
 import model.VideoPostDTO;
 
 public class VideoBoardDAO extends DAO {
-
-	private Connection conn;
-	public static final int MAX_PAGE_COUNT = 5; // 페이지 이동 태그 갯수 5 = << ? ? ? ? ? >>
-	public static final int PRINT_COUNT = 10; // 한 페이지에 나타낼 게시물의 수
-	
-	public VideoBoardDAO() {
-		conn = super.conn;
-	}
 	
 	public static String getVideoId(String url) {
 		String[] tokens = url.split("/");
@@ -33,7 +24,10 @@ public class VideoBoardDAO extends DAO {
 		return videoId;
 	}
 
-	public int insert(VideoPostDTO board) {
+	@Override
+	public int insert(DTOInterface dto) {
+		VideoPostDTO board = (VideoPostDTO)dto;
+		
 		String sql = "insert into VIDEO_BOARD_TB (userId, boardTitle, boardContent, videoURL) values(?, ?, ?, ?)";
 		
 		PreparedStatement pstmt = null;
@@ -56,7 +50,14 @@ public class VideoBoardDAO extends DAO {
 		return -1;
 	}
 	
-	public int update(int boardId, String title, String content, String videoURL) {
+	@Override
+	public int update(DTOInterface dto) {
+		VideoPostDTO post = (VideoPostDTO)dto;
+		int boardId = post.getBoardId();
+		String title = post.getBoardTitle();
+		String content = post.getBoardContent();
+		String videoURL = post.getVideoURL();
+		
 		String sql = "update VIDEO_BOARD_TB set boardTitle = ?, boardContent = ?, videoURL = ? where boardId = ?";
 		
 		PreparedStatement pstmt = null;

@@ -1,7 +1,6 @@
 package dao;
 
 import java.io.File;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,15 +14,10 @@ import model.PostDTO;
 
 public class FreeBoardDAO extends DAO {
 	
-	private Connection conn;
-	public static final int MAX_PAGE_COUNT = 5; // 페이지 이동 태그 갯수 5 = << ? ? ? ? ? >>
-	public static final int PRINT_COUNT = 10; // 한 페이지에 나타낼 게시물의 수
-	
-	public FreeBoardDAO() {
-		conn = super.conn;
-	}
-	
-	public int insert(FreePostDTO board) {
+	@Override
+	public int insert(DTOInterface dto) {
+		FreePostDTO board = (FreePostDTO)dto;
+		
 		String sql = "insert into FREE_BOARD_TB (userId, boardTitle, boardContent, imgFileName, imgFileRealName) values(?, ?, ?, ?, ?)";
 		
 		PreparedStatement pstmt = null;
@@ -47,7 +41,15 @@ public class FreeBoardDAO extends DAO {
 		return -1;
 	}
 	
-	public int update(int boardId, String title, String content, String imgFileName, String imgFileRealName) {
+	@Override
+	public int update(DTOInterface dto) {
+		FreePostDTO post = (FreePostDTO)dto;
+		int boardId = post.getBoardId();
+		String title = post.getBoardTitle();
+		String content = post.getBoardContent();
+		String imgFileName = post.getImgFileName();
+		String imgFileRealName = post.getImgFileRealName();
+		
 		String sql = "update FREE_BOARD_TB set boardTitle = ?, boardContent = ?, imgFileName = ?, imgFileRealName = ? where boardId = ?";
 		
 		PreparedStatement pstmt = null;

@@ -21,7 +21,6 @@ import model.DTOInterface;
 import model.FreePostDTO;
 import model.PostDTO;
 import model.VideoPostDTO;
-import sun.text.normalizer.Replaceable;
 import util.StringUtil;
 
 /**
@@ -57,9 +56,12 @@ public class BoardController extends HttpServlet {
 			if (board.equals("free") && boardId > 0) {
 				FreePostDTO freePost = new FreeBoardDAO().getPost(boardId);
 				freePost.setBoardContent(StringUtil.parseHtml(freePost.getBoardContent()));
-				String[] tokens = freePost.getImgFileRealName().replace("\\", "/").split("/");
-				String fileRealName = tokens[tokens.length - 1];
-				freePost.setImgFileRealName(fileRealName);
+				String imgFile = freePost.getImgFileRealName();
+				if (imgFile != null) {
+					String[] tokens = imgFile.replace("\\", "/").split("/");
+					String fileRealName = tokens[tokens.length - 1];
+					freePost.setImgFileRealName(fileRealName);
+				}
 				new FreeBoardDAO().increseViews(boardId);
 				post = freePost;
 				
@@ -135,58 +137,40 @@ public class BoardController extends HttpServlet {
 		} else if (action.equals("update")) {
 			String boardType = uriTokens[uriTokens.length - 2];// '게시판구분'/update (어느게시판 관련 요청인지)
 			HttpSession session = request.getSession();
+			int boardId = 0;
+			try {
+				boardId = Integer.parseInt(request.getParameter("boardId"));
+			} catch (Exception e) {
+				session.setAttribute("message", "잘못된 요청입니다.");
+				response.sendRedirect(request.getContextPath() + "/board/" + boardType);
+				return;
+			}
+			
+			PostDTO post = new PostDTO();
+			
 			if (boardType.equals("free")) {
-				int boardId = 0;
-				try {
-					boardId = Integer.parseInt(request.getParameter("boardId"));
-				} catch (Exception e) {
-					session.setAttribute("message", "잘못된 요청입니다.");
-					response.sendRedirect(request.getContextPath() + "/board/free");
-					return;
-				}
-				
-				FreePostDTO post = new FreeBoardDAO().getPost(boardId);
-				if (post != null) {
-					post.setBoardContent(post.getBoardContent().replace("&", "&#38;"));
-					request.setAttribute("post", post);
-					request.setAttribute("title", "수정 페이지");
-					request.getRequestDispatcher("/WEB-INF/views/board/free_board_write.jsp").forward(request, response);
-					return;
-					
-				} else {
-					session.setAttribute("message", "DB오류로 접근에 실패했습니다.");
-					response.sendRedirect(request.getContextPath() + "/board/free");
-					return;
-				}
+				post = new FreeBoardDAO().getPost(boardId);
 				
 			} else if (boardType.equals("video")) {
-				int boardId = 0;
-				try {
-					boardId = Integer.parseInt(request.getParameter("boardId"));
-				} catch (Exception e) {
-					session.setAttribute("message", "잘못된 요청입니다.");
-					response.sendRedirect(request.getContextPath() + "/board/video");
-					return;
-				}
-				
-				VideoPostDTO post = new VideoBoardDAO().getPost(boardId);
-				if (post != null) {
-					post.setBoardContent(post.getBoardContent().replace("&", "&#38;"));
-					request.setAttribute("post", post);
-					request.setAttribute("title", "수정 페이지");
-					request.getRequestDispatcher("/WEB-INF/views/board/video_board_write.jsp").forward(request, response);
-					return;
-					
-				} else {
-					session.setAttribute("message", "DB오류로 접근에 실패했습니다.");
-					response.sendRedirect(request.getContextPath() + "/board/video");
-					return;
-				}
+				post = new VideoBoardDAO().getPost(boardId);
 				
 			} else {
 				request.setAttribute("title", "페이지 요청 오류");
 				request.getRequestDispatcher("/error404").forward(request, response);
+				return;
 			}
+			
+			if (post != null) {
+				post.setBoardContent(post.getBoardContent().replace("&", "&#38;"));
+				request.setAttribute("post", post);
+				request.setAttribute("title", "수정 페이지");
+				request.getRequestDispatcher("/WEB-INF/views/board/" + boardType + "_board_write.jsp").forward(request, response);
+				
+			} else {
+				session.setAttribute("message", "DB오류로 접근에 실패했습니다.");
+				response.sendRedirect(request.getContextPath() + "/board/" + boardType);
+			}
+			
 		} else if (action.equals("search")) {
 			String searchArea = request.getParameter("searchArea");
 			String search = request.getParameter("search");
@@ -244,23 +228,25 @@ public class BoardController extends HttpServlet {
 		String[] uriTokens = request.getRequestURI().split("/");
 		String action = uriTokens[uriTokens.length - 1];
 		HttpSession session = request.getSession();
-		
-		if (action.equals("free")) { // insert, update 요청 처리
-			String saveDirectory = session.getServletContext().getRealPath("images_upload/");
-			int maxPostSize = 1024 * 1024 * 10;
-			String encoding = "UTF-8";
-			
-			MultipartRequest multipartRequest = null;
-			try {
-				multipartRequest = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, new DefaultFileRenamePolicy());
-			} catch (Exception e) {
-				session.setAttribute("message", "업로드 실패. 파일 크기는 10MB를 넘을 수 없습니다.");
-				response.sendRedirect(request.getContextPath() + "/board/free");
-				return;
-			}
-			String boardId = multipartRequest.getParameter("boardId");
-			
-			if (boardId == null) { //insert
+		//
+		DAO dao = null;
+		DTOInterface dto = null; 
+		String boardId = request.getParameter("boardId");
+		if (boardId == null) { //insert
+			if (action.equals("free")) { //free insert
+				String saveDirectory = session.getServletContext().getRealPath("images_upload/");
+				int maxPostSize = 1024 * 1024 * 10;
+				String encoding = "UTF-8";
+				
+				MultipartRequest multipartRequest = null;
+				try {
+					multipartRequest = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, new DefaultFileRenamePolicy());
+				} catch (Exception e) {
+					session.setAttribute("message", "업로드 실패. 파일 크기는 10MB를 넘을 수 없습니다.");
+					response.sendRedirect(request.getContextPath() + "/board/free");
+					return;
+				}
+				
 				String title = multipartRequest.getParameter("boardTitle");
 				String content = multipartRequest.getParameter("boardContent");
 				String imgFileName = multipartRequest.getOriginalFileName("imgFileName");
@@ -286,77 +272,10 @@ public class BoardController extends HttpServlet {
 				freePost.setImgFileName(imgFileName);
 				freePost.setImgFileRealName(saveDirectory + imgFileRealName);
 				
-				int result = new FreeBoardDAO().insert(freePost);
-				if (result > 0) {
-					session.setAttribute("message", "글 작성이 완료되었습니다.");
-				} else {
-					session.setAttribute("message", "DB오류로 게시물 작성에 실패하였습니다.");
-				}
+				dao = new FreeBoardDAO();
+				dto = freePost;
 				
-			} else { // update
-				int parseBoardId = Integer.parseInt(boardId); // post요청이니까 예외처리x?
-				FreePostDTO post = new FreeBoardDAO().getPost(parseBoardId);
-				
-				// 얻어온 게시글의 작성자와 수정요청한 사람이 일치하는지 확인
-				String insertId = post.getUserId();
-				String updateId = (String)session.getAttribute("user");
-				if (insertId.equals(updateId)) {
-					String title = multipartRequest.getParameter("boardTitle");
-					String content = multipartRequest.getParameter("boardContent");
-					String imgFileName = multipartRequest.getOriginalFileName("imgFileName");
-					String imgFileRealName = multipartRequest.getFilesystemName("imgFileName");
-					String fileNameViewer = multipartRequest.getParameter("fileNameViewer");
-					if (imgFileRealName != null) imgFileRealName = saveDirectory + imgFileRealName;
-					
-					if (fileNameViewer.equals("")) {// fileNameViewer 값이 없다면 결국 이미지는 삭제.
-						if (imgFileName != null) {
-							File file = new File(imgFileRealName);// 넘어온파일 지우고
-							file.delete();
-						}
-						String beforeFile = post.getImgFileRealName();
-						if (beforeFile != null) {
-							File file = new File(beforeFile);// 기존파일도 지우고
-							file.delete();
-						}
-						imgFileName = null;
-						imgFileRealName = null;
-					} else {
-						if (imgFileName == null) { // fileNameViewer 값이 있고 넘어온 파일은 없다면 기존파일 유지
-							imgFileName = post.getImgFileName();
-							imgFileRealName = post.getImgFileRealName();
-						} else {
-							//파일이 넘어 왔는데 그것이 jpg,png,gif 파일이 아니라면 수정거부
-							String ext = imgFileName.substring(imgFileName.lastIndexOf(".") + 1).toLowerCase();
-							if (!ext.equals("jpg") && !ext.equals("png") && !ext.equals("gif")) {
-								File file = new File(imgFileRealName);
-								file.delete();
-								session.setAttribute("message", "수정실패. 파일은 사진파일(jpg,png,gif)만 가능합니다");
-								response.sendRedirect(request.getContextPath() + "/board/free");
-								return;
-							}
-							String beforeFile = post.getImgFileRealName();
-							if (beforeFile != null) {
-								File file = new File(beforeFile);// 기존파일 지우기
-								file.delete();
-							}
-						}
-					}
-
-					int result = new FreeBoardDAO().update(parseBoardId, title, content, imgFileName, imgFileRealName);
-					if (result == 1) {
-						session.setAttribute("message", "수정 되었습니다.");
-					} else {
-						session.setAttribute("message", "DB오류로 수정에 실패하였습니다.");
-					}
-				} else {
-					session.setAttribute("message", "수정 권한이 없습니다.");
-				}
-			}
-			response.sendRedirect(request.getContextPath()+"/board/free");
-		} else if (action.equals("video")) { // insert, update 요청 처리
-			String boardId = request.getParameter("boardId");
-			
-			if (boardId == null) { //insert
+			} else if (action.equals("video")) { // video insert
 				String title = request.getParameter("boardTitle");
 				String content = request.getParameter("boardContent");
 				String videoURL = request.getParameter("videoURL");
@@ -368,40 +287,124 @@ public class BoardController extends HttpServlet {
 				videoPost.setUserId(user);
 				videoPost.setVideoURL(videoURL);
 				
-				int result = new VideoBoardDAO().insert(videoPost);
-				if (result > 0) {
-					session.setAttribute("message", "글 작성이 완료되었습니다.");
-				} else {
-					session.setAttribute("message", "DB오류로 게시물 작성에 실패하였습니다.");
+				dao = new VideoBoardDAO();
+				dto = videoPost;
+			}  else {
+				request.setAttribute("title", "페이지 요청 오류");
+				request.getRequestDispatcher("/error404").forward(request, response);
+				return;
+			}
+			
+			int result = dao.insert(dto);
+			if (result > 0) {
+				session.setAttribute("message", "글 작성이 완료되었습니다.");
+			} else {
+				session.setAttribute("message", "DB오류로 게시물 작성에 실패하였습니다.");
+			}
+			
+		} else { //update
+			String updateId = (String)session.getAttribute("user");
+			String insertId = null;
+			int parseBoardId = Integer.parseInt(boardId);
+			
+			if (action.equals("free")) { //free update
+				String saveDirectory = session.getServletContext().getRealPath("images_upload/");
+				int maxPostSize = 1024 * 1024 * 10;
+				String encoding = "UTF-8";
+				
+				MultipartRequest multipartRequest = null;
+				try {
+					multipartRequest = new MultipartRequest(request, saveDirectory, maxPostSize, encoding, new DefaultFileRenamePolicy());
+				} catch (Exception e) {
+					session.setAttribute("message", "업로드 실패. 파일 크기는 10MB를 넘을 수 없습니다.");
+					response.sendRedirect(request.getContextPath() + "/board/free");
+					return;
 				}
 				
-			} else { // update
-				int parseBoardId = Integer.parseInt(boardId); // post요청이니까 예외처리x?
+				FreePostDTO post = new FreeBoardDAO().getPost(parseBoardId);
+				
+				insertId = post.getUserId();
+			
+				String title = multipartRequest.getParameter("boardTitle");
+				String content = multipartRequest.getParameter("boardContent");
+				String imgFileName = multipartRequest.getOriginalFileName("imgFileName");
+				String imgFileRealName = multipartRequest.getFilesystemName("imgFileName");
+				String fileNameViewer = multipartRequest.getParameter("fileNameViewer");
+				if (imgFileRealName != null) imgFileRealName = saveDirectory + imgFileRealName;
+				
+				if (fileNameViewer.equals("")) {// fileNameViewer 값이 없다면 결국 이미지는 삭제.
+					if (imgFileName != null) {
+						File file = new File(imgFileRealName);// 넘어온파일 지우고
+						file.delete();
+					}
+					String beforeFile = post.getImgFileRealName();
+					if (beforeFile != null) {
+						File file = new File(beforeFile);// 기존파일도 지우고
+						file.delete();
+					}
+					imgFileName = null;
+					imgFileRealName = null;
+				} else {
+					if (imgFileName == null) { // fileNameViewer 값이 있고 넘어온 파일은 없다면 기존파일 유지
+						imgFileName = post.getImgFileName();
+						imgFileRealName = post.getImgFileRealName();
+					} else {
+						//파일이 넘어 왔는데 그것이 jpg,png,gif 파일이 아니라면 수정거부
+						String ext = imgFileName.substring(imgFileName.lastIndexOf(".") + 1).toLowerCase();
+						if (!ext.equals("jpg") && !ext.equals("png") && !ext.equals("gif")) {
+							File file = new File(imgFileRealName);
+							file.delete();
+							session.setAttribute("message", "수정실패. 파일은 사진파일(jpg,png,gif)만 가능합니다");
+							response.sendRedirect(request.getContextPath() + "/board/free");
+							return;
+						}
+						String beforeFile = post.getImgFileRealName();
+						if (beforeFile != null) {
+							File file = new File(beforeFile);// 기존파일 지우기
+							file.delete();
+						}
+					}
+				}
+				
+				post.setBoardTitle(title);
+				post.setBoardContent(content);
+				post.setImgFileName(imgFileName);
+				post.setImgFileRealName(imgFileRealName);
+				
+				dao = new FreeBoardDAO();
+				dto = post; 
+				
+			} else if (action.equals("video")) { // video update
 				VideoPostDTO post = new VideoBoardDAO().getPost(parseBoardId);
 				
-				// 얻어온 게시글의 작성자와 수정요청한 사람이 일치하는지 확인
-				String insertId = post.getUserId();
-				String updateId = (String)session.getAttribute("user");
-				if (insertId.equals(updateId)) {
-					String title = request.getParameter("boardTitle");
-					String content = request.getParameter("boardContent");
-					String videoURL = request.getParameter("videoURL");
-					
-					int result = new VideoBoardDAO().update(parseBoardId, title, content, videoURL);
-					if (result == 1) {
-						session.setAttribute("message", "수정 되었습니다.");
-					} else {
-						session.setAttribute("message", "DB오류로 수정에 실패하였습니다.");
-					}
-				} else {
-					session.setAttribute("message", "수정 권한이 없습니다.");
-				}
+				insertId = post.getUserId();
+				
+				post.setBoardTitle(request.getParameter("boardTitle"));
+				post.setBoardContent(request.getParameter("boardContent"));
+				post.setVideoURL(request.getParameter("videoURL"));
+				
+				dao = new VideoBoardDAO();
+				dto = post;
+				
+			} else {
+				request.setAttribute("title", "페이지 요청 오류");
+				request.getRequestDispatcher("/error404").forward(request, response);
+				return;
 			}
-			response.sendRedirect(request.getContextPath()+"/board/video");
-		} else {
-			request.setAttribute("title", "페이지 요청 오류");
-			request.getRequestDispatcher("/error404").forward(request, response);
+			
+			
+			if (insertId.equals(updateId)) {
+				int result = dao.update(dto);
+				if (result == 1) {
+					session.setAttribute("message", "수정 되었습니다.");
+				} else {
+					session.setAttribute("message", "DB오류로 수정에 실패하였습니다.");
+				}
+			} else {
+				session.setAttribute("message", "수정 권한이 없습니다.");
+			}
 		}
+		response.sendRedirect(request.getContextPath()+"/board/" + action);
 	}
 
 	private void goFreeBoardPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
