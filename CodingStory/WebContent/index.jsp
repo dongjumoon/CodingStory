@@ -7,7 +7,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/begin.jspf" %>
 <script>
-	if (location.protocol == "http:") {
+	if (!location.protocol == "http:") {
  		location.href = location.href.replace("http:", "https:");
  	}
 </script>
