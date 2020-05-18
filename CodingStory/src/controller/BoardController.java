@@ -217,6 +217,12 @@ public class BoardController extends HttpServlet {
 					request.setAttribute("freePostList", freePostList);
 				}
 				
+				//재테크 정보
+				List<WealthPostDTO> wealthPostList = new WealthBoardDAO().getBoardList(search);
+				if (wealthPostList != null) {
+					request.setAttribute("wealthPostList", wealthPostList);
+				}				
+				
 				request.setAttribute("title", "종합 검색 결과");
 				request.getRequestDispatcher("/WEB-INF/views/board/search_result_page.jsp").forward(request, response);
 				

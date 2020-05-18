@@ -86,7 +86,7 @@
 				<c:forEach var="post" items="${wealthPostList}" begin="0" end="4" step="1">
 					<tr>
 						<td>${post.boardId}</td>
-						<td><a href="${contextPath}/board/free/view?boardId=${post.boardId}" title="내용보기">${post.boardTitle}</a></td>
+						<td><a href="${contextPath}/board/wealth/view?boardId=${post.boardId}" title="내용보기">${post.boardTitle}</a></td>
 						<td><span>${post.userId}</span></td>
 						<td>${post.boardDate}</td>
 						<td>${post.boardViews}</td>
