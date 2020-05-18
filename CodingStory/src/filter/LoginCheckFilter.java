@@ -29,6 +29,7 @@ public class LoginCheckFilter implements Filter {
 			session.setAttribute("message", "로그인이 필요한 요청입니다.");
 			session.setAttribute("resultURI", httpRequest.getRequestURI());
 			request.getRequestDispatcher("/WEB-INF/views/user/login.jsp").forward(request, response);
+			return;
 		}
 		chain.doFilter(request, response);
 

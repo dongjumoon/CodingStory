@@ -8,7 +8,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 public class HashPassword {
-	private static final byte[] SALT = "*****".getBytes(); // 소금 뭐칠지.
+	private static final byte[] SALT = "moondongju".getBytes(); // 소금 뭐칠지.
 	private static final int ITERATIONS = 10; // 몇번 섞을지
 	private static final int KEY_LENGTH = 128;// 키 길이를 결정함.
 	

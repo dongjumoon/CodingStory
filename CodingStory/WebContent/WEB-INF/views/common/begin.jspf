@@ -42,6 +42,7 @@
 					<option value="all">전체검색</option>
 					<option value="video">영상검색</option>
 					<option value="free">게시판검색</option>
+					<option value="wealth">재테크검색</option>
 				</select>
 				<span class="screen-out">검색어 :</span><input type="search" name="search" id="search">
 				<button type="submit"><i class="fa fa-search mouse-cursor" aria-hidden="true"></i><span class="screen-out">검색</span></button>
@@ -57,6 +58,7 @@
 		<ul>
 			<li><a href="${contextPath}/board/video">영상게시판</a></li>
 			<li><a href="${contextPath}/board/free">자유게시판</a></li>
+			<li><a href="${contextPath}/board/wealth">재테크 정보</a></li>
 		</ul>
 	</nav>
 	<div id="blind"></div><!-- 위치 이동 금지(#gnb-switch+#gnb+#blind) 사용중 -->
