@@ -2,7 +2,7 @@
 
 #contents #main-view {
 	width:80%; margin:80px auto 0; position:relative;
-	background-image:url("../images/main_img.jpg"); background-size:cover; height:250px;}
+	background-image:url("../images/ant_img.jpg"); background-size:cover; height:250px;}
 #contents #main-title {
 	position:absolute; top:50%; left:50%; color:white; font-size:80px; white-space:nowrap;
 	text-shadow:1px 2px 5px #000; transform:translate(-50%,-50%);}
