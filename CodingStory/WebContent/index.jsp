@@ -33,7 +33,9 @@
 				<li>
 					<h4 class="screen-out">${post.boardTitle}</h4>
 					<div class="video-box">
-					<iframe src="https://www.youtube.com/embed/${post.videoURL}" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						<a href="${contextPath}/board/video/view?boardId=${post.boardId}">
+							<img alt="${post.boardTitle}" src="https://img.youtube.com/vi/${post.videoURL}/0.jpg">
+						</a>
 					</div>
 				</li>
 			</c:forEach>

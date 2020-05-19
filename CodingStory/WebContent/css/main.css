@@ -116,6 +116,7 @@ header {
 #contents .video-board li {width:23%; position:relative; float:left;}
 #contents .video-board li:not(:first-child) {margin-left:2.66%;}
 #contents .video-box {width:100%; padding-bottom:56.26%; position:relative;}
+#contents .video-box img,
 #contents .video-box iframe {position: absolute; width: 100%; height: 100%; border:none; top:0; left:0;}
 .cmt-count-viewer {color:#1d1;}/* sql에서 입힌 class */
 
