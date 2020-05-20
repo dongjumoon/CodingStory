@@ -90,7 +90,7 @@ public class WealthBoardDAO extends DAO {
 			if (rs.next()) {// 글 작성자와 삭제요청하는자가 일치하는지 확인
 				if (rs.getString("userId").equals(userId)) {
 					// 댓글삭제
-					sql = "delete from FREE_COMMENT_TB where boardId = " + boardId;
+					sql = "delete from WEALTH_COMMENT_TB where boardId = " + boardId;
 					stmt.executeUpdate(sql);
 					// 이미지 있으면 삭제
 					String imgFile = rs.getString("imgFileRealName");
@@ -126,7 +126,7 @@ public class WealthBoardDAO extends DAO {
 		             "          date_format(boardDate,'%H:%i'), " + 
 		             "          date(boardDate)) boardDate " + 
 		             "from WEALTH_BOARD_TB t1 left join (select boardId, count(cmtId) cmtCount " + 
-		             "                                 from FREE_COMMENT_TB " + 
+		             "                                 from WEALTH_COMMENT_TB " + 
 		             "                                 group by boardId) t2            on t1.boardId = t2.boardId " + 
 	                 "order by t1.boardId desc " + 
 	                 "limit ?, ?";
@@ -140,7 +140,7 @@ public class WealthBoardDAO extends DAO {
 			pstmt.setInt(2, PRINT_COUNT);
 			
 			rs = pstmt.executeQuery();
-			List<WealthPostDTO> freePostList = new ArrayList<>();
+			List<WealthPostDTO> wealthPostList = new ArrayList<>();
 			while (rs.next()) {
 				WealthPostDTO row = new WealthPostDTO();
 				row.setBoardId(rs.getInt("boardId"));
@@ -148,9 +148,9 @@ public class WealthBoardDAO extends DAO {
 				row.setUserId(rs.getString("userId"));
 				row.setBoardDate(rs.getString("boardDate"));
 				row.setBoardViews(rs.getInt("boardViews"));
-				freePostList.add(row);
+				wealthPostList.add(row);
 			}
-			return freePostList;
+			return wealthPostList;
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -172,7 +172,7 @@ public class WealthBoardDAO extends DAO {
                      "          date_format(boardDate,'%H:%i'), " + 
                      "          date(boardDate)) boardDate " + 
                      "from WEALTH_BOARD_TB t1 left join (select boardId, count(cmtId) cmtCount " + 
-                     "                                 from FREE_COMMENT_TB " + 
+                     "                                 from WEALTH_COMMENT_TB " + 
                      "                                 group by boardId) t2            on t1.boardId = t2.boardId " + 
                      "where boardTitle like concat('%"+search+"%')" + 
                      "order by t1.boardId desc " + 
@@ -184,7 +184,7 @@ public class WealthBoardDAO extends DAO {
 		try {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
-			List<WealthPostDTO> freePostList = new ArrayList<>();
+			List<WealthPostDTO> wealthPostList = new ArrayList<>();
 			while (rs.next()) {
 				WealthPostDTO row = new WealthPostDTO();
 				row.setBoardId(rs.getInt("boardId"));
@@ -192,9 +192,9 @@ public class WealthBoardDAO extends DAO {
 				row.setUserId(rs.getString("userId"));
 				row.setBoardDate(rs.getString("boardDate"));
 				row.setBoardViews(rs.getInt("boardViews"));
-				freePostList.add(row);
+				wealthPostList.add(row);
 			}
-			return freePostList;
+			return wealthPostList;
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
